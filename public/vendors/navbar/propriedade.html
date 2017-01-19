@@ -1,0 +1,24 @@
+<nav class="navbar navbar-default" data-ng-controller="NavbarPropriedadeController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-login-toggle" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Gerenciamento de Gado</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="nav-login-toggle">
+            <p class="navbar-text">Bem vindo,
+                {{usuario.nome}}
+                {{usuario.sobrenome}}</p>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href ng-click="desconectar()">Desconectar</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

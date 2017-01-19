@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default" data-ng-controller="NavbarLoginController">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-login-toggle" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Gerenciamento de Gado</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="nav-login-toggle">
+            <form class="navbar-form navbar-right" ng-submit="entrar()">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="nome de usuario" ng-model="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="senha" ng-model="password">
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+                <button type="button" class="btn btn-default">Esqueci Minha Senha</button>
+            </form>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>

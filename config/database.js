@@ -2,7 +2,11 @@ var mongoose = require('mongoose')
 
 module.exports = (uri) => { //poolSice default
     mongoose.connect(uri, {
-        poolSize: 5
+        server: {
+            poolSize: 5
+        },
+        user: "tiago",
+        pass: "tcc"
     })
 
     mongoose.connection.on('connected', () => {
