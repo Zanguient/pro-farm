@@ -17,4 +17,14 @@ angular.module('profarm').controller('PropriedadeSelecionarController', ['$scope
         $state.go('propriedade-novo');
     };
 
+    $scope.abrir = function(propriedade) {
+        $localStorage.propriedade = {
+            nome: propriedade.nome,
+            _id: propriedade._id,
+            latitude: propriedade.latitude,
+            longitude: propriedade.longitude
+        };
+        $state.go('inicio');
+    };
+
 }]);

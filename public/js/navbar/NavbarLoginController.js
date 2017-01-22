@@ -1,10 +1,10 @@
-angular.module('profarm').controller('NavbarLoginController', ['$scope', '$localStorage', '$location', 'Usuario', function($scope, $localStorage, $location, Usuario) {
+angular.module('profarm').controller('NavbarLoginController', ['$state', '$scope', '$localStorage', '$location', 'Usuario', function($state, $scope, $localStorage, $location, Usuario) {
 
-    // if ($localStorage.token && $localStorage.prop) {
-    //     $location.path('/inicio');
-    // } else if ($localStorage.token) {
-    //     $location.path('/propriedades');
-    // }
+    if ($localStorage.token && $localStorage.propriedade) {
+        $location.path('/inicio');
+    } else if ($localStorage.token) {
+        $state.go('propriedade');
+    }
 
     $scope.entrar = function() {
         var formData = {

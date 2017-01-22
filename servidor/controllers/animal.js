@@ -1,4 +1,5 @@
 module.exports = (app) => {
+    let moment = require('moment');
     let Animal = app.models.animal
     let controller = {}
 
@@ -7,6 +8,92 @@ module.exports = (app) => {
         Animal.find({
             propriedade: propriedade
         }).select("codigo morte venda.id").exec().then(
+            (animais) => {
+                res.json(animais)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.getBezerros = (req, res) => {
+        let date_init = moment().subtract(12, 'months');
+        let date_end = moment();
+        let propriedade = req.params.propriedade
+        Animal.find({
+            propriedade: propriedade,
+            nascimento: {
+                $gte: date_init,
+                $lte: date_end
+            },
+            touro: false
+        }).select("codigo sexo").exec().then(
+            (animais) => {
+                res.json(animais)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.getGarrotes = (req, res) => {
+        let date_init = moment().subtract(24, 'months');
+        let date_end = moment().subtract(12, 'months');
+        let propriedade = req.params.propriedade
+        Animal.find({
+            propriedade: propriedade,
+            nascimento: {
+                $gte: date_init,
+                $lt: date_end
+            },
+            touro: false
+        }).select("codigo sexo").exec().then(
+            (animais) => {
+                res.json(animais)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.getNovilhos = (req, res) => {
+        let date_init = moment().subtract(36, 'months');
+        let date_end = moment().subtract(24, 'months');
+        let propriedade = req.params.propriedade
+        Animal.find({
+            propriedade: propriedade,
+            nascimento: {
+                $gte: date_init,
+                $lt: date_end
+            },
+            touro: false
+        }).select("codigo sexo").exec().then(
+            (animais) => {
+                res.json(animais)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.getBoisVacas = (req, res) => {
+        let date_init = moment().subtract(36, 'months');
+        let propriedade = req.params.propriedade
+        Animal.find({
+            propriedade: propriedade,
+            nascimento: {
+                $lt: date_init
+            },
+            touro: false
+        }).select("codigo sexo").exec().then(
             (animais) => {
                 res.json(animais)
             },

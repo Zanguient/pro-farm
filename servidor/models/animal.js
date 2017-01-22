@@ -17,7 +17,7 @@ module.exports = () => {
             type: mongoose.Schema.ObjectId,
             ref: "Parto"
         },
-        compra: {//geral
+        compra: { //geral
             id: {
                 type: mongoose.Schema.ObjectId,
                 ref: "Compra",
@@ -69,6 +69,10 @@ module.exports = () => {
             type: Number,
             default: undefined
         },
+        peso_atual: { //geral
+            type: Number,
+            default: undefined
+        },
         ultima_relacao_desmama: { //reprodutoras
             type: Number
         },
@@ -92,6 +96,10 @@ module.exports = () => {
         },
         idade: { //reprodutor
             type: Number
+        },
+        touro: { //geral
+            type: Boolean,
+            default: false
         }
     })
 

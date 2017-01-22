@@ -63,7 +63,7 @@ angular.module('profarm')
             },
             logout: function() {
                 changeUser({});
-                delete $localStorage.token, $localStorage.usuario;
+                delete $localStorage.token, $localStorage.usuario, $localStorage.propriedade;
                 $state.go('login');
             }
         };

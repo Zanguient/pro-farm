@@ -57,6 +57,63 @@ angular.module('profarm', ['ngResource', 'oc.lazyLoad', 'ui.router', 'ngStorage'
             }
         });
 
+        //INICIO
+        $stateProvider.state('inicio', {
+            url: "/inicio", // root route
+            templateUrl: 'vendors/sistema/index.html',
+            resolve: {
+                service: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
+        //ANIMAL
+        $stateProvider.state('animal', {
+            url: "/animais/inicio", // root route
+            controller: 'AnimalIndexController',
+            templateUrl: 'vendors/animal/index.html',
+            resolve: {
+                service: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalIndexController.js',
+                            'js/animal/AnimalService.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
+        //BEZERRO
+        $stateProvider.state('bezerro', {
+            url: "/bezerro/:idBezerro/detalhes", // root route
+            controller: 'BezerroDetalheController',
+            templateUrl: 'vendors/bezerro/index.html',
+            resolve: {
+                service: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/bezerro/BezerroDetalheController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
         // ERROS
         $stateProvider.state('500', {
             url: "/500",

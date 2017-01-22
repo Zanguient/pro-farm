@@ -4,6 +4,12 @@ module.exports = (app) => {
   app.route('/api/animais/propriedade/:propriedade').get(controller.todos).post(controller.salvar)
   app.route('/api/animais/propriedade/:propriedade/_id/:id').get(controller.buscaUm).delete(controller.remover)
 
+  //getValues
+  app.route('/api/animais/propriedade/:propriedade/bezerros').get(controller.getBezerros)
+  app.route('/api/animais/propriedade/:propriedade/garrotes').get(controller.getGarrotes)
+  app.route('/api/animais/propriedade/:propriedade/novilhos').get(controller.getNovilhos)
+  app.route('/api/animais/propriedade/:propriedade/bois').get(controller.getBoisVacas)
+
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken
   //       var bearerHeader = req.headers['authorization']
