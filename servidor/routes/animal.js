@@ -10,6 +10,9 @@ module.exports = (app) => {
   app.route('/api/animais/propriedade/:propriedade/novilhos').get(controller.getNovilhos)
   app.route('/api/animais/propriedade/:propriedade/bois').get(controller.getBoisVacas)
 
+  // getCodigosDosAnimais
+  app.route('/api/animais/propriedade/:propriedade/animais/codigo/:codigo').get(controller.getTodosOsCodigosPorPropriedade)
+
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken
   //       var bearerHeader = req.headers['authorization']

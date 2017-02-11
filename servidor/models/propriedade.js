@@ -18,7 +18,7 @@ module.exports = () => {
         },
         extensao: {
             type: Number,
-            default: true
+            required: true
         },
         cidade: {
             type: String,

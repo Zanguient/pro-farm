@@ -1,9 +1,9 @@
-angular.module('profarm').controller('NavbarLoginController', ['$state', '$scope', '$localStorage', '$location', 'Usuario', function($state, $scope, $localStorage, $location, Usuario) {
+angular.module('profarm').controller('NavbarLoginController', function($scope, $localStorage, $location, Usuario) {
 
     if ($localStorage.token && $localStorage.propriedade) {
         $location.path('/inicio');
     } else if ($localStorage.token) {
-        $state.go('propriedade');
+        $location.path('/propriedade');
     }
 
     $scope.entrar = function() {
@@ -14,4 +14,4 @@ angular.module('profarm').controller('NavbarLoginController', ['$state', '$scope
         Usuario.signin(formData);
     };
 
-}]);
+});

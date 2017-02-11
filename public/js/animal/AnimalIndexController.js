@@ -1,4 +1,4 @@
-angular.module('profarm').controller('AnimalIndexController', ['$scope', '$localStorage', 'Animal', function($scope, $localStorage, Animal) {
+angular.module('profarm').controller('AnimalIndexController', function($scope, $localStorage, Animal) {
 
     $scope.animal_navbar = true;
     $scope.alerts = [];
@@ -12,7 +12,7 @@ angular.module('profarm').controller('AnimalIndexController', ['$scope', '$local
         };
         $('#btnBezerro').addClass('active');
         Animal.getBezerros({
-            _id: '5877eaba0a5a42134a47d4c0'
+            _id: $localStorage.propriedade._id
         }).then(function(bezerros) {
             $scope.animais = bezerros;
         }).catch(function(erro) {
@@ -28,12 +28,12 @@ angular.module('profarm').controller('AnimalIndexController', ['$scope', '$local
         //de 12 a 24 meses
         limparBotoesAtivos();
         $scope.title = {
-            header: 'Garrotes/Novilhotas',
+            header: 'Garrotes e Novilhotas',
             route: 'garrote'
         };
         $('#btnGarrote').addClass('active');
         Animal.getGarrotes({
-            _id: '5877eaba0a5a42134a47d4c0'
+            _id: $localStorage.propriedade._id
         }).then(function(garrotes) {
             $scope.animais = garrotes;
         }).catch(function(erro) {
@@ -54,7 +54,7 @@ angular.module('profarm').controller('AnimalIndexController', ['$scope', '$local
         };
         $('#btnNovilho').addClass('active');
         Animal.getNovilhos({
-            _id: '5877eaba0a5a42134a47d4c0'
+            _id: $localStorage.propriedade._id
         }).then(function(novilhos) {
             $scope.animais = novilhos;
         }).catch(function(erro) {
@@ -70,12 +70,12 @@ angular.module('profarm').controller('AnimalIndexController', ['$scope', '$local
         //acima de 36 meses
         limparBotoesAtivos();
         $scope.title = {
-            header: 'Vacas/Bois',
+            header: 'Vacas e Bois',
             route: 'boi'
         };
         $('#btnBoi').addClass('active');
         Animal.getBois({
-            _id: '5877eaba0a5a42134a47d4c0'
+            _id: $localStorage.propriedade._id
         }).then(function(novilhos) {
             $scope.animais = novilhos;
         }).catch(function(erro) {
@@ -95,4 +95,4 @@ angular.module('profarm').controller('AnimalIndexController', ['$scope', '$local
         $scope.alerts.splice(index, 1);
     };
 
-}]);
+});

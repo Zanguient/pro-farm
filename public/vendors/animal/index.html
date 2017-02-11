@@ -4,12 +4,12 @@
     <section ng-if="alerts.length > 0" id="alerts">
         <div class="col-xs-12">
             <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
-                <i ng-class="alert.icon" aria-hidden="true"></i>
-                {{alert.msg}}</div>
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
         </div>
     </section>
     <section>
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-md-4 col-sm-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Relação de Animais</h3>
@@ -35,21 +35,23 @@
                 </div>
             </div>
         </div>
-        <div class="text-center" ng-if="animais.length == 0">
-            <h3>
-                <small>Nenhum animal foi cadastrado.</small>
-            </h3>
-        </div>
-        <div class="col-lg-5 col-lg-offset-2" ng-if="animais.length > 0">
-            <ol class="breadcrumb">
-                <li class="active">
-                    {{title.header}}
-                </li>
-            </ol>
-            <div class="list-group">
-                <a ui-sref="bezerro({idBezerro:aux._id})" class="list-group-item" ng-repeat="aux in animais">{{aux.codigo}}
+        <div class="col-lg-5 col-lg-offset-2 col-md-6 col-md-offset-1 col-sm-7">
+            <div ng-if="animais.length > 0">
+                <ol class="breadcrumb">
+                    <li class="active">
+                        {{title.header}}
+                    </li>
+                </ol>
+                <div class="list-group">
+                    <a ng-href="#/{{title.route}}/{{aux._id}}/detalhes" class="list-group-item" ng-repeat="aux in animais">{{aux.codigo}}
                     <span class="label pull-right" ng-class="{'label-primary':aux.sexo == 'macho', 'label-danger':aux.sexo == 'femea'}">{{aux.sexo | uppercase}}</span>
                 </a>
+                </div>
+            </div>
+            <div class="text-center" ng-if="animais.length == 0">
+                <h3>
+                <small>Nenhum animal foi cadastrado.</small>
+              </h3>
             </div>
         </div>
     </section>

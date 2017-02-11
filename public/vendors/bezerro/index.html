@@ -1,11 +1,126 @@
+<!DOCTYPE html>
 <div data-ng-include="'vendors/navbar/default.html'"></div>
 <div class="container-fluid">
     <section ng-if="alerts.length > 0" id="alerts">
         <div class="col-xs-12">
             <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
-                <i ng-class="alert.icon" aria-hidden="true"></i>
-                {{alert.msg}}</div>
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
         </div>
     </section>
-    detalhes do bezerro
+    <section>
+        <ol class="breadcrumb">
+            <li><a href="#/animais/inicio">Animais</a></li>
+            <li class="active">Bezerro(a)</li>
+            <li class="active">{{extra.codigo}}</li>
+        </ol>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Dados principais
+                </h3>
+            </div>
+            <form class="form form-horizontal" ng-submit="salvar()">
+                <div class="panel-body">
+                    <div class="form-group" id="codigo_reprodutora_form">
+                        <label for="inputCodigoBezerro" class="control-label col-sm-5">Código</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control input-xs" ng-model="bezerro.codigo" id="inputCodigoBezerro" placeholder="código da bezerro" ng-disabled="!edicao" ng-change="verificarCodigoDoAnimal()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNascimentoBezerro" class="control-label col-sm-5">Nascimento</label>
+                        <div class="col-sm-7">
+                            <input type="date" class="form-control" ng-model="bezerro.nascimento" id="inputNascimentoBezerro" ng-disabled="!edicao">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSexoAnimal" class="control-label col-sm-5">Sexo</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" ng-disabled="!edicao" id="inputSexoAnimal" ng-model="bezerro.sexo">
+                              <option value="macho">Macho</option>
+                              <option value="femea">Fêmea</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPesoDeEntradaBezerro" class="control-label col-sm-5">Peso de entrada</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input type="number" step="0.01" class="form-control" ng-model="bezerro.peso_entrada" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao">
+                                <span class="input-group-addon">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" ng-if="bezerro.venda.id == null && bezerro.morte == null">
+                    <button type="button" name="button" class="btn btn-warning" ng-disabled="buttonBlock" ng-if="!edicao" ng-click="habilitarEdicao()">Editar</button>
+                    <button type="submit" name="button" class="btn btn-primary" ng-disabled="buttonBlock" ng-if="edicao">Salvar</button>
+                    <button type="button" name="button" class="btn btn-default" ng-if="edicao" ng-click="cancelar()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Índices
+                </h3>
+            </div>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td class="col-xs-8">
+                            Idade
+                        </td>
+                        <td class="col-xs-4 text-center">
+                            {{extra.idade}}
+                            <i ng-if="extra.idade == undefined" class="fa fa-exclamation-triangle"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-8">
+                            Relação desmama
+                        </td>
+                        <td class="col-xs-4 text-center">
+                            {{bezerro.relacao_desmama}}
+                            <i ng-if="bezerro.relacao_desmama == null" class="fa fa-exclamation-triangle"></i>
+                            <i class="fa fa-percent"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-8">
+                            Peso na desmama
+                        </td>
+                        <td class="col-xs-4 text-center">
+                            {{bezerro.peso_desmama}}
+                            <i ng-if="bezerro.peso_desmama == null" class="fa fa-exclamation-triangle"></i>
+                            kg
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Recria
+                </h3>
+            </div>
+            <div class="panel-body text-center">
+                <h4>
+                    <small>Este animal não foi destinado a recria.</small>
+                </h4>
+            </div>
+            <div class="list-group">
+                <button type="button" class="list-group-item" ng-click="informarDesmama()">Informar demama
+                </button>
+            </div>
+        </div>
+    </section>
 </div>

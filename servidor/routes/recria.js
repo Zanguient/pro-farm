@@ -1,6 +1,8 @@
 module.exports = function(app) {
   var controller = app.controllers.recria;
 
+  app.route('/api/recria').post(controller.salvar)
+  app.route('/api/recria/bezerro/_id/:idBezerro').get(controller.getRecria)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken;

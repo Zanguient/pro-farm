@@ -1,4 +1,4 @@
-angular.module('profarm').controller('PropriedadeSelecionarController', ['$scope', '$localStorage', '$state', 'Propriedade', function($scope, $localStorage, $state, Propriedade) {
+angular.module('profarm').controller('PropriedadeSelecionarController', function($scope, $localStorage, $location, Propriedade) {
 
     Propriedade.tokenDoUsuario($localStorage.token).then(function(prop) {
         if (prop.length) {
@@ -14,7 +14,7 @@ angular.module('profarm').controller('PropriedadeSelecionarController', ['$scope
     });
 
     $scope.novo = function() {
-        $state.go('propriedade-novo');
+        $location.path('propriedade-novo');
     };
 
     $scope.abrir = function(propriedade) {
@@ -24,7 +24,7 @@ angular.module('profarm').controller('PropriedadeSelecionarController', ['$scope
             latitude: propriedade.latitude,
             longitude: propriedade.longitude
         };
-        $state.go('inicio');
+        $location.path('inicio');
     };
 
-}]);
+});

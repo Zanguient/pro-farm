@@ -1,4 +1,4 @@
-angular.module('profarm').controller('PropriedadeNovoController', ['$scope', '$localStorage', '$state', '$window', 'Propriedade', function($scope, $localStorage, $state, $window, Propriedade) {
+angular.module('profarm').controller('PropriedadeNovoController', function($scope, $localStorage, $window, Propriedade) {
 
     $scope.proprietario = $localStorage.usuario.nome;
     $scope.propriedade = {};
@@ -14,7 +14,7 @@ angular.module('profarm').controller('PropriedadeNovoController', ['$scope', '$l
         $scope.block = true;
         $scope.propriedade.usuario = $localStorage.usuario._id;
         Propriedade.salvar($scope.propriedade).then(function(propriedade) {
-            $state.go('propriedade');
+            $location.path('/propriedade');
         }).catch(function(error) {
             $scope.block = false;
             $scope.alerts.push({
@@ -30,4 +30,4 @@ angular.module('profarm').controller('PropriedadeNovoController', ['$scope', '$l
     $scope.cancelar = function() {
         $window.history.back();
     };
-}]);
+});

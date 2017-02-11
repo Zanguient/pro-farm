@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('profarm')
-    .factory('Usuario', ['$http', '$localStorage', '$state', function($http, $localStorage, $state) {
+    .factory('Usuario', ['$http', '$localStorage', '$location', function($http, $localStorage, $location) {
         function changeUser(user) {
             angular.extend(currentUser, user);
         }
@@ -50,7 +50,7 @@ angular.module('profarm')
                             nome: res.data.data.nome,
                             sobrenome: res.data.data.sobrenome
                         };
-                        $state.go('propriedade');
+                        $location.path('/propriedade');
                     }
                 }).catch(function(res) {
                     console.error(res);
@@ -64,7 +64,7 @@ angular.module('profarm')
             logout: function() {
                 changeUser({});
                 delete $localStorage.token, $localStorage.usuario, $localStorage.propriedade;
-                $state.go('login');
+                $location.path('/');
             }
         };
     }]);
