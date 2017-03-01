@@ -3,18 +3,17 @@ mongoose.Promise = require('bluebird');
 
 module.exports = function() {
     var schema = mongoose.Schema({
-        bezerro: {
+        animal: {
             type: mongoose.Schema.ObjectId,
-            ref: "Bezerro",
+            ref: "Animal",
             required: true
         },
         data: {
             type: Date,
             default: Date.now
         },
-        ganho_peso_medio: {
-            type: Number,
-            default: null
+        data_saida: {
+            type: Date
         },
         peso_entrada: {
             type: Number,

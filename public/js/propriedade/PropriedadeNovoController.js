@@ -1,4 +1,4 @@
-angular.module('profarm').controller('PropriedadeNovoController', function($scope, $localStorage, $window, Propriedade) {
+angular.module('profarm').controller('PropriedadeNovoController', function($scope, $localStorage, $window, $location, Propriedade) {
 
     $scope.proprietario = $localStorage.usuario.nome;
     $scope.propriedade = {};

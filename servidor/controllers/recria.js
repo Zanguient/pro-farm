@@ -3,10 +3,27 @@ module.exports = (app) => {
     let Animal = app.models.animal
     let controller = {}
 
-    controller.getRecria = (req, res) => {
-        let idBezerro = req.params.idBezerro
+    controller.getRecriaByAnimal = (req, res) => {
+        let idAnimal = req.params.idAnimal
         Recria.findOne({
-            bezerro: idBezerro
+            animal: idAnimal
+        }).exec().then(
+            (recria) => {
+                res.json(recria)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.getRecriaById = (req, res) => {
+        let idRecria = req.params.idRecria
+        let idAnimal = req.params.idAnimal
+        Recria.findOne({
+            animal: idAnimal,
+            _id: idRecria
         }).exec().then(
             (recria) => {
                 res.json(recria)
@@ -24,7 +41,7 @@ module.exports = (app) => {
             //atualiza a recria
             Recria.findByIdAndUpdate(id, req.body).exec().then(
                 (recria) => {
-                    atualizarBezerro(req, res, recria)
+                    atualizarAnimal(req, res, req.body)
                 },
                 (erro) => {
                     res.sendStatus(500)
@@ -35,7 +52,7 @@ module.exports = (app) => {
             //cria a recria
             Recria.create(req.body).then(
                 (recria) => {
-                    atualizarBezerro(req, res, recria)
+                    atualizarAnimal(req, res, recria)
                 },
                 (erro) => {
                     res.sendStatus(500)
@@ -45,8 +62,8 @@ module.exports = (app) => {
         }
     }
 
-    function atualizarBezerro(req, res, recria) {
-        Animal.findByIdAndUpdate(recria.bezerro, {
+    function atualizarAnimal(req, res, recria) {
+        Animal.findByIdAndUpdate(recria.animal, {
             peso_desmama: recria.peso_entrada
         }).exec().then(
             (bezerro) => {
@@ -66,6 +83,39 @@ module.exports = (app) => {
     // function atualizarVaca() {
     //
     // }
+
+    controller.removeRecriaById = (req, res) => {
+        let id = req.params.idRecria;
+        let idAnimal = req.params.idAnimal;
+        Recria.findOneAndRemove({
+            _id: id,
+            animal: idAnimal
+        }).exec().then(
+            (recria) => {
+                removerPesoDeDesmamaDoAnimal(res, idAnimal)
+            },
+            (err) => {
+                res.sendStatus(500)
+                console.log(err)
+            }
+        );
+    }
+
+    function removerPesoDeDesmamaDoAnimal(res, _id) {
+        Animal.findByIdAndUpdate(_id, {
+            $set: {
+                peso_desmama: null
+            }
+        }).then(
+            (animal) => {
+                res.sendStatus(200)
+            },
+            (err) => {
+                res.sendStatus(500)
+                console.log(err)
+            }
+        )
+    }
 
     return controller
 }

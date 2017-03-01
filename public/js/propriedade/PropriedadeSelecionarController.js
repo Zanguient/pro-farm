@@ -14,7 +14,7 @@ angular.module('profarm').controller('PropriedadeSelecionarController', function
     });
 
     $scope.novo = function() {
-        $location.path('propriedade-novo');
+        $location.path('/propriedade/novo');
     };
 
     $scope.abrir = function(propriedade) {

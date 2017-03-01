@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<div data-ng-include="'vendors/navbar/default.html'"></div>
+<div class="container-fluid">
+    <section ng-if="alerts.length > 0" id="alerts">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <ol class="breadcrumb">
+            <li><a href="#/animais/inicio">Animais</a></li>
+            <li><a href="#/animais/{{idAnimal}}/detalhes">Bezerro(a)</a></li>
+            <li class="active">Engorda</li>
+            <li class="active">Detalhes</li>
+        </ol>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="padding-top:7.5px">Informações</h3>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-cog"></i> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">Opções para engorda</li>
+                        <li><a href ng-click="editar()">Editar</a></li>
+                        <li><a href ng-click="excluir()">Excluir</a></li>
+                    </ul>
+                </div>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-xs-8">
+                            Peso de entrada
+                        </td>
+                        <td class="col-xs-4 text-center">
+                            {{engorda.peso_entrada}}
+                            <i ng-if="engorda.peso_entrada == null" class="fa fa-exclamation-triangle"></i> kg
+                        </td>
+                    </tr>
+                    <tr tooltip-placement="top" uib-tooltip="Esta informação necessita do registro de dois ou mais acompanhamentos nesta engorda." tooltip-enable="!ganhoDePeso">
+                        <td class="col-xs-8">
+                            Ganho de peso diário
+                        </td>
+                        <td class="col-xs-4 text-center">
+                            {{ganhoDePeso|limitTo:5}}
+                            <i ng-if="ganhoDePeso == null" class="fa fa-exclamation-triangle"></i> kg
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-xs-8">
+                            Peso de saida
+                        </td>
+                        <td class="col-xs-4 text-center">
+                            {{engorda.peso_saida}}
+                            <i ng-if="engorda.peso_saida == null" class="fa fa-exclamation-triangle"></i> kg
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Forma de engorda</h3>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="aux in engorda.tipo">{{aux}}</li>
+            </ul>
+        </div>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left">Painel de registro</h3>
+            </div>
+            <form class="form form-horizontal" ng-submit="salvarAcompanhamento()">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputRegistroAcompanhamento" class="control-label col-sm-5">Registrado em</label>
+                        <div class="col-sm-7">
+                            <input type="date" class="form-control" ng-model="acompanhamento.data" id="inputRegistroAcompanhamento" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPesoAtual" class="control-label col-sm-5">Peso atual</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <input type="number" step="0.01" class="form-control" ng-model="acompanhamento.peso" id="inputPesoAtual" required>
+                                <span class="input-group-addon">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" name="button" class="btn btn-primary" ng-if="!acompanhamento._id" ng-disabled="saveButtonBlock">Salvar</button>
+                    <button type="submit" name="button" class="btn btn-warning" ng-if="acompanhamento._id" ng-disabled="saveButtonBlock">Editar</button>
+                    <button type="button" name="button" class="btn btn-danger" ng-if="acompanhamento._id" ng-click="exlcuirAcompanhamento()" ng-disabled="saveButtonBlock">Remover</button>
+                    <button type="button" name="button" class="btn btn-default" ng-if="acompanhamento._id" ng-click="cancelarAcompanhamento()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Acompanhamentos</h3>
+            </div>
+            <div class="panel-body text-center" ng-if="engorda.acompanhamento.length == 0">
+                <h3><small>Nenhum acompanhamento registrado.</small></h3>
+            </div>
+            <div class="list-group" ng-if="engorda.acompanhamento.length > 0">
+                <button type="button" class="list-group-item" ng-repeat="aux in engorda.acompanhamento | orderBy: 'data': true" ng-click="selecionarAcompanhamento(aux)">{{aux.data | date: 'dd/MM/yy'}} com {{aux.peso}} kg</button>
+            </div>
+        </div>
+    </section>
+</div>

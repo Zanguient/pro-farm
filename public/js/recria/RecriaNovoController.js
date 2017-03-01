@@ -3,21 +3,21 @@ angular.module('profarm').controller('RecriaNovoController', function($routePara
     $scope.animal_navbar = true;
     $scope.alerts = [];
     $scope.buttonBlock = false;
-    $scope.bezerro = $routeParams.idBezerro;
     $scope.recria = {
-        bezerro: $routeParams.idBezerro
+        animal: $routeParams.idAnimal,
+        data: new Date()
     };
 
     $scope.salvar = function() {
         $scope.buttonBlock = true;
         Recria.salvar($scope.recria).then(function(recria) {
-            $location.path('/bezerro/' + $routeParams.idBezerro + '/detalhes')
+            $location.path('/animais/' + $routeParams.idAnimal + '/detalhes')
         }).catch(function(err) {
             console.log(err);
         });
     };
 
     $scope.cancelar = function() {
-        $location.path('/bezerro/' + $scope.bezerro + '/detalhes');
+        $location.path('/animais/' + $scope.recria.animal + '/detalhes');
     };
 });

@@ -65,19 +65,23 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 console.log('Criação/Atualização de animal realizado.');
             });
         },
-        verificarCodigo: function(data) {
-            return $http.get('/api/animais/propriedade/' + data.propriedade + '/animais/codigo/' + data.codigo).then(
+        verificarCodigo: function(data, callback) {
+            $http.get('/api/animais/propriedade/' + data.propriedade + '/animais/codigo/' + data.codigo).then(
                 function(res) {
-                    if (res.data.length > 0) {
-                        return true;
-                    }
-                    return false;
+                    (res.data.length > 0) ? callback(true): callback(false);
                 }).catch(function(res) {
                 console.error('Houve algum problema interno!');
                 console.error(res);
             }).finally(function(res) {
                 console.log('Verificação de existência de codigo na base de dados realizado.');
             });
+        },
+        exibirIdade: function(nascimento, callback) {
+            var result = moment(nascimento || null).fromNow(true);
+            if (angular.equals(result, 'Invalid date')) {
+                result = null;
+            }
+            callback(result);
         }
     };
 }]);

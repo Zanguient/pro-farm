@@ -1,31 +1,20 @@
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+var mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 
-module.exports = function() {
+module.exports = () => {
     var schema = mongoose.Schema({
-        recria: {
+        animal: {
             type: mongoose.Schema.ObjectId,
-            ref: "Recria",
+            ref: "Animal",
             required: true
         },
         data: {
             type: Date,
             default: Date.now
         },
-        tipo: {
-            pasto: {
-                type: Boolean,
-                default: false
-            },
-            semiconfinamento: {
-                type: Boolean,
-                default: false
-            },
-            confinamento: {
-                type: Boolean,
-                default: false
-            }
-        },
+        tipo: [{
+            type: String
+        }],
         peso_entrada: {
             type: Number,
             required: true
@@ -44,7 +33,7 @@ module.exports = function() {
                 required: true
             }
         }]
-    });
+    })
 
-    return mongoose.model('Engorda', schema, 'engordas');
-};
+    return mongoose.model('Engorda', schema, 'engordas')
+}

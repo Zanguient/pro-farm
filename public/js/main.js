@@ -1,4 +1,4 @@
-angular.module('profarm', ['oc.lazyLoad','ngRoute', 'ngResource', 'ngStorage', 'angular-loading-bar', 'ui.bootstrap'])
+angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 'angular-loading-bar', 'ui.bootstrap'])
     .config(['$httpProvider', '$routeProvider', 'cfpLoadingBarProvider', '$sceDelegateProvider', '$locationProvider', function($httpProvider, $routeProvider, cfpLoadingBarProvider, $sceDelegateProvider, $locationProvider) {
 
         cfpLoadingBarProvider.includeSpinner = false;
@@ -86,12 +86,9 @@ angular.module('profarm', ['oc.lazyLoad','ngRoute', 'ngResource', 'ngStorage', '
                     });
                 }]
             }
-        });
-
-        //BEZERRO
-        $routeProvider.when('/bezerro/:idBezerro/detalhes', {
-            controller: 'BezerroDetalheController',
-            templateUrl: 'vendors/bezerro/index.html',
+        }).when('/animais/:idAnimal/detalhes', {
+            controller: 'AnimalDetalheController',
+            templateUrl: 'vendors/animal/detalhe.html',
             resolve: {
                 lazy: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -102,7 +99,8 @@ angular.module('profarm', ['oc.lazyLoad','ngRoute', 'ngResource', 'ngStorage', '
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalService.js',
                             'js/recria/RecriaService.js',
-                            'js/bezerro/BezerroDetalheController.js'
+                            'js/engorda/EngordaService.js',
+                            'js/animal/AnimalDetalheController.js'
                         ]
                     });
                 }]
@@ -167,23 +165,92 @@ angular.module('profarm', ['oc.lazyLoad','ngRoute', 'ngResource', 'ngStorage', '
         });
 
         // RECRIA
-        $routeProvider.when('/animais/:idBezerro/recria/novo', {
-          controller: 'RecriaNovoController',
-          templateUrl: 'vendors/recria/novo.html',
-          resolve: {
-              lazy: ['$ocLazyLoad', function($ocLazyLoad) {
-                  return $ocLazyLoad.load({
-                      serie: true,
-                      files: [
-                          'js/usuario/UsuarioFactory.js',
-                          'js/navbar/NavbarDefaultController.js',
-                          'js/animal/AnimalService.js',
-                          'js/recria/RecriaService.js',
-                          'js/recria/RecriaNovoController.js'
-                      ]
-                  });
-              }]
-          }
+        $routeProvider.when('/animais/:idAnimal/recria/novo', {
+            controller: 'RecriaNovoController',
+            templateUrl: 'vendors/recria/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/recria/RecriaService.js',
+                            'js/recria/RecriaNovoController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/animais/:idAnimal/recria/:idRecria/editar', {
+            controller: 'RecriaEditarController',
+            templateUrl: 'vendors/recria/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/recria/RecriaService.js',
+                            'js/recria/RecriaEditarController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
+        // ENGORDA
+        $routeProvider.when('/animais/:idAnimal/engorda/:idEngorda/detalhes', {
+            controller: 'EngordaDetalhesController',
+            templateUrl: 'vendors/engorda/detalhes.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/engorda/EngordaService.js',
+                            'js/engorda/EngordaDetalhesController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/animais/:idAnimal/recria/:idRecria/engorda/novo', {
+            controller: 'EngordaNovoController',
+            templateUrl: 'vendors/engorda/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/engorda/EngordaService.js',
+                            'js/engorda/EngordaNovoController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/animais/:idAnimal/engorda/:idEngorda/editar', {
+            controller: 'EngordaEditaController',
+            templateUrl: 'vendors/engorda/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/engorda/EngordaService.js',
+                            'js/engorda/EngordaEditaController.js'
+                        ]
+                    });
+                }]
+            }
         });
 
         // ERROS

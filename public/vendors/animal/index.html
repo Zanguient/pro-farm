@@ -43,9 +43,9 @@
                     </li>
                 </ol>
                 <div class="list-group">
-                    <a ng-href="#/{{title.route}}/{{aux._id}}/detalhes" class="list-group-item" ng-repeat="aux in animais">{{aux.codigo}}
+                    <a ng-href="#/animais/{{aux._id}}/detalhes" class="list-group-item" ng-repeat="aux in animais">{{aux.codigo}}
                     <span class="label pull-right" ng-class="{'label-primary':aux.sexo == 'macho', 'label-danger':aux.sexo == 'femea'}">{{aux.sexo | uppercase}}</span>
-                </a>
+                  </a>
                 </div>
             </div>
             <div class="text-center" ng-if="animais.length == 0">

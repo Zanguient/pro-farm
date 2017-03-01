@@ -67,11 +67,11 @@ module.exports = () => {
         },
         peso_entrada: { //geral
             type: Number,
-            default: undefined
+            default: null
         },
         peso_atual: { //geral
             type: Number,
-            default: undefined
+            default: null
         },
         ultima_relacao_desmama: { //reprodutoras
             type: Number
