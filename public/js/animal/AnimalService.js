@@ -76,12 +76,28 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 console.log('Verificação de existência de codigo na base de dados realizado.');
             });
         },
-        exibirIdade: function(nascimento, callback) {
-            var result = moment(nascimento || null).fromNow(true);
+        exibirIdadeEmMeses: function(nascimento, callback) {
+            var result = moment().diff(moment(nascimento || null), 'months', true);
             if (angular.equals(result, 'Invalid date')) {
                 result = null;
             }
             callback(result);
+        },
+        exibirTipoDoAnimal: function(nascimento, callback) {
+            var valor = moment().diff(moment(nascimento || null), 'years', true);
+            var resultado = null;
+            if (angular.equals(valor, 'Invalid date')) {
+                valor = null;
+            } else if (valor >= 0 && valor < 1) {
+                resultado = 'Bezerros(as)';
+            } else if (valor >= 1 && valor < 2) {
+                resultado = 'Garrotes e Novilhotas';
+            } else if (valor >= 2 && valor < 3) {
+                resultado = 'Novilhos(as)';
+            } else { // idade >= 3
+                resultado = 'Vacas e Bois';
+            }
+            callback(resultado, valor);
         }
     };
 }]);

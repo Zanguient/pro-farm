@@ -1,8 +1,6 @@
 angular.module('profarm').controller('NavbarLoginController', function($scope, $localStorage, $location, Usuario) {
 
-    if ($localStorage.token && $localStorage.propriedade) {
-        $location.path('/inicio');
-    } else if ($localStorage.token) {
+    if ($localStorage.token) {
         $location.path('/propriedade');
     }
 

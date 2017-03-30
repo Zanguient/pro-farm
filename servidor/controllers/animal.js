@@ -26,7 +26,7 @@ module.exports = (app) => {
             propriedade: propriedade,
             nascimento: {
                 $gte: date_init,
-                $lte: date_end
+                $lt: date_end
             },
             touro: false
         }).select("codigo sexo").exec().then(

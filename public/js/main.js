@@ -61,6 +61,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         name: 'profarm',
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js'
                         ]
@@ -78,6 +79,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         name: 'profarm',
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalIndexController.js',
@@ -94,6 +96,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/sistema/IndicesFactory.js',
                             'js/navbar/NavbarDefaultController.js',
@@ -154,6 +157,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalService.js',
@@ -173,6 +177,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/recria/RecriaService.js',
@@ -189,6 +194,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/recria/RecriaService.js',
@@ -208,6 +214,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalService.js',
@@ -225,6 +232,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalService.js',
@@ -242,11 +250,91 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     return $ocLazyLoad.load({
                         serie: true,
                         files: [
+                            'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalService.js',
                             'js/engorda/EngordaService.js',
                             'js/engorda/EngordaEditaController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
+        // LOTES
+        $routeProvider.when('/lotes', {
+            controller: 'LoteIndexController',
+            templateUrl: 'vendors/lote/index.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/lote/LoteService.js',
+                            'js/lote/LoteIndexController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/lotes/novo', {
+            controller: 'LoteNovoController',
+            templateUrl: 'vendors/lote/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/lote/LoteService.js',
+                            'js/lote/LoteNovoController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
+        // FUNCIONARIOS
+        $routeProvider.when('/funcionarios', {
+            controller: 'FuncionarioIndexController',
+            templateUrl: 'vendors/funcionario/index.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/funcionario/FuncionarioService.js',
+                            'js/funcionario/FuncionarioIndexController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/funcionarios/novo', {
+            controller: 'FuncionarioNovoController',
+            templateUrl: 'vendors/funcionario/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/animal/AnimalService.js',
+                            'js/funcionario/FuncionarioService.js',
+                            'js/sistema/CBOFactory.js',
+                            'js/funcionario/FuncionarioNovoController.js'
                         ]
                     });
                 }]

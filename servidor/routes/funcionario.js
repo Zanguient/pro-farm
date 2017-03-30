@@ -1,8 +1,8 @@
 module.exports = (app) => {
-  var controller = app.controllers.lote;
+  var controller = app.controllers.funcionario;
 
-  app.route('/api/lotes/:propriedade').get(controller.all).post(controller.persist)
-  app.route('/api/lotes/:propriedade/:id').get(controller.getOne).delete(controller.remove)
+  app.route('/api/funcionarios/:propriedade').get(controller.getAll).post(controller.salvar)
+  app.route('/api/funcionarios/:propriedade/id/:id').get(controller.getOne)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken;

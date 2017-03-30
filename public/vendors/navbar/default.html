@@ -15,21 +15,21 @@
                 <li ng-class="{'active': animal_navbar}">
                     <a ng-href="#/animais/inicio">Animais</a>
                 </li>
-                <li>
-                    <a href="#">Lotes</a>
+                <li ng-class="{'active': lote_navbar}">
+                    <a ng-href="#lotes">Lotes</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="#">Link</a>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" ng-class="{'active': prop_navbar}">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Olá, Tiago
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">Meus Funcionários</a>
+                        <li ng-class="{'active': prop_sub_navbar}">
+                            <a href="#/funcionarios">Meus Funcionários</a>
                         </li>
                         <li>
                             <a href="#">Minha Propriedade</a>

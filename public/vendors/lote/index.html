@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<div data-ng-include="'vendors/navbar/default.html'"></div>
+<div class="container-fluid">
+    <section ng-if="alerts.length > 0" id="alerts">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="col-sm-6 hidden-xs">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Ultimo lote registrado</h3>
+                </div>
+                <div class="panel-body text-center" ng-if="lotes != null">
+                    <h3><small>Insina o primeiro registro de lote da propriedade</small></h3>
+                </div>
+                <div class="panel-footer" ng-if="lote != null">
+                    <button type="button" class="btn btn-default">
+                      Mais informações
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div class="panel panel-primary ">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Lotes</h3>
+                    <span class="pull-right"><button type="button" class="btn btn-default btn-sm">
+                      <i class="fa fa-plus"></i>
+                    </button></span>
+                </div>
+                <div class="panel-body text-center" ng-if="lotes.length == 0">
+                    <h3><small>Nenhum lote foi registrado até o momento.</small></h3>
+                </div>
+                <div class="panel-footer" ng-if="lotes.length > 0">
+                    <button type="button" class="btn btn-default">
+                        Exibir mais
+                      </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

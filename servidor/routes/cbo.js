@@ -1,8 +1,8 @@
 module.exports = (app) => {
-  var controller = app.controllers.lote;
+  var controller = app.controllers.cbo;
 
-  app.route('/api/lotes/:propriedade').get(controller.all).post(controller.persist)
-  app.route('/api/lotes/:propriedade/:id').get(controller.getOne).delete(controller.remove)
+  app.route('/api/cbo/cadastrar').post(controller.setAll)
+  app.route('/api/cbo').get(controller.getAll)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken;

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<div data-ng-include="'vendors/navbar/default.html'"></div>
+<div class="container-fluid">
+    <section ng-if="alerts.length > 0" id="alerts">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <ol class="breadcrumb">
+            <li><a ng-href="#/funcionarios">Funcionário</a></li>
+            <li class="active">Novo</li>
+        </ol>
+        <div class="col-lg-6 col-lg-offset-3 col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Informações do funcionário</h3>
+                </div>
+                <form class="form-horizontal" ng-submit="salvar()">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="inputPrimeiroNome" class="col-sm-4 control-label">Nome</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputPrimeiroNome" placeholder="primeiro nome" ng-model="funcionario.nome">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputUltimoNome" class="col-sm-4 control-label">Sobrenome</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputUltimoNome" placeholder="sobrenome" ng-model="funcionario.sobrenome">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDataNascimento" class="col-sm-4 control-label">Nascido em</label>
+                            <div class="col-sm-6">
+                                <input type="date" class="form-control" id="inputDataNascimento" ng-model="funcionario.nascimento">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="inputEndereco" class="col-sm-4 control-label">Endereço</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputEndereco" ng-model="funcionario.endereco">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputBairro" class="col-sm-4 control-label">Bairro</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputBairro" ng-model="funcionario.bairro">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCEP" class="col-sm-4 control-label">CEP</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputCEP" ng-model="funcionario.cep">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCidade" class="col-sm-4 control-label">Cidade</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputCidade" ng-model="funcionario.cidade">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCidade" class="col-sm-4 control-label">Estado</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" ng-model="funcionario.estado">
+                                  <option value=""></option>
+                                  <option value="AC">Acre</option>
+                                  <option value="AL">Alagoas</option>
+                                  <option value="AP">Amapá</option>
+                                  <option value="AM">Amazonas</option>
+                                  <option value="BA">Bahia</option>
+                                  <option value="CE">Ceará</option>
+                                  <option value="DF">Distrito Federal</option>
+                                  <option value="ES">Espírito Santo</option>
+                                  <option value="GO">Goiás</option>
+                                  <option value="MA">Maranhão</option>
+                                  <option value="MT">Mato Grosso</option>
+                                  <option value="MS">Mato Grosso do Sul</option>
+                                  <option value="MG">Minas Gerais</option>
+                                  <option value="PA">Pará</option>
+                                  <option value="PB">Paraíba</option>
+                                  <option value="PR">Paraná</option>
+                                  <option value="PE">Pernambuco</option>
+                                  <option value="PI">Piauí</option>
+                                  <option value="RJ">Rio de Janeiro</option>
+                                  <option value="RN">Rio Grande do Norte</option>
+                                  <option value="RS">Rio Grande do Sul</option>
+                                  <option value="RO">Rondônia</option>
+                                  <option value="RR">Roraima</option>
+                                  <option value="SC">Santa Catarina</option>
+                                  <option value="SP">São Paulo</option>
+                                  <option value="SE">Sergipe</option>
+                                  <option value="TO">Tocantins</option>
+                              </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="inputTelefoneFixo" class="col-sm-4 control-label">Fixo</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputTelefoneFixo" ng-model="funcionario.fixo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTelefoneMovel" class="col-sm-4 control-label">Celular</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputTelefoneMovel" ng-model="funcionario.celular">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTelefoneMovel" class="col-sm-4 control-label">2° Celular</label>
+                            <div class="col-sm-6">
+                                <input type="number" class="form-control" id="inputTelefoneMovel" ng-model="funcionario.seg_celular">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="inputCargo" class="col-sm-4 control-label">Cargo</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="inputCargo" ng-model="funcionario.cargo">
+                                    <option ng-repeat="aux in cbos" ng-value="aux._id">{{aux.descricao}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-6">
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" ng-model="funcionario.tercerizado"> Tercerizado
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" ng-if="funcionario._id" class="btn btn-warning" ng-click="editar()" name="button">Editar</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="buttonBlock" name="button">Salvar</button>
+                        <button type="button" class="btn btn-default" ng-click="cancelar()" name="button">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>

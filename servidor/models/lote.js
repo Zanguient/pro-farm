@@ -3,22 +3,22 @@ mongoose.Promise = require('bluebird');
 
 module.exports = function() {
     var schema = mongoose.Schema({
-        cobertura: {
+        propriedade: { //geral
             type: mongoose.Schema.ObjectId,
-            ref: "Cobertura",
+            ref: "Propriedade",
             required: true
+        },
+        acao: {
+          type: String,
+          required: true
         },
         data: {
             type: Date,
             default: Date.now
         },
-        peso_reprodutora_desmama: {
-            type: Number,
-            default: null
-        },
-        intervalo_parto_anterior: {
-            type: Number,
-            default: null
+        codigo: {
+            type: String,
+            default: undefined
         }
     });
 

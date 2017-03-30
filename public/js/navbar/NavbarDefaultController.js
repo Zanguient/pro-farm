@@ -1,7 +1,10 @@
-angular.module('profarm').controller('NavbarDefaultController', ['$scope', '$localStorage', function($scope, $localStorage) {
+angular.module('profarm').controller('NavbarDefaultController', ['$scope', '$localStorage', 'Usuario', function($scope, $localStorage, Usuario) {
 
-    $scope.usuario = $localStorage.usuario;
     $scope.prop = $localStorage.propriedade;
+
+    Usuario.me(function(user) {
+        $scope.usuario = user;
+    });
 
     $scope.desconectar = function() {
         Usuario.logout();

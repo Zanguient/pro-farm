@@ -1,6 +1,6 @@
-module.exports = function(app) {
-    var Parto = app.models.parto;
-    var controller = {};
+module.exports = (app) => {
+    let Parto = app.models.parto
+    let controller = {}
 
     controller.buscaUm = (req, res) => {
         let id = req.params.id
@@ -74,5 +74,5 @@ module.exports = function(app) {
         )
     }
 
-    return controller;
-};
+    return controller
+}

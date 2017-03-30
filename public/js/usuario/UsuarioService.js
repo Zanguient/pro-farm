@@ -45,11 +45,6 @@ angular.module('profarm')
                         alert(res.data.data);
                     } else {
                         $localStorage.token = res.data.token;
-                        $localStorage.usuario = {
-                            _id: res.data.data._id,
-                            nome: res.data.data.nome,
-                            sobrenome: res.data.data.sobrenome
-                        };
                         $location.path('/propriedade');
                     }
                 }).catch(function(res) {
@@ -58,12 +53,18 @@ angular.module('profarm')
                     console.log('Processo de autenticação realizado com sucesso.');
                 });
             },
-            me: function(success, error) {
-                $http.get('/api/usuario/me').success(success).error(error)
+            me: function(callback) {
+                var usuario = {
+                    _id: currentUser._doc._id,
+                    nome: currentUser._doc.nome,
+                    sobrenome: currentUser._doc.sobrenome
+                };
+                console.log(usuario);
+                callback(usuario);
             },
             logout: function() {
                 changeUser({});
-                delete $localStorage.token, $localStorage.usuario, $localStorage.propriedade;
+                delete $localStorage.token, $localStorage.propriedade;
                 $location.path('/');
             }
         };
