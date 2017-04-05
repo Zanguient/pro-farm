@@ -1,7 +1,7 @@
 angular.module('profarm').controller('FuncionarioIndexController', function($routeParams, $scope, $localStorage, $location, Funcionario) {
 
     $scope.prop_navbar = true;
-    $scope.prop_sub_navbar = true;
+    $scope.func_sub_navbar = true;
     $scope.alerts = [];
     console.log($localStorage.propriedade._id);
     Funcionario.todos(

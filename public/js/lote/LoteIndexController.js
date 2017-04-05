@@ -1,4 +1,4 @@
-angular.module('profarm').controller('LoteIndexController', function($routeParams, $scope, $localStorage, Animal, Lote) {
+angular.module('profarm').controller('LoteIndexController', function($routeParams, $scope, $location, $localStorage, Animal, Lote) {
 
     $scope.lote_navbar = true;
     $scope.alerts = [];
@@ -8,4 +8,7 @@ angular.module('profarm').controller('LoteIndexController', function($routeParam
         $scope.alerts.splice(index, 1);
     };
 
+    $scope.novo = () => {
+        $location.path('/lotes/novo');
+    }
 });

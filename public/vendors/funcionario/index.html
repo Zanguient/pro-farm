@@ -14,7 +14,7 @@
               <i class="fa fa-plus"></i>
             </button></span></h3>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-5 col-sm-push-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Registrados</h3>
@@ -23,7 +23,7 @@
                     <h4><small>Nenhum funcionário foi registrado na propriedade até o momento.</small></h4>
                 </div>
                 <div class="list-group">
-                    <a href="#" class="list-group-item" ng-repeat="reg in registrados">{{reg.nome}} {{reg.sobrenome}}</a>
+                    <a ng-href="#/funcionarios/{{reg._id}}" class="list-group-item" ng-repeat="reg in registrados">{{reg.nome}} {{reg.sobrenome}}</a>
                 </div>
                 <div class="panel-footer" ng-if="registrados.length > 10">
                     <button type="button" class="btn btn-default">
@@ -32,15 +32,18 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-5 col-sm-push-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Tercerizados</h3>
+                    <h3 class="panel-title">Terceirizados</h3>
                 </div>
                 <div class="panel-body text-center" ng-if="tercerizados.length == 0">
                     <h4><small>Nenhum funcionário tercerizado foi registrado até o momento.</small></h4>
                 </div>
-                <div class="panel-footer" ng-if="tercerizados.length > 0">
+                <div class="list-group">
+                    <a ng-href="#/funcionarios/{{ter._id}}" class="list-group-item" ng-repeat="ter in tercerizados">{{ter.nome}} {{ter.sobrenome}}</a>
+                </div>
+                <div class="panel-footer" ng-if="tercerizados.length > 10">
                     <button type="button" class="btn btn-default">
                       Exibir mais
                     </button>

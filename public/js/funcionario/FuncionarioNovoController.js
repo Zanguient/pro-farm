@@ -1,8 +1,9 @@
 angular.module('profarm').controller('FuncionarioNovoController', function($routeParams, $scope, $localStorage, $location, Cbo, Funcionario) {
 
     $scope.prop_navbar = true;
-    $scope.prop_sub_navbar = true;
+    $scope.func_sub_navbar = true;
     $scope.alerts = [];
+    $scope.edicao = true
     $scope.funcionario = {
         telefone: [],
         propriedade: $localStorage.propriedade._id
@@ -14,13 +15,13 @@ angular.module('profarm').controller('FuncionarioNovoController', function($rout
 
     $scope.salvar = () => {
         Funcionario.salvar($scope.funcionario, (result) => {
-            console.log('deu');
+            $location.path('/funcionarios');
         });
     }
 
-    $scope.novo = () => {
-        $location.path('/funcionarios/novo');
-    };
+    $scope.cancelar = () => {
+        $location.path('/funcionarios');
+    }
 
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<div data-ng-include="'vendors/navbar/default.html'"></div>
+<div class="container-fluid">
+    <section ng-if="alerts.length > 0" id="alerts">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <ol class="breadcrumb">
+            <li><a href="#/propriedade/index">Início</a></li>
+            <li class="active">Inseminação artificial</li>
+        </ol>
+        <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3" ng-if="semen != null">
+            <div class="panel panel-default">
+                <div class="panel-heading ">
+                    <h3 class="panel-title">Informações</h3>
+
+                </div>
+                <div class="panel-body text-center" ng-if="semen == null">
+                    <h3><small>Nenhuma raça foi selecionada.</small></h3>
+                </div>
+                <form class="form-horizontal" ng-submit="salvar()">
+                    <div class="panel-body" ng-if="semen != null">
+                        <div class="form-group">
+                            <label for="inputRaca" class="control-label col-sm-4">Raça</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputRaca" placeholder="raça do semen" ng-model="semen.raca" required ng-disabled="!edicao">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputNomeDoTouro" class="control-label col-sm-4">Nome do touro</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputNomeDoTouro" placeholder="nome do animal doador" ng-model="semen.nome_touro" required ng-disabled="!edicao">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmpresaFornecedor" class="control-label col-sm-4">Empresa</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="inputEmpresaFornecedor" placeholder="fornecedor" ng-model="semen.fornecedor" required ng-disabled="!edicao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-warning" ng-click="editar()" ng-if="semen._id && semens.length > 0 && !edicao">
+                    Editar
+                  </button>
+                        <button type="button" class="btn btn-danger" ng-click="remover()" ng-if="semen._id && semens.length > 0 && !edicao">
+                    Excluir
+                  </button>
+                        <button type="submit" class="btn btn-primary" ng-if="edicao">
+                    Salvar
+                  </button>
+                        <button type="button" class="btn btn-default" ng-click="cancelar()" ng-if="edicao || semen._id">
+                    Cancelar
+                  </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" ng-if="semen == null">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Raças cadastradas</h3>
+                    <span class="pull-right"><button type="button" ng-click="novo()" class="btn btn-primary btn-sm">
+                      <i class="fa fa-plus"></i>
+                    </button></span>
+                </div>
+                <div class="panel-body text-center" ng-if="semens.length == 0">
+                    <h3><small>Nenhuma raça foi cadastrada até o momento.</small></h3>
+                </div>
+                <table class="table table-bordered table-hover" ng-if="semens.length > 0">
+                    <thead>
+                        <th class="col-xs-4">Raça</th>
+                        <th class="col-xs-4">Touro</th>
+                        <th class="col-xs-4">Fornecedor</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="semen in semens | orderBy : 'raca'" ng-click="selecionar($index)">
+                            <td class="col-xs-4">{{semen.raca}}</td>
+                            <td class="col-xs-4">{{semen.nome_touro}}</td>
+                            <td class="col-xs-4">{{semen.fornecedor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>

@@ -3,7 +3,6 @@ module.exports = (app) => {
     let controller = {}
 
     controller.getAll = (req, res) => {
-      console.log(req.params.propriedade);
         let propriedade = req.params.propriedade
         Funcionario.find({
             propriedade: propriedade
@@ -27,10 +26,25 @@ module.exports = (app) => {
         )
     }
 
+    controller.getAllTogether = (req, res) => {
+        let propriedade = req.params.propriedade
+        Funcionario.find({
+            propriedade: propriedade
+        }).exec().then(
+            (funcionarios) => {
+                res.json(funcionarios)
+            },
+            (err) => {
+                res.status(500).json(err)
+                console.log(err)
+            }
+        )
+    }
+
     controller.getOne = (req, res) => {
         let propriedade = req.params.propriedade
         let id = req.params.id
-        Funcionario.find({
+        Funcionario.findOne({
             propriedade: propriedade,
             _id: id
         }).exec().then((funcionario) => {

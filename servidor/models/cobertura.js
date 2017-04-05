@@ -13,6 +13,16 @@ module.exports = function() {
             ref: "Lote",
             default: null
         },
+        funcionario: {
+            type: mongoose.Schema.ObjectId,
+            ref: "Funcionario",
+            default: null
+        },
+        funcionario: {
+            type: mongoose.Schema.ObjectId,
+            ref: "Semen",
+            default: null
+        },
         data: {
             type: Date,
             default: Date.now

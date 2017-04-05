@@ -7,7 +7,7 @@ module.exports = (app) => {
         let propriedade = req.params.propriedade
         Animal.find({
             propriedade: propriedade
-        }).select("codigo morte venda.id").exec().then(
+        }).select("codigo").exec().then(
             (animais) => {
                 res.json(animais)
             },

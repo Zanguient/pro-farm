@@ -1,5 +1,15 @@
 angular.module('profarm').factory('Animal', ['$resource', '$http', function($resource, $http) {
     return {
+        todos: function(propriedade, callback) {
+            $http.get('/api/animais/propriedade/' + propriedade).then(function(res) {
+                callback(res.data);
+            }).catch(function(res) {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally(function(res) {
+                console.log('Busca de todos os animais realizado.');
+            });
+        },
         getBezerros: function(propriedade) {
             return $http.get('/api/animais/propriedade/' + propriedade._id + '/bezerros').then(function(res) {
                 return res.data;

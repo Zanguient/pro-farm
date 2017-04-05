@@ -53,6 +53,42 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
             }
         });
 
+        //PROPRIEDADE INDEX
+        $routeProvider.when('/propriedade/index', {
+            controller: 'PropriedadeIndexController',
+            templateUrl: 'vendors/propriedade/index.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'profarm',
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/propriedade/PropriedadeIndexController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/propriedade/inseminacao', {
+            controller: 'PropriedadeInseminacaoController',
+            templateUrl: 'vendors/propriedade/inseminacao.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'profarm',
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/semen/SemenService.js',
+                            'js/propriedade/PropriedadeInseminacaoController.js'
+                        ]
+                    });
+                }]
+            }
+        });
+
         //INICIO
         $routeProvider.when('/inicio', {
             templateUrl: 'vendors/sistema/index.html',
@@ -294,7 +330,9 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                             'js/navbar/NavbarDefaultController.js',
                             'js/animal/AnimalService.js',
                             'js/lote/LoteService.js',
-                            'js/lote/LoteNovoController.js'
+                            'js/funcionario/FuncionarioService.js',
+                            'js/lote/LoteNovoController.js',
+                            'js/semen/SemenService.js'
                         ]
                     });
                 }]
@@ -313,7 +351,6 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                             'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
-                            'js/animal/AnimalService.js',
                             'js/funcionario/FuncionarioService.js',
                             'js/funcionario/FuncionarioIndexController.js'
                         ]
@@ -331,10 +368,27 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                             'js/usuario/UsuarioService.js',
                             'js/usuario/UsuarioFactory.js',
                             'js/navbar/NavbarDefaultController.js',
-                            'js/animal/AnimalService.js',
                             'js/funcionario/FuncionarioService.js',
                             'js/sistema/CBOFactory.js',
                             'js/funcionario/FuncionarioNovoController.js'
+                        ]
+                    });
+                }]
+            }
+        }).when('/funcionarios/:id', {
+            controller: 'FuncionarioEditaController',
+            templateUrl: 'vendors/funcionario/novo.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/funcionario/FuncionarioService.js',
+                            'js/sistema/CBOFactory.js',
+                            'js/funcionario/FuncionarioEditaController.js'
                         ]
                     });
                 }]
