@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<div data-ng-include="'vendors/navbar/default.html'"></div>
+<div class="container-fluid">
+    <section ng-if="alerts.length > 0" id="alerts">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <ol class="breadcrumb">
+            <li><a href="#/animais/inicio">Animais</a></li>
+            <li><a href="#/animais/{{cobertura.animal._id}}/detalhes">Animal</a></li>
+            <li><a href="#/lotes/{{cobertura.lote._id}}">Lote</a></li>
+            <li class="active">Cobertura</li>
+        </ol>
+    </section>
+    <section>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Detalhes</h3>
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="col-xs-5">Tipo</td>
+                            <td class="col-xs-7 text-center">{{cobertura.tipo | uppercase}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-5">Realizado em</td>
+                            <td class="col-xs-7 text-center">{{cobertura.data | date:'dd/MM/yy'}}</td>
+                        </tr>
+                        <tr ng-if="cobertura.data_final">
+                            <td class="col-xs-5">Finaliza em</td>
+                            <td class="col-xs-7 text-center">{{cobertura.data_final | date:'dd/MM/yy'}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-5">Aborto</td>
+                            <td class="col-xs-7 text-center"><span ng-if="cobertura.aborto">Sim</span><span ng-if="!cobertura.aborto">Não</span></td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-5">Peso de entrada</td>
+                            <td class="col-xs-7 text-center">{{cobertura.peso_entrada}}<span ng-if="cobertura.peso_entrada == null"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span></td>
+                        </tr>
+                        <!-- peso de entrada -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sêmen</h3>
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="col-xs-5">Raça</td>
+                            <td class="col-xs-7 text-center">{{cobertura.semen.raca | uppercase}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-5">Touro</td>
+                            <td class="col-xs-7 text-center">{{cobertura.semen.nome_touro | uppercase}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-5">Fornecedor</td>
+                            <td class="col-xs-7 text-center">{{cobertura.semen.fornecedor | uppercase}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Diagnósticos</h3>
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr ng-repeat="diag in cobertura.diagnostico">
+                            <td class="col-xs-5">{{diag.data | date:'dd/MM/yyyy'}}</td>
+                            <td class="col-xs-4 text-center">{{diag.tipo}}</td>
+                            <td class="col-xs-3 text-center"><i class="fa" ng-class="{'fa-square-o':diag.estado == null, 'fa-times':diag.estado == false, 'fa-check':diag.estado == true}" aria-hidden="true"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Funcionário</h3>
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="col-xs-5">Nome</td>
+                            <td class="col-xs-7 text-center">{{cobertura.funcionario.nome | uppercase}} {{cobertura.funcionario.sobrenome | uppercase}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-5">Cidade/UF</td>
+                            <td class="col-xs-7 text-center">{{cobertura.funcionario.cidade | uppercase}}/{{cobertura.funcionario.estado | uppercase}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- parto e bezerro -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Parto</h3>
+                </div>
+                <div class="panel-body text-center" ng-if="parto == null">
+                    <h3><small>Nenhum parto foi registrado.</small></h3>
+                </div>
+                <form class="form form-horizontal" ng-submit="salvar()" name="formDeParto">
+                    <div class="panel-body" ng-if="parto">
+                        <div class="form-group">
+                            <label for="inputData" class="control-label col-md-5 col-sm-6">Realizado em</label>
+                            <div class="col-md-5 col-sm-5">
+                                <input type="date" class="form-control" id="inputData" ng-model="parto.data" max="{{max_date | date:'yyyy-MM-dd'}}" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPesoPosParto" class="control-label col-md-5 col-sm-6">Peso da reprodutora</label>
+                            <div class="col-md-5 col-sm-5">
+                                <input type="number" step="0.01" class="form-control" id="inputPesoPosParto" ng-model="parto.peso_reprodutora_desmama" placeholder="peso após o parto" required>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="inputCodigoNovoAnimal" class="control-label col-md-5 col-sm-6">Código do animal</label>
+                            <div class="col-md-5 col-sm-5">
+                                <input type="text" class="form-control" id="inputCodigoNovoAnimal" ng-model="animal.codigo" placeholder="codigo do novo animal" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Sexo" class="control-label col-md-5 col-sm-6">Sexo</label>
+                            <div class="col-md-5 col-sm-5">
+                                <select class="form-control" ng-model="animal.sexo">
+                                  <option value="">Selecione um gênero</option>
+                                  <option value="macho">Macho</option>
+                                  <option value="femea">Fêmea</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPesoNovoAnimal" class="control-label col-md-5 col-sm-6">Peso</label>
+                            <div class="col-md-5 col-sm-5">
+                                <input type="number" step="0.01" class="form-control" id="inputPesoNovoAnimal" ng-model="animal.peso.entrada.valor" placeholder="peso do novo animal" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-primary" ng-if="animal == null && !edicao" ng-click="registrarParto()" ng-disabled="validarDiagnosticos">
+                    Registrar parto
+                  </button>
+                        <button type="submit" class="btn btn-primary" ng-if="animal && edicao" ng-disabled="formDeParto.$invalid || formDeParto.$pristine">
+                    Salvar
+                  </button>
+                        <button type="button" class="btn btn-default" ng-if="animal && edicao" ng-click="cancelar()">
+                    Cancelar
+                  </button>
+                        <button type="button" class="btn btn-default" ng-if="animal._id != null">
+                    Ir para o animal
+                  </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>

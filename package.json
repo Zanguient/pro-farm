@@ -1,27 +1,27 @@
 {
-  "name": "pro-farm",
-  "version": "1.0.0",
-  "description": "gerenciamento de gado",
-  "main": "app.js",
-  "dependencies": {
-    "async": "^2.0.0-rc.6",
-    "bluebird": "^3.4.0",
-    "body-parser": "^1.15.1",
-    "compression": "^1.6.2",
-    "express": "^4.14.0",
-    "express-load": "^1.1.15",
-    "http": "0.0.0",
-    "jsonwebtoken": "^7.0.1",
-    "method-override": "^2.3.6",
-    "moment": "^2.13.0",
-    "mongoose": "^4.5.0",
-    "morgan": "^1.7.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Tiago Amado Durante",
-  "license": "ISC",
-  "homepage": ""
+    "name": "pro-farm",
+    "version": "1.0.0",
+    "description": "gerenciamento de gado",
+    "main": "app.js",
+    "dependencies": {
+        "async": "^2.0.0-rc.6",
+        "bluebird": "^3.4.0",
+        "body-parser": "^1.15.1",
+        "compression": "^1.6.2",
+        "express": "^4.14.0",
+        "express-load": "^1.1.15",
+        "http": "0.0.0",
+        "jsonwebtoken": "^7.0.1",
+        "method-override": "^2.3.6",
+        "moment": "^2.13.0",
+        "mongoose": "^4.5.0",
+        "morgan": "^1.7.0"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Tiago Amado Durante",
+    "license": "ISC",
+    "homepage": ""
 }

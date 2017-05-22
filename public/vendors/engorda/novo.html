@@ -27,13 +27,13 @@
                         <div class="form-group">
                             <label for="inputDataRealizacao" class="col-sm-4 control-label">Realizado em</label>
                             <div class="col-sm-6">
-                                <input type="date" class="form-control" id="inputDataRealizacao" ng-model="engorda.data" required>
+                                <input type="date" class="form-control" id="inputDataRealizacao" ng-model="engorda.data" max="{{max_date | date:'yyyy-MM-dd'}}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPesoEntradaDesmama" class="col-sm-4 control-label">Peso de entrada</label>
                             <div class="col-sm-6">
-                                <input type="number" step="0.01" class="form-control" id="inputPesoEntradaDesmama" placeholder="peso no inicio da desmama" ng-model="engorda.peso_entrada" required>
+                                <input type="number" step="0.01" class="form-control" id="inputPesoEntradaDesmama" placeholder="peso de entrada na engorda" ng-model="engorda.peso_entrada" required>
                             </div>
                         </div>
                         <div class="form-group">

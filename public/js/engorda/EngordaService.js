@@ -10,16 +10,16 @@ angular.module('profarm').factory('Engorda', ['$resource', '$http', function($re
                 console.log('Processo de persistencia de engorda realizado.');
             });
         },
-        buscarPorBezerro: function(data) {
-            return $http.get('/api/engorda/bezerro/_id/' + data._id).then(function(res) {
+        buscarPorBezerro: (data, callback) => {
+            $http.get('/api/engorda/bezerro/_id/' + data._id).then((res) => {
                 if (res.data !== null) {
                     res.data.data = new Date(res.data.data);
                 }
-                return res.data;
-            }).catch(function(res) {
+                callback(res.data);
+            }).catch((res) => {
                 console.error('Houve algum problema interno!');
                 console.error(res);
-            }).finally(function(res) {
+            }).finally((res) => {
                 console.log('Processo de busca de engorda por _id do bezerro realizado.');
             });
         },

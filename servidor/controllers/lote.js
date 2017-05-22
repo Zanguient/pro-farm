@@ -1,5 +1,8 @@
 module.exports = (app) => {
     let Lote = app.models.lote
+    let Cobertura = app.models.cobertura
+    let moment = require('moment')
+    let async = require('async')
     let controller = {}
 
     controller.all = (req, res) => {
@@ -45,12 +48,67 @@ module.exports = (app) => {
         }
     }
 
+    controller.persistWithCobertura = (req, res) => {
+        let lote = req.body[0]
+        let cobertura = req.body[1]
+        let animais = req.body[2]
+        Lote.create(lote).then(
+            (lote) => {
+                salvarCoberturaComAnimais(lote, cobertura, animais, res)
+            },
+            (err) => {
+                res.sendStatus(500).json(err)
+                console.log(err)
+            }
+        )
+    }
+
+    salvarCoberturaComAnimais = (lote, cobertura, animais, res) => {
+        cobertura.lote = lote._id
+        async.eachSeries(animais, (animal, callback) => {
+            cobertura.animal = animal._id
+            cobertura.peso_entrada = animal.peso.ultimo.valor
+            Cobertura.create(cobertura).then(
+                (cobertura) => {
+                    callback()
+                }, (err) => {
+                    res.sendStatus(500).json(err)
+                    console.log(err)
+                }
+            )
+        }, done = () => {
+            res.json(lote)
+        })
+    }
+
     controller.getOne = (req, res) => {
         // get by id
         let id = req.params.id
-        Lote.find({
+        let prop = req.params.propriedade
+        Lote.findOne({
             _id: id,
             propriedade: prop
+        }).exec().then(
+            (lote) => {
+                res.json(lote)
+            },
+            (err) => {
+                res.sendStatus(500).json(err)
+                console.log(err)
+            }
+        )
+    }
+
+    controller.ultimo = (req, res) => {
+        // get by id
+        let propriedade = req.params.propriedade
+        let date_init = moment()
+        Lote.findOne({
+            propriedade: propriedade,
+        }, {}, {
+            sort: {
+                'data': -1
+            }
         }).exec().then(
             (lote) => {
                 res.json(lote)

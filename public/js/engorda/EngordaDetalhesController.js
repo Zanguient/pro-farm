@@ -1,5 +1,7 @@
 angular.module('profarm').controller('EngordaDetalhesController', function($scope, $routeParams, $window, $location, $route, Engorda) {
 
+    $scope.max_date = new Date();
+
     if ($routeParams.idAnimal && $routeParams.idEngorda) {
         $scope.idAnimal = $routeParams.idAnimal;
         $scope.idEngorda = $routeParams.idEngorda;

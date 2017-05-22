@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+let mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 
-module.exports = function() {
-    var schema = mongoose.Schema({
+module.exports = () => {
+    let schema = mongoose.Schema({
         cobertura: {
             type: mongoose.Schema.ObjectId,
             ref: "Cobertura",
@@ -20,7 +20,7 @@ module.exports = function() {
             type: Number,
             default: null
         }
-    });
+    })
 
-    return mongoose.model('Parto', schema, 'partos');
-};
+    return mongoose.model('Parto', schema, 'partos')
+}

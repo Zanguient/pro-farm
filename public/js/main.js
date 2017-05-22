@@ -1,4 +1,4 @@
-angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 'angular-loading-bar', 'ui.bootstrap'])
+angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 'angular-loading-bar', 'ui.bootstrap', 'monospaced.qrcode'])
     .config(['$httpProvider', '$routeProvider', 'cfpLoadingBarProvider', '$sceDelegateProvider', '$locationProvider', function($httpProvider, $routeProvider, cfpLoadingBarProvider, $sceDelegateProvider, $locationProvider) {
 
         cfpLoadingBarProvider.includeSpinner = false;
@@ -139,6 +139,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                             'js/animal/AnimalService.js',
                             'js/recria/RecriaService.js',
                             'js/engorda/EngordaService.js',
+                            'js/cobertura/CoberturaService.js',
                             'js/animal/AnimalDetalheController.js'
                         ]
                     });
@@ -337,6 +338,24 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                     });
                 }]
             }
+        }).when('/lotes/:idLote', {
+            controller: 'LoteDetalhesController',
+            templateUrl: 'vendors/lote/detalhes.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/cobertura/CoberturaService.js',
+                            'js/lote/LoteService.js',
+                            'js/lote/LoteDetalhesController.js',
+                        ]
+                    });
+                }]
+            }
         });
 
         // FUNCIONARIOS
@@ -394,6 +413,27 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                 }]
             }
         });
+
+        // COBERTURAS
+        $routeProvider.when('/cobertura/:id', {
+            controller: 'CoberturaDetalhesController',
+            templateUrl: 'vendors/cobertura/detalhes.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/cobertura/CoberturaService.js',
+                            'js/parto/PartoService.js',
+                            'js/cobertura/CoberturaDetalhesController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
         // ERROS
         $routeProvider.when('/500', {

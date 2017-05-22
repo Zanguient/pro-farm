@@ -1,12 +1,22 @@
 angular.module('profarm').factory('Animal', ['$resource', '$http', function($resource, $http) {
     return {
-        todos: function(propriedade, callback) {
-            $http.get('/api/animais/propriedade/' + propriedade).then(function(res) {
+        todos: (propriedade, callback) => {
+            $http.get('/api/animais/propriedade/' + propriedade).then((res) => {
                 callback(res.data);
-            }).catch(function(res) {
+            }).catch((res) => {
                 console.error('Houve algum problema interno!');
                 console.error(res);
-            }).finally(function(res) {
+            }).finally((res) => {
+                console.log('Busca de todos os animais realizado.');
+            });
+        },
+        paraCobertura: (propriedade, callback) => {
+            $http.get('/api/animais/propriedade/' + propriedade + '/femeas/cobertura').then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
                 console.log('Busca de todos os animais realizado.');
             });
         },
@@ -50,28 +60,27 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 console.log('Busca de animais acima de 36 meses realizado.');
             });
         },
-        buscar: function(data) {
-            return $http.get('/api/animais/propriedade/' + data.propriedade._id + '/_id/' + data.animal._id).then(function(res) {
+        buscar: (data, callback) => {
+            $http.get('/api/animais/propriedade/' + data.propriedade._id + '/_id/' + data.animal._id).then((res) => {
                 if (res.data.nascimento) {
                     res.data.nascimento = new Date(res.data.nascimento);
                 }
-                return res.data;
-            }).catch(function(res) {
+                callback(res.data);
+            }).catch((res) => {
                 console.error('Houve algum problema interno!');
                 console.error(res);
-            }).finally(function(res) {
+            }).finally((res) => {
                 console.log('Busca de um determinado animal realizado.');
             });
         },
-        salvarBezerro: function(data) {
-            return $http.post('/api/animais/propriedade/' + data.propriedade, data).then(
-                function(res) {
-                    return res.data;
-                }).catch(function(res) {
+        salvarBezerro: (data, callback) => {
+            $http.post('/api/animais/propriedade/' + data.propriedade, data).then(
+                (res) => {
+                    callback(res.data);
+                }).catch((res) => {
                 console.error('Houve algum problema interno!');
                 console.error(res);
-                return res;
-            }).finally(function(res) {
+            }).finally((res) => {
                 console.log('Criação/Atualização de animal realizado.');
             });
         },
@@ -86,28 +95,25 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 console.log('Verificação de existência de codigo na base de dados realizado.');
             });
         },
-        exibirIdadeEmMeses: function(nascimento, callback) {
-            var result = moment().diff(moment(nascimento || null), 'months', true);
-            if (angular.equals(result, 'Invalid date')) {
-                result = null;
-            }
-            callback(result);
-        },
-        exibirTipoDoAnimal: function(nascimento, callback) {
-            var valor = moment().diff(moment(nascimento || null), 'years', true);
+        exibirTipoDoAnimal: (nascimento, callback) => {
+            var anos = moment().diff(moment(nascimento || null), 'years', true);
+            var meses = moment().diff(moment(nascimento || null), 'months', true);
             var resultado = null;
-            if (angular.equals(valor, 'Invalid date')) {
-                valor = null;
-            } else if (valor >= 0 && valor < 1) {
+            if (angular.equals(meses, 'Invalid date')) {
+              meses = null;
+            }
+            if (angular.equals(anos, 'Invalid date')) {
+                anos = null;
+            } else if (anos >= 0 && anos < 1) {
                 resultado = 'Bezerros(as)';
-            } else if (valor >= 1 && valor < 2) {
+            } else if (anos >= 1 && anos < 2) {
                 resultado = 'Garrotes e Novilhotas';
-            } else if (valor >= 2 && valor < 3) {
+            } else if (anos >= 2 && anos < 3) {
                 resultado = 'Novilhos(as)';
             } else { // idade >= 3
                 resultado = 'Vacas e Bois';
             }
-            callback(resultado, valor);
+            callback(resultado, anos, meses);
         }
     };
 }]);

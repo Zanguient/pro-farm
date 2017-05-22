@@ -1,6 +1,7 @@
 angular.module('profarm').controller('EngordaEditaController', function($scope, $routeParams, $location, Engorda) {
 
     $scope.buttonBlock = false;
+    $scope.max_date = new Date();
 
     if ($routeParams.idAnimal && $routeParams.idEngorda) {
         Engorda.buscarPorID({

@@ -2,10 +2,13 @@ angular.module('profarm').controller('LoteNovoController', function($routeParams
 
     $scope.lote_navbar = true;
     $scope.alerts = [];
-    $scope.lote = {};
+    $scope.lote = {
+        propriedade: $localStorage.propriedade._id
+    };
     $scope.cobertura = {};
     $scope.animais_selecionados = [];
     $scope.busca = '';
+    $scope.max_date = new Date();
 
     Usuario.me((atual) => {
         Semen.todosDoUsuario(atual._id, (semens) => {
@@ -13,15 +16,16 @@ angular.module('profarm').controller('LoteNovoController', function($routeParams
         });
     });
 
-    Animal.todos($localStorage.propriedade._id, (resultado) => {
+    Animal.paraCobertura($localStorage.propriedade._id, (resultado) => {
         $scope.animais = resultado;
+        console.log(resultado);
     });
 
     Funcionario.todosJuntos($localStorage.propriedade._id, (result) => {
         $scope.funcionarios = result;
     });
 
-    $scope.closeAlert = function(index) {
+    $scope.closeAlert = (index) => {
         $scope.alerts.splice(index, 1);
     };
 
@@ -40,26 +44,35 @@ angular.module('profarm').controller('LoteNovoController', function($routeParams
     };
 
     $scope.salvar = () => {
-        switch ($scope.lote.acao) {
-            case 'cobertura':
-                {
-                    alert('cobertura');
-                }
-                break;
-            case 'vacinacao':
-                {
-                    alert('vacinacao');
-                }
-                break;
-            default:
-                {
-                    alert('oxi');
-                }
+        if ($scope.animais_selecionados.length > 0) {
+            switch ($scope.lote.acao) {
+                case 'cobertura':
+                    {
+                        $scope.cobertura.data = $scope.lote.data;
+                        Lote.salvarComCobertura($localStorage.propriedade._id, $scope.lote, $scope.cobertura, $scope.animais_selecionados, (lote) => {
+                            $location.path('/lotes/' + lote._id);
+                        });
+                    }
+                    break;
+                case 'vacinacao':
+                    {
+                        alert('vacinacao');
+                    }
+                    break;
+                default:
+                    {
+                        alert('Selecione um ação para o lote a ser criado.');
+                    }
+            }
+        } else {
+            alert('Inclua ao menos 1 animal no lote para continuar.');
         }
     };
 
     $scope.cancelar = () => {
-        $location.path('/lotes');
+        if (confirm('Deseja realmente cancelar a criação de um novo lote?')) {
+            $location.path('/lotes');
+        }
     };
 
 });

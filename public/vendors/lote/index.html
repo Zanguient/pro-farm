@@ -9,34 +9,46 @@
         </div>
     </section>
     <section>
-        <div class="col-sm-6 hidden-xs">
+        <div class="col-lg-4 col-lg-push-2 col-md-5 col-md-push-1 col-md-5 col-md-push-1 col-sm-6 hidden-xs">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Ultimo lote registrado</h3>
                 </div>
-                <div class="panel-body text-center" ng-if="lotes != null">
+                <div class="panel-body text-center" ng-if="lotes.length == 0">
                     <h3><small>Insina o primeiro registro de lote da propriedade</small></h3>
                 </div>
-                <div class="panel-footer" ng-if="lote != null">
-                    <button type="button" class="btn btn-default">
+                <div class="panel-body" ng-if="lotes.length > 0">
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 class="media-heading">{{ultimo.acao | uppercase}}</h4>
+                            <p>{{ultimo.data | date: 'fullDate'}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer" ng-if="lotes.length > 0">
+                    <button type="button" class="btn btn-default" ng-click="abrirUltimoLoteRegistrado()">
                       Mais informações
                     </button>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-lg-push-2 col-md-5 col-md-push-1 col-sm-6 col-xs-12">
             <div class="panel panel-primary ">
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left" style="padding-top: 7.5px;">Lotes</h3>
-                    <span class="pull-right"><button type="button" ng-click="novo()" class="btn btn-default btn-sm">
-                      <i class="fa fa-plus"></i>
-                    </button></span>
+                    <span class="pull-right">
+                        <button type="button" ng-click="novo()" class="btn btn-default btn-sm" disabled><i class="fa fa-qrcode" aria-hidden="true"></i></button>
+                        <button type="button" ng-click="novo()" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button>
+                    </span>
                 </div>
                 <div class="panel-body text-center" ng-if="lotes.length == 0">
                     <h3><small>Nenhum lote foi registrado até o momento.</small></h3>
                 </div>
-                <div class="panel-footer" ng-if="lotes.length > 0">
-                    <button type="button" class="btn btn-default">
+                <div class="list-group" ng-if="lotes.length > 0">
+                    <a href="#/lotes/{{aux._id}}" class="list-group-item" ng-repeat="aux in lotes | filter:busca | limitTo:limit | orderBy: '-data'">{{aux.acao | uppercase}} no dia {{aux.data | date:'dd/MM/yy'}}</a>
+                </div>
+                <div class="panel-footer" ng-if="lotes.length > limit">
+                    <button type="button" class="btn btn-default" ng-click="mais()">
                         Exibir mais
                       </button>
                 </div>

@@ -64,9 +64,17 @@ module.exports = (app) => {
 
     function atualizarAnimal(req, res, recria) {
         Animal.findByIdAndUpdate(recria.animal, {
-            peso_desmama: recria.peso_entrada
+            'peso.desmama.valor': recria.peso_entrada,
+            'peso.desmama.id': recria._id
         }).exec().then(
             (bezerro) => {
+                bezerro.peso.antepenultimo = bezerro.peso.penultimo
+                bezerro.peso.penultimo = bezerro.peso.ultimo
+                bezerro.ultimo = {
+                    valor: recria.peso_entrada,
+                    id: recria._id
+                }
+                bezerro.save()
                 if (bezerro.parto) {
                     atualizarVaca(req, res, recria, bezerro) //TODO: implementar quando existir um bezerro criado a partir de um parto
                 } else {

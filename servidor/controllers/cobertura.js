@@ -20,8 +20,23 @@ module.exports = (app) => {
     controller.porReprodutora = (req, res) => {
         let reprodutora = req.params.reprodutora
         Cobertura.find({
-            reprodutora: reprodutora
+            animal: reprodutora
         }).select("data data_final tipo").exec().then(
+            (coberturas) => {
+                res.json(coberturas)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.porLote = (req, res) => {
+        let lote = req.params.lote
+        Cobertura.find({
+            lote: lote
+        }).populate('animal').exec().then(
             (coberturas) => {
                 res.json(coberturas)
             },
@@ -36,7 +51,7 @@ module.exports = (app) => {
         let id = req.params.id
         Cobertura.findOne({
             _id: id
-        }).populate('reprodutora').exec().then(
+        }).populate('animal lote funcionario semen').exec().then(
             (cobertura) => {
                 res.json(cobertura)
             },
@@ -74,13 +89,76 @@ module.exports = (app) => {
         }
     }
 
+    controller.salvarDiag = (req, res) => {
+        let cobertura = req.params.id
+        let diag = req.body._id
+        if (diag) {
+            //atualiza o diagnostico
+            Cobertura.findOneAndUpdate({
+                _id: cobertura,
+                "diagnostico._id": diag
+            }, {
+                $set: {
+                    "diagnostico.$": req.body
+                }
+            }).exec().then(
+                (diag) => {
+                    res.json(diag)
+                },
+                (erro) => {
+                    res.sendStatus(500)
+                    console.log(erro)
+                }
+            )
+        } else {
+            //cria o diagnostico
+            Cobertura.findOneAndUpdate({
+                _id: cobertura
+            }, {
+                $push: {
+                    diagnostico: req.body
+                }
+            }).then(
+                (cobertura) => {
+                    res.json(cobertura)
+                },
+                (erro) => {
+                    res.sendStatus(500)
+                    console.log(erro)
+                }
+            )
+        }
+    }
+
+    controller.removerDiag = (req, res) => {
+        let _id = req.params.id
+        let diag = req.params.diag
+        Cobertura.findOneAndUpdate({
+            "_id": _id
+        }, {
+            $pull: {
+                diagnostico: {
+                    _id: diag
+                }
+            }
+        }).exec().then(
+            () => {
+                res.sendStatus(200)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
     controller.remover = (req, res) => {
         let _id = req.params.id
         Cobertura.remove({
             "_id": _id
         }).exec().then(
             () => {
-                res.status(200)
+                res.sendStatus(200)
             },
             (erro) => {
                 res.sendStatus(500)

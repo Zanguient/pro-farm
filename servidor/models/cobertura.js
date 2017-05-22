@@ -1,11 +1,11 @@
-var mongoose = require('mongoose')
+let mongoose = require('mongoose')
 mongoose.Promise = require('bluebird')
 
-module.exports = function() {
-    var schema = mongoose.Schema({
-        reprodutora: {
+module.exports = () => {
+    let schema = mongoose.Schema({
+        animal: {
             type: mongoose.Schema.ObjectId,
-            ref: "Reprodutora",
+            ref: "Animal",
             required: true
         },
         lote: {
@@ -18,7 +18,7 @@ module.exports = function() {
             ref: "Funcionario",
             default: null
         },
-        funcionario: {
+        semen: {
             type: mongoose.Schema.ObjectId,
             ref: "Semen",
             default: null
@@ -45,12 +45,10 @@ module.exports = function() {
         },
         diagnostico: [{
             data: {
-                type: Date,
-                default: Date.now
+                type: Date
             },
             tipo: {
-                type: String,
-                default: null
+                type: String
             },
             estado: {
                 type: Boolean,

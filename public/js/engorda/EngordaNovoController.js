@@ -1,6 +1,7 @@
 angular.module('profarm').controller('EngordaNovoController', function($scope, $routeParams, $location, Engorda) {
 
     $scope.buttonBlock = false;
+    $scope.max_date = new Date();
     $scope.engorda = {
         animal: $routeParams.idAnimal,
         data: new Date()

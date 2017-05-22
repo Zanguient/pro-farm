@@ -1,7 +1,8 @@
 module.exports = function(app) {
-    var Engorda = app.models.engorda;
-    var Recria = app.models.recria;
-    var controller = {};
+    var Engorda = app.models.engorda
+    var Recria = app.models.recria
+    var Animal = app.models.animal
+    var controller = {}
 
     controller.getEngordaByBezerro = (req, res) => {
         let idAnimal = req.params.idAnimal
@@ -39,7 +40,7 @@ module.exports = function(app) {
             //atualiza a engorda
             Engorda.findByIdAndUpdate(id, req.body).exec().then(
                 (engorda) => {
-                    atualizarRecria(req.body.animal, req.body.peso_entrada, engorda, res)
+                    atualizarRecria(req.body.animal, req.body.peso_entrada, req.body, res)
                 },
                 (erro) => {
                     res.sendStatus(500)
@@ -68,12 +69,33 @@ module.exports = function(app) {
                 peso_saida: peso,
                 data_saida: engorda.data
             }
-        }, function(recria) {
-            res.json(engorda)
-        }, function(err) {
+        }, (recria) => {
+            atualizarPesoDoAnimal(animal, engorda, res)
+        }, (err) => {
             res.sendStatus(500).json(err)
             console.log(erro)
         })
+    }
+
+    function atualizarPesoDoAnimal(animal, engorda, res) {
+        Animal.findOne({
+            _id: animal
+        }).exec().then(
+            (animal) => {
+                animal.peso.antepenultimo = animal.peso.penultimo
+                animal.peso.penultimo = animal.peso.ultimo
+                animal.peso.ultimo = {
+                    valor: engorda.peso_entrada,
+                    id: engorda._id
+                }
+                animal.save()
+                res.json(engorda)
+            },
+            (err) => {
+                res.sendStatus(500).json(err)
+                console.log(erro)
+            }
+        )
     }
 
     controller.removeEngordaById = (req, res) => {
@@ -100,9 +122,9 @@ module.exports = function(app) {
                 data_saida: null,
                 peso_saida: null
             }
-        }).exec().then(function(recria) {
+        }).exec().then((recria) => {
             res.sendStatus(200)
-        }, function(err) {
+        }, (err) => {
             console.log(err)
             res.sendStatus(500).json(err)
         })
@@ -111,7 +133,6 @@ module.exports = function(app) {
     controller.salvarAcompanhamento = (req, res) => {
         let id = req.body._id
         let idEngorda = req.params.idEngorda
-        console.log(req.body);
         if (id) {
             Engorda.findOneAndUpdate({
                 'acompanhamento._id': id
@@ -121,10 +142,11 @@ module.exports = function(app) {
                     'acompanhamento.$.peso': req.body.peso
                 }
             }).exec().then(
-                function(acompanhamento) {
-                    res.json(acompanhamento)
+                (engorda) => {
+                    atualizarPesoPeloAcompanhamento(engorda, req.body, res)
+                    res.json(engorda)
                 },
-                function(err) {
+                (err) => {
                     console.log(err)
                     res.sendStatus(500)
                 }
@@ -134,13 +156,33 @@ module.exports = function(app) {
                 $push: {
                     'acompanhamento': req.body
                 }
-            }).then(function(acompanhamento) {
-                res.json(acompanhamento)
-            }, function(err) {
-                console.log(err);
+            }).then((engorda) => {
+                atualizarPesoPeloAcompanhamento(engorda, req.body, res)
+                res.json(engorda)
+            }, (err) => {
+                console.log(err)
                 res.sendStatus(500)
             })
         }
+    }
+
+    function atualizarPesoPeloAcompanhamento(engorda, acompanhamento, res) {
+        Animal.findOne({
+            _id: engorda.animal
+        }).exec().then(
+            (animal) => {
+                animal.peso.antepenultimo = animal.peso.penultimo
+                animal.peso.penultimo = animal.peso.ultimo
+                animal.peso.ultimo = {
+                    valor: acompanhamento.peso,
+                    id: engorda._id
+                };
+                animal.save()
+            }, (err) => {
+                console.log(err)
+                res.sendStatus(500).json(err)
+            }
+        )
     }
 
     controller.removeAcompanhamento = (req, res) => {
@@ -154,13 +196,13 @@ module.exports = function(app) {
                     _id: idAcompanhamento
                 }
             }
-        }).then(function() {
+        }).then(() => {
             res.json(200)
-        }, function(err) {
-            console.log(err);
+        }, (err) => {
+            console.log(err)
             res.sendStatus(500)
         })
     }
 
-    return controller;
-};
+    return controller
+}

@@ -9,6 +9,7 @@ module.exports = (app) => {
     app.route('/api/animais/propriedade/:propriedade/garrotes').get(controller.getGarrotes)
     app.route('/api/animais/propriedade/:propriedade/novilhos').get(controller.getNovilhos)
     app.route('/api/animais/propriedade/:propriedade/bois').get(controller.getBoisVacas)
+    app.route('/api/animais/propriedade/:propriedade/femeas/cobertura').get(controller.getAnimaisParaCobertura)
 
     // getCodigosDosAnimais
     app.route('/api/animais/propriedade/:propriedade/animais/codigo/:codigo').get(controller.getTodosOsCodigosPorPropriedade)

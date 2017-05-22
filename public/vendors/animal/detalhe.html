@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="inputNascimentoBezerro" class="control-label col-sm-5">Nascimento</label>
                         <div class="col-sm-7">
-                            <input type="date" class="form-control" ng-model="animal.nascimento" id="inputNascimentoBezerro" ng-disabled="!edicao">
+                            <input type="date" class="form-control" ng-model="animal.nascimento" id="inputNascimentoBezerro" max="{{max_date | date:'yyyy-MM-dd'}}" ng-disabled="!edicao">
                         </div>
                     </div>
                     <div class="form-group">
@@ -45,11 +45,11 @@
                             </select>
                         </div>
                     </div>
-                    <div ng-class="{'form-group':true, 'has-error':animal.peso_entrada == null}">
+                    <div ng-class="{'form-group':true, 'has-error':animal.peso.entrada.valor == null}">
                         <label for="inputPesoDeEntradaBezerro" class="control-label col-sm-5">Peso de entrada</label>
                         <div class="col-sm-7">
                             <div class="input-group">
-                                <input type="number" step="0.01" min="1" class="form-control" ng-model="animal.peso_entrada" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao || recria !== null">
+                                <input type="number" step="0.01" min="1" class="form-control" ng-model="animal.peso.entrada.valor" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao || recria !== null">
                                 <span class="input-group-addon">kg</span>
                             </div>
                         </div>
@@ -73,33 +73,33 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <td class="col-xs-8">
+                        <td class="col-xs-7">
                             Idade
                         </td>
-                        <td class="col-xs-4 text-center" ng-if="idade[4] == true">
+                        <td class="col-xs-5 text-center" ng-if="idade[4] == true">
                             <a href ng-click="toggleIdade()" tooltip-placement="top" uib-tooltip="Mudar medida de idade.">{{idade[0] | limitTo:4}} meses</a>
                             <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
                         </td>
-                        <td class="col-xs-4 text-center" ng-if="idade[4] == false">
+                        <td class="col-xs-5 text-center" ng-if="idade[4] == false">
                             <a href ng-click="toggleIdade()" tooltip-placement="top" uib-tooltip="Mudar medida de idade.">{{idade[1] | limitTo:4}} anos</a>
                             <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
                         </td>
                     </tr>
-                    <tr tooltip-placement="top" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama">
-                        <td class="col-xs-8">
+                    <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama">
+                        <td class="col-xs-7">
                             Relação desmama
                         </td>
-                        <td class="col-xs-4 text-center">
+                        <td class="col-xs-5 text-center">
                             {{animal.relacao_desmama}}
                             <i ng-if="animal.relacao_desmama == null" class="fa fa-exclamation-triangle"></i>
                             <i class="fa fa-percent"></i>
                         </td>
                     </tr>
                     <tr>
-                        <td class="col-xs-8">
+                        <td class="col-xs-7">
                             Peso na desmama
                         </td>
-                        <td class="col-xs-4 text-center">
+                        <td class="col-xs-5 text-center">
                             {{animal.peso_desmama}}
                             <i ng-if="animal.peso_desmama == null" class="fa fa-exclamation-triangle"></i> kg
                         </td>
@@ -111,9 +111,23 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Coberturas</h3>
             </div>
-            <div class="panel-body text-center">
+            <div class="panel-body text-center" ng-if="coberturas.length == 0">
                 <h4><small>Nenhuma cobertura registrada.</small></h4>
             </div>
+            <table class="table table-bordered table-hover" ng-if="coberturas.length > 0">
+                <thead>
+                    <th class="col-xs-4">Data</th>
+                    <th class="col-xs-4 text-center">Final</th>
+                    <th class="col-xs-4 text-center">Tipo</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="cobertura in coberturas" ng-click="abrirCobertura(cobertura._id)">
+                        <td class="col-xs-4">{{cobertura.data | date:'dd/MM/yyyy'}}</td>
+                        <td class="col-xs-4 text-center">{{cobertura.data_final | date:'dd/MM/yyyy'}}<i class="fa fa-calendar-times-o" aria-hidden="true" ng-if="cobertura.data_final == null"></i></td>
+                        <td class="col-xs-4 text-center">{{cobertura.tipo | uppercase}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="panel panel-info" ng-if="animal.sexo == 'femea' && idade[1] >= 1">
             <div class="panel-heading">

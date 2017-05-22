@@ -20,8 +20,10 @@ angular.module('profarm').controller('FuncionarioNovoController', function($rout
     }
 
     $scope.cancelar = () => {
-        $location.path('/funcionarios');
-    }
+        if (confirm('Deseja realmente cancelar a criação de um novo funcionário?')) {
+            $location.path('/funcionarios');
+        }
+    };
 
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);

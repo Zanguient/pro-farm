@@ -1,9 +1,9 @@
-angular.module('profarm').controller('RecriaEditarController', function($routeParams, $scope, $localStorage, $location, $route, Animal, Recria) {
+angular.module('profarm').controller('RecriaEditarController', function($routeParams, $scope, $localStorage, $location, $route, Recria) {
 
     $scope.animal_navbar = true;
     $scope.alerts = [];
     $scope.buttonBlock = false;
-    console.log($routeParams.idAnimal, $routeParams.idRecria);
+    $scope.max_date = new Date();
 
     if ($routeParams.idAnimal && $routeParams.idRecria) {
         Recria.buscarPorID({

@@ -62,16 +62,57 @@ module.exports = () => {
         relacao_desmama: { //bezerro
             type: Number
         },
-        peso_desmama: { //bezerro
-            type: Number
-        },
-        peso_entrada: { //geral
-            type: Number,
-            default: null
-        },
-        peso_atual: { //geral
-            type: Number,
-            default: null
+        peso: { //geral
+            entrada: { //geral
+                valor: { //geral
+                    type: Number,
+                    default: null
+                },
+                id: { //geral
+                    type: mongoose.Schema.ObjectId,
+                    default: null
+                }
+            },
+            desmama: { //geral
+                valor: { //geral
+                    type: Number,
+                    default: null
+                },
+                id: { //geral
+                    type: mongoose.Schema.ObjectId,
+                    default: null
+                }
+            },
+            antepenultimo: { //geral
+                valor: { //geral
+                    type: Number,
+                    default: null
+                },
+                id: { //geral
+                    type: mongoose.Schema.ObjectId,
+                    default: null
+                }
+            },
+            penultimo: { //geral
+                valor: { //geral
+                    type: Number,
+                    default: null
+                },
+                id: { //geral
+                    type: mongoose.Schema.ObjectId,
+                    default: null
+                }
+            },
+            ultimo: { //geral
+                valor: { //geral
+                    type: Number,
+                    default: null
+                },
+                id: { //geral
+                    type: mongoose.Schema.ObjectId,
+                    default: null
+                }
+            }
         },
         ultima_relacao_desmama: { //reprodutoras
             type: Number

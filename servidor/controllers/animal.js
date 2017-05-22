@@ -18,6 +18,29 @@ module.exports = (app) => {
         )
     }
 
+    controller.getAnimaisParaCobertura = (req, res) => {
+        let propriedade = req.params.propriedade
+        let date_init = moment().subtract(12, 'months')
+        Animal.find({
+            propriedade: propriedade,
+            sexo: 'femea',
+            morte: null,
+            'venda.id': null,
+            nascimento: {
+                $lt: date_init
+            },  
+            touro: false
+        }).select("codigo peso").exec().then(
+            (animais) => {
+                res.json(animais)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
     controller.getBezerros = (req, res) => {
         let date_init = moment().subtract(12, 'months')
         let date_end = moment()
@@ -146,7 +169,7 @@ module.exports = (app) => {
                 //atualiza o animal
                 Animal.findByIdAndUpdate(_id, req.body).exec().then(
                     (animal) => {
-                        res.json(animal)
+                        verificarMudancaDePeso(res, req.body, animal)
                     },
                     (erro) => {
                         res.sendStatus(500)
@@ -157,6 +180,10 @@ module.exports = (app) => {
                 //cria o animal
                 Animal.create(req.body).then(
                     (animal) => {
+                        if (animal.peso.entrada.valor) {
+                            animal.peso.entrada.id = animal._id
+                            animal.save()
+                        }
                         res.json(animal)
                     },
                     (erro) => {
@@ -168,6 +195,24 @@ module.exports = (app) => {
         } else {
             res.sendStatus(403).json('Você não tem autorização para realizar esta operação');
         }
+    }
+
+    function verificarMudancaDePeso(res, atual, antigo) {
+        if (atual.peso.entrada.valor != antigo.peso.entrada.valor) {
+            atual.peso.antepenultimo = atual.peso.penultimo
+            atual.peso.penultimo = atual.peso.ultimo
+            atual.peso.ultimo = atual.peso.entrada
+            Animal.findByIdAndUpdate(atual._id, atual).exec().then(
+                (animal) => {
+                    res.json(animal)
+                },
+                (erro) => {
+                    res.sendStatus(500)
+                    console.log(erro)
+                }
+            )
+        }
+        res.json(atual)
     }
 
     controller.remover = (req, res) => {

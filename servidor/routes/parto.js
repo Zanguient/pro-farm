@@ -1,9 +1,9 @@
 module.exports = (app) => {
   let controller = app.controllers.parto
 
-  app.route('/partos').post(controller.salvar)
-  app.route('/partos/:id').get(controller.buscaUm).delete(controller.remover)
-  app.route('/partos/cobertura/:id').get(controller.buscaUmPelaCobertura)
+  app.route('/api/partos').post(controller.salvar)
+  app.route('/api/partos/:id').get(controller.buscaUm).delete(controller.remover)
+  app.route('/api/partos/cobertura/:id').get(controller.buscaUmPelaCobertura)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken
