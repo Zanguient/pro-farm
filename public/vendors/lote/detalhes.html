@@ -39,11 +39,11 @@
                             <th class="col-xs-4 text-center" colspan="3">Diagnóstico</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="cobertura in coberturas | filter: busca" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal">
-                                <td class="col-xs-8">{{cobertura.animal.codigo}}</td>
-                                <td class="text-center" ng-class="{'danger':cobertura.diagnostico[0].estado == false, 'success':cobertura.diagnostico[0].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[0].estado == null, 'fa-times':cobertura.diagnostico[0].estado == false, 'fa-check':cobertura.diagnostico[0].estado == true}" aria-hidden="true"></i></td>
-                                <td class="text-center" ng-class="{'danger':cobertura.diagnostico[1].estado == false, 'success':cobertura.diagnostico[1].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[1].estado == null, 'fa-times':cobertura.diagnostico[1].estado == false, 'fa-check':cobertura.diagnostico[1].estado == true}" aria-hidden="true"></i></td>
-                                <td class="text-center" ng-class="{'danger':cobertura.diagnostico[2].estado == false, 'success':cobertura.diagnostico[2].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[2].estado == null, 'fa-times':cobertura.diagnostico[2].estado == false, 'fa-check':cobertura.diagnostico[2].estado == true}" aria-hidden="true"></i></td>
+                            <tr ng-repeat="cobertura in coberturas | filter: busca" >
+                                <td class="col-xs-8" ng-click="abrirCobertura(cobertura._id)">{{cobertura.animal.codigo}}</td>
+                                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[0].estado == false, 'success':cobertura.diagnostico[0].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[0].estado == null, 'fa-times':cobertura.diagnostico[0].estado == false, 'fa-check':cobertura.diagnostico[0].estado == true}" aria-hidden="true"></i></td>
+                                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[1].estado == false, 'success':cobertura.diagnostico[1].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[1].estado == null, 'fa-times':cobertura.diagnostico[1].estado == false, 'fa-check':cobertura.diagnostico[1].estado == true}" aria-hidden="true"></i></td>
+                                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[2].estado == false, 'success':cobertura.diagnostico[2].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[2].estado == null, 'fa-times':cobertura.diagnostico[2].estado == false, 'fa-check':cobertura.diagnostico[2].estado == true}" aria-hidden="true"></i></td>
                             </tr>
                         </tbody>
                     </table>

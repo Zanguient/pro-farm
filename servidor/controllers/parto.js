@@ -37,8 +37,36 @@ module.exports = (app) => {
     controller.salvar = (req, res) => {
         let parto = req.body[0]
         let animal = req.body[1]
-        let reprodutora = req.body[2]
-        console.log(req.body);
+        buscarUltimoParto(res, parto, animal)
+    }
+
+    function buscarUltimoParto(res, parto, animal) {
+        Parto.findOne({
+            animal: parto.animal,
+            data: {
+                $lt: parto.data
+            }
+        }, {}, {
+            sort: {
+                'data': -1
+            }
+        }).exec().then(
+            (partoAnterior) => {
+                if (partoAnterior) {
+                    parto.intervalo_parto_anterior = moment(partoAnterior.data).to(moment(parto.data), true);
+                } else {
+                    parto.primeiro = true
+                }
+                persistirParto(res, parto, animal)
+            },
+            (err) => {
+                res.sendStatus(500).json(err)
+                console.log(err)
+            }
+        );
+    }
+
+    function persistirParto(res, parto, animal) {
         if (parto._id) {
             //atualiza o parto
             Parto.findByIdAndUpdate(_id, req.body).exec().then(
@@ -51,63 +79,23 @@ module.exports = (app) => {
                 }
             )
         } else {
-            // cria o parto
-            // Parto.findOne().populate('cobertura', 'animal peso_entrada').sort({
-            //     'data': -1
-            // }).exec().then(
-            //     (partoMaisRecente) => {
-            //         console.log(partoMaisRecente);
-            //         res.sendStatus(200)
-            //         // if (partoMaisRecente) {
-            //         //     parto.intervalo_parto_anterior = parto.data.to(partoMaisRecente.data, true);
-            //         // }
-            //         // persistirParto(res, parto, animal)
-            //     },
-            //     (err) => {
-            //         res.sendStatus(500).json(err)
-            //         console.log(err)
-            //     }
-            // )
-
-            Parto.aggregate(
-                [{
-                    $match: {
-                        cobertura: 400
-                    }
-                }], {
-                    readConcern: {
-                        level: "majority"
-                    }
-                }
-            ).then(
-                (coberturas) => {
-                    console.log(coberturas)
+            Parto.create(parto).then(
+                (novoParto) => {
+                    animal.parto = novoParto._id
+                    persistirAnimal(res, animal, novoParto.animal)
                 },
                 (err) => {
                     res.sendStatus(500).json(err)
                     console.log(err)
                 }
             )
-
-            // Cobertura.find({
-            //     animal: reprodutora
-            // }).select('').exec().then(
-            //     (coberturas) => {
-            //
-            //     },
-            //     (err) => {
-            //         res.sendStatus(500).json(err)
-            //         console.log(err)
-            //     }
-            // )
         }
     }
 
-    function persistirParto(res, parto, animal) {
-        Parto.create(parto).then(
-            (novoParto) => {
-                animal.parto = novoParto._id
-                persistirAnimal(res, animal)
+    function persistirAnimal(res, animal, reprodutora) {
+        Animal.create(animal).then(
+            (novoAnimal) => {
+                modificarGeneroNaReprodutora(res, reprodutora, novoAnimal)
             },
             (err) => {
                 res.sendStatus(500).json(err)
@@ -116,10 +104,27 @@ module.exports = (app) => {
         )
     }
 
-    function persistirAnimal(res, animal) {
-        Animal.create(animal).then(
-            (novoAnimal) => {
-                res.json(novoAnimal)
+    function modificarGeneroNaReprodutora(res, reprodutora, animal) {
+        Animal.findOne({
+            _id: reprodutora
+        }).exec().then(
+            (reprodutora) => {
+                console.log(reprodutora)
+                switch (animal.sexo) {
+                    case 'macho':
+                        reprodutora.machos.push(animal._id)
+                        break;
+                    case 'femea':
+                        reprodutora.femeas.push(animal._id)
+                        break;
+                    default:
+                        (err) => {
+                            res.sendStatus(500).json(err)
+                            console.log(err)
+                        }
+                }
+                reprodutora.save()
+                res.json(animal)
             },
             (err) => {
                 res.sendStatus(500).json(err)

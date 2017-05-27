@@ -1,5 +1,6 @@
 module.exports = (app) => {
     let moment = require('moment')
+    let async = require('async')
     let Animal = app.models.animal
     let controller = {}
 
@@ -28,7 +29,7 @@ module.exports = (app) => {
             'venda.id': null,
             nascimento: {
                 $lt: date_init
-            },  
+            },
             touro: false
         }).select("codigo peso").exec().then(
             (animais) => {
@@ -153,6 +154,64 @@ module.exports = (app) => {
         }).exec().then(
             (animal) => {
                 res.json(animal)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.buscaUmPeloParto = (req, res) => {
+        let id = req.params.id
+        Animal.findOne({
+            parto: id
+        }).select('_id').exec().then(
+            (animal) => {
+                res.json(animal)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
+    controller.buscarFilhos = (req, res) => {
+        let id = req.params.id
+        Animal.findById(id).select('machos femeas').exec().then(
+            (reprodutora) => {
+                let filhos = {
+                    machos: [],
+                    femeas: []
+                }
+                async.eachSeries(reprodutora.machos, (macho, callback) => {
+                    Animal.findOne(macho).select("codigo").exec().then(
+                        (animal) => {
+                            filhos.machos.push(animal)
+                            callback()
+                        },
+                        (erro) => {
+                            res.sendStatus(500).json(erro)
+                            console.log(erro)
+                        }
+                    )
+                }, done = () => {
+                    async.eachSeries(reprodutora.femeas, (femea, callback) => {
+                        Animal.findOne(femea).select("codigo").exec().then(
+                            (animal) => {
+                                filhos.femeas.push(animal)
+                                callback()
+                            },
+                            (erro) => {
+                                res.sendStatus(500).json(erro)
+                                console.log(erro)
+                            }
+                        )
+                    }, done = () => {
+                        res.json(filhos)
+                    })
+                })
             },
             (erro) => {
                 res.sendStatus(500)

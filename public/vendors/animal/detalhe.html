@@ -133,8 +133,11 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Filhos</h3>
             </div>
-            <div class="panel-body text-center">
+            <div class="panel-body text-center" ng-if="filhos.length == 0">
                 <h4><small>Nenhum animal foi vinculado.</small></h4>
+            </div>
+            <div class="list-group"  ng-if="filhos.length > 0">
+                <a href="#/animais/{{filho._id}}/detalhes" class="list-group-item" ng-repeat="filho in filhos | orderBy:'+codigo'">{{filho.codigo | uppercase}}</a>
             </div>
         </div>
     </section>

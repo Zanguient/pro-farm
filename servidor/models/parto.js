@@ -8,17 +8,22 @@ module.exports = () => {
             ref: "Cobertura",
             required: true
         },
+        animal: {
+            type: mongoose.Schema.ObjectId,
+            ref: "Animal",
+            required: true
+        },
         data: {
             type: Date,
             default: Date.now
         },
-        peso_reprodutora_desmama: {
-            type: Number,
-            default: null
+        primeiro: {
+            type: Boolean,
+            default: false
         },
         intervalo_parto_anterior: {
-            type: Number,
-            default: null
+            type: String,
+            default: undefined
         }
     })
 

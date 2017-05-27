@@ -56,6 +56,11 @@
             }, (engorda) => {
                 $scope.engorda = engorda;
             });
+
+            Animal.buscarFilhos($routeParams.idAnimal, (resultados) => {
+                $scope.filhos = resultados.machos.concat(resultados.femeas);
+                console.log($scope.filhos);
+            });
         }
 
         $scope.toggleIdade = () => {

@@ -88,9 +88,9 @@ module.exports = (app) => {
         )
     }
 
-    // function atualizarVaca() {
-    //
-    // }
+    function atualizarVaca(req, res, recria, bezerro) {
+        // let relacao_demama = recria.peso_entrada /
+    }
 
     controller.removeRecriaById = (req, res) => {
         let id = req.params.idRecria;

@@ -73,6 +73,26 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 console.log('Busca de um determinado animal realizado.');
             });
         },
+        buscaUmPeloParto: (parto, callback) => {
+            $http.get('/api/animais/parto/' + parto).then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
+                console.log('Busca de um determinado animal pelo parto realizado.');
+            });
+        },
+        buscarFilhos: (animal, callback) => {
+            $http.get('/api/animais/filhos/' + animal).then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
+                console.log('Busca de filhos do animal foi realizado.');
+            });
+        },
         salvarBezerro: (data, callback) => {
             $http.post('/api/animais/propriedade/' + data.propriedade, data).then(
                 (res) => {

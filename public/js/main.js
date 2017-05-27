@@ -428,6 +428,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                             'js/navbar/NavbarDefaultController.js',
                             'js/cobertura/CoberturaService.js',
                             'js/parto/PartoService.js',
+                            'js/animal/AnimalService.js',
                             'js/cobertura/CoberturaDetalhesController.js'
                         ]
                     });

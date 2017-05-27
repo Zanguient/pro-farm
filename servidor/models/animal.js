@@ -123,12 +123,14 @@ module.exports = () => {
         intervalo_entre_partos: { //reprodutoras
             type: Number
         },
-        machos: { //reprodutoras
-            type: Number
-        },
-        femeas: { //reprodutoras
-            type: Number
-        },
+        machos: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Animal"
+        }],
+        femeas: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Animal"
+        }],
         raca: { //reprodutor
             type: String
         },
