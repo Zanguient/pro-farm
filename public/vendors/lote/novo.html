@@ -18,14 +18,8 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Informações de lote</h3>
                 </div>
-                <form class="form-horizontal" ng-submit="salvar()">
+                <form class="form-horizontal" ng-submit="salvar()" name="formDeLote">
                     <div class="panel-body">
-                        <div class="form-group">
-                            <label for="inputIdentificador" class="col-sm-4 control-label">Identificador</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="inputIdentificador" placeholder="nome do lote" ng-model="lote.codigo">
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label for="inputDataRealizacao" class="col-sm-4 control-label">Realizado em</label>
                             <div class="col-sm-6">
@@ -35,7 +29,7 @@
                         <div class="form-group">
                             <label for="inputIdentificador" class="col-sm-4 control-label">Ação</label>
                             <div class="col-sm-6">
-                                <select class="form-control" ng-model="lote.acao" id="inputIdentificador" required>
+                                <select class="form-control" ng-model="lote.acao" id="inputIdentificador"  ng-change="buscarDeterminadoGrupoDeAnimais(lote.acao)" required>
                                     <option value="">Selecione uma ação</option>
                                     <option value="cobertura">Cobertura</option>
                                     <option value="vacinacao">Vacinação</option>
@@ -43,58 +37,108 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body" ng-if="lote.acao == 'cobertura'">
-                        <div class="container">
-                            <div class="row">
-                                <h4>Informações <small>da cobertura</small></h4>
+                    <!-- inicio grupo para registro de corbertura no lote -->
+                    <div class="panel panel-default"  ng-if="lote.acao == 'cobertura'">
+                        <div class="panel-body">
+                            <div class="container">
+                                <div class="row">
+                                    <h4>Informações <small>da cobertura</small></h4>
+                                </div>
+                                <br>
                             </div>
-                            <br>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputIdentificador" class="col-sm-4 control-label">Tipo</label>
-                            <div class="col-sm-6">
-                                <select class="form-control" ng-model="cobertura.tipo" required>
-                                    <option value="">Selecione um tipo</option>
-                                    <option value="iatf">IATF</option>
-                                    <option value="resync">RESYNC</option>
-                                    <option value="natural">Natural</option>
-                                </select>
+                            <div class="form-group">
+                                <label for="inputIdentificador" class="col-sm-4 control-label">Tipo</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="cobertura.tipo" required>
+                                        <option value="">Selecione um tipo</option>
+                                        <option value="iatf">IATF</option>
+                                        <option value="resync">RESYNC</option>
+                                        <option value="natural">Natural</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" ng-if="cobertura.tipo == 'natural'">
-                            <label for="inputDataFinalMontaNatural" class="col-sm-4 control-label">Finaliza em</label>
-                            <div class="col-sm-6">
-                                <input type="date" class="form-control" id="inputDataFinalMontaNatural" ng-model="cobertura.data_final" required>
+                            <div class="form-group" ng-if="cobertura.tipo == 'natural'">
+                                <label for="inputDataFinalMontaNatural" class="col-sm-4 control-label">Finaliza em</label>
+                                <div class="col-sm-6">
+                                    <input type="date" class="form-control" id="inputDataFinalMontaNatural" ng-model="cobertura.data_final" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
-                            <label for="inputFuncionario" class="col-sm-4 control-label">Responsável</label>
-                            <div class="col-sm-6">
-                                <select class="form-control" id="inputFuncionario" ng-model="cobertura.funcionario" required>
-                                    <option value="">Selecione um responsável</option>
-                                    <option value="{{func._id}}" ng-repeat="func in funcionarios | orderBy : 'nome'">{{func.nome}} {{func.sobrenome}}</option>
-                                </select>
+                            <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
+                                <label for="inputFuncionario" class="col-sm-4 control-label">Responsável</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="inputFuncionario" ng-model="cobertura.funcionario" required>
+                                        <option value="">Selecione um responsável</option>
+                                        <option value="{{func._id}}" ng-repeat="func in funcionarios | orderBy : 'nome'">{{func.nome}} {{func.sobrenome}}</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
-                            <label for="inputSemenDaCobertura" class="col-sm-4 control-label">Sémen</label>
-                            <div class="col-sm-6">
-                                <select class="form-control" id="inputSemenDaCobertura" ng-model="cobertura.semen" required>
-                                    <option value="">Selecione uma raça</option>
-                                    <option value="{{semen._id}}" ng-repeat="semen in semens | orderBy : 'raca'">{{semen.raca}} - {{semen.nome_touro}}</option>
-                                </select>
+                            <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
+                                <label for="inputSemenDaCobertura" class="col-sm-4 control-label">Sémen</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="inputSemenDaCobertura" ng-model="cobertura.semen" required>
+                                        <option value="">Selecione uma raça</option>
+                                        <option value="{{semen._id}}" ng-repeat="semen in semens | orderBy : 'raca'">{{semen.raca}} - {{semen.nome_touro}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <!-- fim grupo para registro de corbertura no lote -->
+                    <!-- inicio grupo para registro de vacinacao no lote -->
+                    <div class="panel panel-default"  ng-if="lote.acao == 'vacinacao'">
+                        <div class="panel-body">
+                            <div class="container">
+                                <div class="row">
+                                    <h4>Informações <small>de vacinação</small></h4>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputIdentificador" class="col-sm-4 control-label">Tipo</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="cobertura.tipo" required>
+                                        <option value="">Selecione um tipo</option>
+                                        <option value="iatf">IATF</option>
+                                        <option value="resync">RESYNC</option>
+                                        <option value="natural">Natural</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="cobertura.tipo == 'natural'">
+                                <label for="inputDataFinalMontaNatural" class="col-sm-4 control-label">Finaliza em</label>
+                                <div class="col-sm-6">
+                                    <input type="date" class="form-control" id="inputDataFinalMontaNatural" ng-model="cobertura.data_final" required>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
+                                <label for="inputFuncionario" class="col-sm-4 control-label">Responsável</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="inputFuncionario" ng-model="cobertura.funcionario" required>
+                                        <option value="">Selecione um responsável</option>
+                                        <option value="{{func._id}}" ng-repeat="func in funcionarios | orderBy : 'nome'">{{func.nome}} {{func.sobrenome}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
+                                <label for="inputSemenDaCobertura" class="col-sm-4 control-label">Sémen</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" id="inputSemenDaCobertura" ng-model="cobertura.semen" required>
+                                        <option value="">Selecione uma raça</option>
+                                        <option value="{{semen._id}}" ng-repeat="semen in semens | orderBy : 'raca'">{{semen.raca}} - {{semen.nome_touro}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fim grupo para registro de vacinacao no lote -->
+                    <div class="panel-body" ng-if="lote.acao">
                         <div class="container">
                             <div class="row">
                                 <h4>Animais <small>relacionados ao lote atual</small></h4>
                             </div>
-                            <br>
                         </div>
-                        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
-                            <table class="table table-bordered table-condensed table-hover" ng-if="animais_selecionados.length > 0">
+                        <div class="col-sm-8 col-sm-offset-2 col-xs-12" ng-if="animais_selecionados.length > 0">
+                            <table class="table table-bordered table-condensed table-hover">
                                 <thead>
                                     <th class="col-xs-9"><i class="fa fa-id-card-o"></i></th>
                                     <th class="col-xs-3 text-center"><i class="fa fa-trash-o"></i></th>
@@ -109,7 +153,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="animais.length > 0">
+                            <br>
                             <label for="inputAnimaisRelacionados" class="col-sm-4 control-label">Selecionar</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="inputAnimaisRelacionados" ng-model="busca" placeholder="digite o codigo do animal" autocomplete="off">
@@ -119,8 +164,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="panel-body text-center" ng-if="animais.length == 0">
+                        <div class="container">
+                            <h3><small>Nenhum animal foi cadastrado no sistema.</small></h3>
+                        </div>
+                    </div>
                     <div class="panel-footer">
-                        <button type="submit" class="btn btn-primary" ng-disabled="buttonBlock" name="button">Salvar</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="formDeLote.$invalid || formDeLote.$pristine" name="button">Salvar</button>
                         <button type="button" class="btn btn-default" ng-click="cancelar()" name="button">Cancelar</button>
                     </div>
                 </form>

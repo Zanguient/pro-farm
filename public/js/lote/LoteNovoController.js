@@ -16,14 +16,33 @@ angular.module('profarm').controller('LoteNovoController', function($routeParams
         });
     });
 
-    Animal.paraCobertura($localStorage.propriedade._id, (resultado) => {
-        $scope.animais = resultado;
-        console.log(resultado);
-    });
-
     Funcionario.todosJuntos($localStorage.propriedade._id, (result) => {
         $scope.funcionarios = result;
     });
+
+    $scope.buscarDeterminadoGrupoDeAnimais = (tipo) => {
+        if ($scope.animais_selecionados.length > 0) {
+            if (confirm("Os animais selecionados na " + tipo + " serão removidos da lista. Deseja continuar?")) {
+                $scope.animais_selecionados = [];
+                $scope.busca = '';
+                buscarAnimais(tipo);
+            }
+        } else {
+            buscarAnimais(tipo);
+        }
+    };
+
+    function buscarAnimais(tipo) {
+        if (angular.equals(tipo, "cobertura")) {
+            Animal.paraCobertura($localStorage.propriedade._id, (resultado) => {
+                $scope.animais = resultado;
+            });
+        } else {
+            Animal.todos($localStorage.propriedade._id, (resultado) => {
+                $scope.animais = resultado;
+            })
+        }
+    }
 
     $scope.closeAlert = (index) => {
         $scope.alerts.splice(index, 1);

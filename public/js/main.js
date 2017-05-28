@@ -436,6 +436,26 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
             }
         })
 
+        // SANIDADE ANIMAL
+        $routeProvider.when('/sanidade', {
+            controller: 'PropriedadeSanidadeController',
+            templateUrl: 'vendors/propriedade/sanidade.html',
+            resolve: {
+                lazy: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        serie: true,
+                        files: [
+                            'js/usuario/UsuarioService.js',
+                            'js/usuario/UsuarioFactory.js',
+                            'js/navbar/NavbarDefaultController.js',
+                            'js/propriedade/SanidadeService.js',
+                            'js/propriedade/PropriedadeSanidadeController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
         // ERROS
         $routeProvider.when('/500', {
             templateUrl: 'vendors/sistema/500.html'

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<div data-ng-include="'vendors/navbar/default.html'"></div>
+<div class="container-fluid">
+    <section ng-if="alerts.length > 0" id="alerts">
+        <div class="col-xs-12">
+            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <ol class="breadcrumb">
+            <li><a href="#/propriedade/index">Início</a></li>
+            <li class="active">Sanidade animal</li>
+        </ol>
+    </section>
+    <section>
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Geral</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" ng-class="{'active':opcao == 'aplicacoes'}"><a href ng-click="irPara('aplicacoes')">Aplicações</a></li>
+                        <li role="presentation" ng-class="{'active':opcao == 'produtos'}"><a href ng-click="irPara('produtos')">Produtos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9" ng-if="opcao == 'aplicacoes'">
+            <ol class="breadcrumb">
+                <li><a href="#/propriedade/index">Aplicações</a></li>
+                <li class="active">Listagem</li>
+            </ol>
+        </div>
+        <div class="col-lg-9" ng-if="opcao == 'produtos'">
+            <ol class="breadcrumb">
+                <li><a href="#/propriedade/index">Produtos</a></li>
+                <li class="active">Listagem</li>
+            </ol>
+            <section>
+                <div class="panel panel-default">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">{{produtos.length}} produto(s) cadastrado(s)</h3>
+                        <span class="pull-right"><button type="button" class="btn btn-primary btn-sm" ng-click="novo()" data-toggle="modal" data-target="#abrirProduto"><i class="fa fa-plus"></i></button></span>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <th class="col-xs-4">Nome</th>
+                            <th class="col-xs-4 text-center hidden-xs">Empresa</th>
+                            <th class="col-xs-3 text-center">Tipo</th>
+                            <th class="col-xs-1 text-center"><i class="fa fa-cog"></i></th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="produto in produtos | orderBy:'nome'">
+                                <td class="col-xs-4">{{produto.nome}} <button type="button" class="btn btn-default btn-xs" ng-if="produto.foto" ng-click="abrirImagem(produto)" data-toggle="modal" data-target="#abrirImagemDoProduto" title="Visualizar imagem do produto"><i class="fa fa-file-image-o"></i></button> <button type="button" class="btn btn-default btn-xs" ng-if="produto.bula" ng-click="abrirBula(produto.bula)" title="Abrir bula do produto"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button></td>
+                                <td class="col-xs-4 text-center hidden-xs">{{produto.empresa}}</td>
+                                <td class="col-xs-3 text-center">{{produto.tipo}}</td>
+                                <td class="col-xs-4 text-center"><button type="button" class="btn btn-primary btn-xs" ng-click="abrir(produto._id)" data-toggle="modal" data-target="#abrirProduto" title="Visualizar informações do produto">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </section>
+</div>
+
+<!-- Modal para abrir uma imagem do produto -->
+<div class="modal fade" id="abrirImagemDoProduto" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{imagem_a_exibir.nome}} / {{imagem_a_exibir.empresa}}</h4>
+            </div>
+            <div class="modal-body">
+                <a href data-dismiss="modal" class="thumbnail">
+                    <img src="{{imagem_a_exibir.url}}">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal abrir produto -->
+<div class="modal fade" id="abrirProduto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{titleModal}}</h4>
+            </div>
+            <form class="form form-horizontal" ng-submit="salvar()" name="formDoProduto">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputNomeDoProduto" class="control-label col-md-4 col-sm-5">Nome</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input type="text" class="form-control" id="inputNomeDoProduto" ng-model="produtoSelecionado.nome" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNomeDaFabricante" class="control-label col-md-4 col-sm-5">Fabricante</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input type="text" class="form-control" id="inputNomeDaFabricante" ng-model="produtoSelecionado.empresa" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTipoDoProduto" class="control-label col-md-4 col-sm-5">Tipo</label>
+                        <div class="col-md-5 col-sm-6">
+                            <select type="text" class="form-control" id="inputTipoDoProduto" ng-model="produtoSelecionado.tipo" required>
+                                <option value="">Selecione uma opção</option>
+                                <option value="Antiparasitários">Antiparasitários</option>
+                                <option value="Nutricionais">Nutricionais</option>
+                                <option value="Reprodutivos">Reprodutivos</option>
+                                <option value="Suplementos">Suplementos</option>
+                                <option value="Terapêuticos">Terapêuticos</option>
+                                <option value="Vacina">Vacina</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFormula" class="control-label col-md-4 col-sm-5">Formula</label>
+                        <div class="col-md-5 col-sm-6">
+                            <textarea class="form-control" id="inputFormula" rows="4" style="resize:none;" placeholder="descrição da formula do produto" ng-model="produtoSelecionado.formula"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputIndicacao" class="control-label col-md-4 col-sm-5">Indicação</label>
+                        <div class="col-md-5 col-sm-6">
+                            <textarea class="form-control" id="inputIndicacao" rows="4" style="resize:none;" placeholder="indicação do produto" ng-model="produtoSelecionado.indicacao" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDosagem" class="control-label col-md-4 col-sm-5">Modo de usar</label>
+                        <div class="col-md-5 col-sm-6">
+                            <textarea class="form-control" id="inputDosagem" rows="4" style="resize:none;" placeholder="instruções de uso do produto" ng-model="produtoSelecionado.dosagem" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPeriodoAplicacao" class="control-label col-md-4 col-sm-5">Período de aplicação</label>
+                        <div class="col-md-5 col-sm-6">
+                            <textarea class="form-control" id="inputPeriodoAplicacao" rows="4" style="resize:none;" placeholder="regras de período de aplicação para o produto" ng-model="produtoSelecionado.periodo_aplicacao" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUrlDaBula" class="control-label col-md-4 col-sm-5">URL da bula</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input type="text" class="form-control" id="inputUrlDaBula" ng-model="produtoSelecionado.bula" placeholder="http://www.google.com.br" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUrlFoto" class="control-label col-md-4 col-sm-5">URL da foto</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input type="text" class="form-control" id="inputUrlFoto" ng-model="produtoSelecionado.foto" placeholder="http://www.google.com.br" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUrlEmpresa" class="control-label col-md-4 col-sm-5">URL da empresa</label>
+                        <div class="col-md-5 col-sm-6">
+                            <input type="text" class="form-control" id="inputUrlEmpresa" ng-model="produtoSelecionado.url" placeholder="http://www.google.com.br" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" ng-if="!produtoSelecionado.admin" ng-disabled="formDoProduto.$invalid || formDoProduto.$pristine">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
