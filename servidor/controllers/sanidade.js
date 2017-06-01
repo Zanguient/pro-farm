@@ -1,39 +1,20 @@
 module.exports = (app) => {
-    let Produto = app.models.produto
+    let Sanidade = app.models.sanidade
     // let moment = require('moment')
     // let async = require('async')
     let controller = {}
 
     controller.all = (req, res) => {
         let prop = req.params.propriedade
-        Produto.find({
+        Sanidade.find({
             $or: [{
                 propriedade: prop
             }, {
                 propriedade: null
             }]
-        }).select('nome empresa tipo foto bula').exec().then(
-            (produtos) => {
-                res.json(produtos)
-            },
-            (err) => {
-                res.sendStatus(500).json(err)
-                console.log(err)
-            }
-        )
-    }
-
-    controller.allParaAdicionarNasAplicacoes = (req, res) => {
-        let prop = req.params.propriedade
-        Produto.find({
-            $or: [{
-                propriedade: prop
-            }, {
-                propriedade: null
-            }]
-        }).select('nome empresa').exec().then(
-            (produtos) => {
-                res.json(produtos)
+        }).exec().then(
+            (sanidades) => {
+                res.json(sanidades)
             },
             (err) => {
                 res.sendStatus(500).json(err)
@@ -44,14 +25,14 @@ module.exports = (app) => {
 
     controller.persist = (req, res) => {
         // if (req.body.admin) {
-        //     res.sendStatus(300).json("Não é permitido alterar as informações deste produto.")
+        //     res.sendStatus(300).json("Não é permitido alterar as informações deste sanidade.")
         // } else {
         //     let id = req.body._id
         //     if (id) {
         //         //atualizar
-        //         Produto.findByIdAndUpdate(id, req.body).exec().then(
-        //             (produto) => {
-        //                 res.json(produto)
+        //         Sanidade.findByIdAndUpdate(id, req.body).exec().then(
+        //             (sanidade) => {
+        //                 res.json(sanidade)
         //             },
         //             (err) => {
         //                 res.sendStatus(500).json(err)
@@ -60,9 +41,9 @@ module.exports = (app) => {
         //         )
         //     } else {
         //         //criar
-        //         Produto.create(req.body).then(
-        //             (produto) => {
-        //                 res.json(produto)
+        //         Sanidade.create(req.body).then(
+        //             (sanidade) => {
+        //                 res.json(sanidade)
         //             },
         //             (err) => {
         //                 res.sendStatus(500).json(err)
@@ -74,9 +55,9 @@ module.exports = (app) => {
         let id = req.body._id
         if (id) {
             //atualizar
-            Produto.findByIdAndUpdate(id, req.body).exec().then(
-                (produto) => {
-                    res.json(produto)
+            Sanidade.findByIdAndUpdate(id, req.body).exec().then(
+                (sanidade) => {
+                    res.json(sanidade)
                 },
                 (err) => {
                     res.sendStatus(500).json(err)
@@ -85,9 +66,9 @@ module.exports = (app) => {
             )
         } else {
             //criar
-            Produto.create(req.body).then(
-                (produto) => {
-                    res.json(produto)
+            Sanidade.create(req.body).then(
+                (sanidade) => {
+                    res.json(sanidade)
                 },
                 (err) => {
                     res.sendStatus(500).json(err)
@@ -100,11 +81,11 @@ module.exports = (app) => {
     controller.getOne = (req, res) => {
         // get by id
         let id = req.params.id
-        Produto.findOne({
+        Sanidade.findOne({
             _id: id
         }).exec().then(
-            (produto) => {
-                res.json(produto)
+            (sanidade) => {
+                res.json(sanidade)
             },
             (err) => {
                 res.sendStatus(500).json(err)
@@ -118,7 +99,7 @@ module.exports = (app) => {
         let id = req.params.id
         let prop = req.params.propriedade
         Lote.findByIdAndRemove(id).where('propriedade').equals(prop).where('admin').equals(false).exec().then(
-            (produto) => {
+            (sanidade) => {
                 res.sendStatus(200)
             },
             (err) => {

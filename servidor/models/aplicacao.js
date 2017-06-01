@@ -8,7 +8,7 @@ module.exports = () => {
             ref: "Propriedade",
             default: null
         },
-        produto: [{
+        produtosRelacionados: [{
             type: mongoose.Schema.ObjectId,
             ref: "Produto",
             required: true
@@ -25,6 +25,10 @@ module.exports = () => {
             type: String,
             default: undefined
         },
+        estado: {
+            type: String,
+            default: null
+        },
         nome: {
             type: String,
             required: true
@@ -32,8 +36,12 @@ module.exports = () => {
         admin: {
             type: Boolean,
             default: false
+        },
+        indeterminado: {
+            type: Boolean,
+            default: false
         }
     })
 
-    return mongoose.model('Vacina', schema, 'vacinas')
+    return mongoose.model('Aplicacao', schema, 'aplicacoes')
 }

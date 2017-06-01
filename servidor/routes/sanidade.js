@@ -1,9 +1,8 @@
 module.exports = (app) => {
-  var controller = app.controllers.produto;
+  var controller = app.controllers.sanidade;
 
-  app.route('/api/produtos/:propriedade').get(controller.all).post(controller.persist)
-  app.route('/api/produtos/:propriedade/id/:id').get(controller.getOne).delete(controller.remove)
-  app.route('/api/produtos/aplicacoes/:propriedade').get(controller.allParaAdicionarNasAplicacoes)
+  app.route('/api/sanidades/:propriedade').get(controller.all).post(controller.persist)
+  app.route('/api/sanidades/:propriedade/id/:id').get(controller.getOne).delete(controller.remove)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken;

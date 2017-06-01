@@ -1,39 +1,20 @@
 module.exports = (app) => {
-    let Produto = app.models.produto
+    let Aplicacao = app.models.aplicacao
     // let moment = require('moment')
     // let async = require('async')
     let controller = {}
 
     controller.all = (req, res) => {
         let prop = req.params.propriedade
-        Produto.find({
+        Aplicacao.find({
             $or: [{
                 propriedade: prop
             }, {
                 propriedade: null
             }]
-        }).select('nome empresa tipo foto bula').exec().then(
-            (produtos) => {
-                res.json(produtos)
-            },
-            (err) => {
-                res.sendStatus(500).json(err)
-                console.log(err)
-            }
-        )
-    }
-
-    controller.allParaAdicionarNasAplicacoes = (req, res) => {
-        let prop = req.params.propriedade
-        Produto.find({
-            $or: [{
-                propriedade: prop
-            }, {
-                propriedade: null
-            }]
-        }).select('nome empresa').exec().then(
-            (produtos) => {
-                res.json(produtos)
+        }).select('nome inicio fim').exec().then(
+            (aplicacoes) => {
+                res.json(aplicacoes)
             },
             (err) => {
                 res.sendStatus(500).json(err)
@@ -44,14 +25,14 @@ module.exports = (app) => {
 
     controller.persist = (req, res) => {
         // if (req.body.admin) {
-        //     res.sendStatus(300).json("Não é permitido alterar as informações deste produto.")
+        //     res.sendStatus(300).json("Não é permitido alterar as informações deste aplicacao.")
         // } else {
         //     let id = req.body._id
         //     if (id) {
         //         //atualizar
-        //         Produto.findByIdAndUpdate(id, req.body).exec().then(
-        //             (produto) => {
-        //                 res.json(produto)
+        //         Aplicacao.findByIdAndUpdate(id, req.body).exec().then(
+        //             (aplicacao) => {
+        //                 res.json(aplicacao)
         //             },
         //             (err) => {
         //                 res.sendStatus(500).json(err)
@@ -60,9 +41,9 @@ module.exports = (app) => {
         //         )
         //     } else {
         //         //criar
-        //         Produto.create(req.body).then(
-        //             (produto) => {
-        //                 res.json(produto)
+        //         Aplicacao.create(req.body).then(
+        //             (aplicacao) => {
+        //                 res.json(aplicacao)
         //             },
         //             (err) => {
         //                 res.sendStatus(500).json(err)
@@ -74,9 +55,9 @@ module.exports = (app) => {
         let id = req.body._id
         if (id) {
             //atualizar
-            Produto.findByIdAndUpdate(id, req.body).exec().then(
-                (produto) => {
-                    res.json(produto)
+            Aplicacao.findByIdAndUpdate(id, req.body).exec().then(
+                (aplicacao) => {
+                    res.json(aplicacao)
                 },
                 (err) => {
                     res.sendStatus(500).json(err)
@@ -85,9 +66,9 @@ module.exports = (app) => {
             )
         } else {
             //criar
-            Produto.create(req.body).then(
-                (produto) => {
-                    res.json(produto)
+            Aplicacao.create(req.body).then(
+                (aplicacao) => {
+                    res.json(aplicacao)
                 },
                 (err) => {
                     res.sendStatus(500).json(err)
@@ -100,11 +81,11 @@ module.exports = (app) => {
     controller.getOne = (req, res) => {
         // get by id
         let id = req.params.id
-        Produto.findOne({
+        Aplicacao.findOne({
             _id: id
         }).exec().then(
-            (produto) => {
-                res.json(produto)
+            (aplicacao) => {
+                res.json(aplicacao)
             },
             (err) => {
                 res.sendStatus(500).json(err)
@@ -118,7 +99,7 @@ module.exports = (app) => {
         let id = req.params.id
         let prop = req.params.propriedade
         Lote.findByIdAndRemove(id).where('propriedade').equals(prop).where('admin').equals(false).exec().then(
-            (produto) => {
+            (aplicacao) => {
                 res.sendStatus(200)
             },
             (err) => {
