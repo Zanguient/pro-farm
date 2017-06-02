@@ -23,6 +23,21 @@ module.exports = (app) => {
         )
     }
 
+    controller.porLote = (req, res) => {
+        let lote = req.params.lote
+        Sanidade.find({
+            'lote': lote
+        }).populate('animal').exec().then(
+            (sanidades) => {
+                res.json(sanidades)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
     controller.persist = (req, res) => {
         // if (req.body.admin) {
         //     res.sendStatus(300).json("Não é permitido alterar as informações deste sanidade.")

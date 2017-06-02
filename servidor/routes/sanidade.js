@@ -2,6 +2,7 @@ module.exports = (app) => {
   var controller = app.controllers.sanidade;
 
   app.route('/api/sanidades/:propriedade').get(controller.all).post(controller.persist)
+  app.route('/api/sanidades/lote/id/:lote').get(controller.porLote)
   app.route('/api/sanidades/:propriedade/id/:id').get(controller.getOne).delete(controller.remove)
 
   // function ensureAuthorized(req, res, next) {

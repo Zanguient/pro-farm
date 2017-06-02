@@ -26,10 +26,10 @@ module.exports = () => {
       type: String,
       default: undefined
     },
-    produtosAplicados: {
+    produtosAplicados: [{
       type: String,
       default: null
-    }
+    }]
   })
 
   return mongoose.model('Sanidade', schema, 'sanidades')

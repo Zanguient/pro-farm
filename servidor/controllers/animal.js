@@ -108,6 +108,22 @@ module.exports = (app) => {
         )
     }
 
+    controller.getTouros = (req, res) => {
+        let propriedade = req.params.propriedade
+        Animal.find({
+            propriedade: propriedade,
+            touro: true
+        }).select("codigo sexo").exec().then(
+            (animais) => {
+                res.json(animais)
+            },
+            (erro) => {
+                res.sendStatus(500)
+                console.log(erro)
+            }
+        )
+    }
+
     controller.getBoisVacas = (req, res) => {
         let date_init = moment().subtract(36, 'months')
         let propriedade = req.params.propriedade

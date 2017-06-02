@@ -60,6 +60,16 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 console.log('Busca de animais acima de 36 meses realizado.');
             });
         },
+        getTouros: (propriedade, callback) => {
+            $http.get('/api/animais/propriedade/' + propriedade._id + '/touros').then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
+                console.log('Busca de touros realizado.');
+            });
+        },
         buscar: (data, callback) => {
             $http.get('/api/animais/propriedade/' + data.propriedade._id + '/_id/' + data.animal._id).then((res) => {
                 if (res.data.nascimento) {

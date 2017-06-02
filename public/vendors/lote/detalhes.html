@@ -1,116 +1,205 @@
 <!DOCTYPE html>
 <div data-ng-include="'vendors/navbar/default.html'"></div>
 <div class="container-fluid">
-    <section ng-if="alerts.length > 0" id="alerts">
-        <div class="col-xs-12">
-            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
-                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
-            </div>
+  <section ng-if="alerts.length > 0" id="alerts">
+    <div class="col-xs-12">
+      <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+        <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+      </div>
+    </div>
+  </section>
+  <section ng-if="lote.acao == 'cobertura'">
+    <div class="row">
+      <div class="col-lg-2 col-lg-push-2 col-md-3 col-sm-4">
+        <div class="thumbnail">
+          <div class="text-center">
+            <qrcode data="{{lote._id}}" size="180"></qrcode>
+          </div>
+          <div class="caption">
+            <h5><small>#{{lote._id}}</small></h5>
+            <p><i class="fa fa-calendar" aria-hidden="true"></i> {{lote.data | date:'dd/MM/yy'}}</p>
+            <p><i class="fa fa-sticky-note-o" aria-hidden="true"></i> {{lote.acao | uppercase}}</p>
+            <!-- <p><a href="#" class="btn btn-warning btn-sm" role="button">Editar</a> <a href="#" class="btn btn-danger btn-sm" role="button">Excluir</a></p> -->
+          </div>
         </div>
-    </section>
-    <section>
-        <div class="row">
-            <div class="col-lg-2 col-lg-push-2 col-md-3 col-sm-4">
-                <div class="thumbnail">
-                    <div class="text-center">
-                        <qrcode data="{{lote._id}}" size="180"></qrcode>
-                    </div>
-                    <div class="caption">
-                        <h5><small>#{{lote._id}}</small></h5>
-                        <p><i class="fa fa-calendar" aria-hidden="true"></i> {{lote.data | date:'dd/MM/yy'}}</p>
-                        <p><i class="fa fa-sticky-note-o" aria-hidden="true"></i> {{lote.acao | uppercase}}</p>
-                        <p><a href="#" class="btn btn-warning btn-sm" role="button">Editar</a> <a href="#" class="btn btn-danger btn-sm" role="button">Excluir</a></p>
-                    </div>
-                </div>
+      </div>
+      <div class="col-lg-6 col-lg-push-2 col-md-9 col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Animais registrados</h3>
+          </div>
+          <div class="panel-body hidden-print">
+            <div class="col-sm-6 col-xs-12">
+              <input type="text" class="form-control" id="inputBuscaCodigoAnimal" ng-model="busca.animal.codigo" placeholder="código do animal">
             </div>
-            <div class="col-lg-6 col-lg-push-2 col-md-9 col-sm-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Animais registrados</h3>
-                    </div>
-                    <div class="panel-body hidden-print">
-                        <div class="col-sm-6 col-xs-12">
-                            <input type="text" class="form-control" id="inputBuscaCodigoAnimal" ng-model="busca.animal.codigo" placeholder="código do animal">
-                        </div>
-                    </div>
-                    <table class="table table-bordered">
-                        <thead>
-                            <th class="col-xs-8">Codigo</th>
-                            <th class="col-xs-4 text-center" colspan="3">Diagnóstico</th>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="cobertura in coberturas | filter: busca" >
-                                <td class="col-xs-8" ng-click="abrirCobertura(cobertura._id)">{{cobertura.animal.codigo}}</td>
-                                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[0].estado == false, 'success':cobertura.diagnostico[0].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[0].estado == null, 'fa-times':cobertura.diagnostico[0].estado == false, 'fa-check':cobertura.diagnostico[0].estado == true}" aria-hidden="true"></i></td>
-                                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[1].estado == false, 'success':cobertura.diagnostico[1].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[1].estado == null, 'fa-times':cobertura.diagnostico[1].estado == false, 'fa-check':cobertura.diagnostico[1].estado == true}" aria-hidden="true"></i></td>
-                                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[2].estado == false, 'success':cobertura.diagnostico[2].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[2].estado == null, 'fa-times':cobertura.diagnostico[2].estado == false, 'fa-check':cobertura.diagnostico[2].estado == true}" aria-hidden="true"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <th class="col-xs-8">Codigo</th>
+              <th class="col-xs-4 text-center" colspan="3">Diagnóstico</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="cobertura in coberturas | filter: busca">
+                <td class="col-xs-8" ng-click="abrirCobertura(cobertura._id)">{{cobertura.animal.codigo}}</td>
+                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[0].estado == false, 'success':cobertura.diagnostico[0].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[0].estado == null, 'fa-times':cobertura.diagnostico[0].estado == false, 'fa-check':cobertura.diagnostico[0].estado == true}" aria-hidden="true"></i></td>
+                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[1].estado == false, 'success':cobertura.diagnostico[1].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[1].estado == null, 'fa-times':cobertura.diagnostico[1].estado == false, 'fa-check':cobertura.diagnostico[1].estado == true}" aria-hidden="true"></i></td>
+                <td class="text-center" ng-click="abrirDiagnosticos(cobertura)" data-toggle="modal" data-target="#myModal" ng-class="{'danger':cobertura.diagnostico[2].estado == false, 'success':cobertura.diagnostico[2].estado == true}"><i class="fa" ng-class="{'fa-square-o':cobertura.diagnostico[2].estado == null, 'fa-times':cobertura.diagnostico[2].estado == false, 'fa-check':cobertura.diagnostico[2].estado == true}" aria-hidden="true"></i></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
+  <section ng-if="lote.acao == 'sanidade'">
+    <div class="row">
+      <div class="col-lg-2 col-lg-push-2 col-md-3 col-sm-4">
+        <div class="thumbnail">
+          <div class="text-center">
+            <qrcode data="{{lote._id}}" size="180"></qrcode>
+          </div>
+          <div class="caption">
+            <h5><small>#{{lote._id}}</small></h5>
+            <p><i class="fa fa-calendar" aria-hidden="true"></i> {{lote.data | date:'dd/MM/yy'}}</p>
+            <p><i class="fa fa-sticky-note-o" aria-hidden="true"></i> {{lote.acao | uppercase}}</p>
+            <!-- <p><a href="#" class="btn btn-warning btn-sm" role="button">Editar</a> <a href="#" class="btn btn-danger btn-sm" role="button">Excluir</a></p> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-lg-push-2 col-md-9 col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Produtos relacionados ao lote</h3>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <th class="col-xs-6">Nome</th>
+              <th class="col-xs-6 text-center">Empresa</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="prodDoLote in produtos">
+                <td class="col-xs-6">{{prodDoLote.nome}}</td>
+                <td class="col-xs-6 text-center">{{prodDoLote.empresa}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Animais cadastrados</h3>
+          </div>
+          <div class="panel-body hidden-print">
+            <div class="col-sm-6 col-xs-12">
+              <input type="text" class="form-control" id="inputBuscaCodigoAnimal" ng-model="busca.animal.codigo" placeholder="código do animal">
+            </div>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <th class="col-xs-7">Codigo</th>
+              <th class="col-xs-5 text-center">Diagnóstico</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="sanidade in sanidades | filter: busca" data-toggle="modal" data-target="#sanidadeDoAnimal" ng-click="abrirAplicacoesDoAnimal(sanidade)">
+                <td class="col-xs-7">{{sanidade.animal.codigo}}</td>
+                <td class="col-xs-5 text-center" ng-class="{'danger':sanidade.produtosAplicados.length == 0, 'success':sanidade.produtosAplicados.length > 0}">
+                  <span ng-if="sanidade.produtosAplicados.length == 0">Não aplicado</span><span ng-if="sanidade.produtosAplicados.length > 0">{{sanidade.produtosAplicados.length}} aplicação(ões)</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Diagnósticos <span ng-if="edicao">do animal {{animalSelecionado}}</span></h4>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Diagnósticos <span ng-if="edicao">do animal {{animalSelecionado}}</span></h4>
+      </div>
+      <div class="modal-body" ng-if="edicao">
+        <ul class="nav nav-pills">
+          <li role="presentation" ng-class="{active: primeiro}" ng-click="primeiroExame()" ng-disabled="edicao"><a href>1°<span class="hidden-xs"> Exame</span> <span class="badge" ng-if="!coberturaAtual.diagnostico[0]._id">Novo</span></a></li>
+          <li role="presentation" ng-class="{active: segundo}" ng-if="coberturaAtual.diagnostico[0]._id && !coberturaAtual.diagnostico[0].estado" ng-disabled="edicao" ng-click="segundoExame()"><a href>2°<span class="hidden-xs"> Exame</span> <span class="badge" ng-if="!coberturaAtual.diagnostico[1]._id">Novo</span></a></li>
+          <li role="presentation" ng-class="{active: terceiro}" ng-if="coberturaAtual.diagnostico[1]._id && !coberturaAtual.diagnostico[1].estado" ng-disabled="edicao" ng-click="terceiroExame()"><a href>3°<span class="hidden-xs"> Exame</span> <span class="badge" ng-if="!coberturaAtual.diagnostico[2]._id">Novo</span></a></li>
+        </ul>
+      </div>
+      <form class="form form-horizontal" ng-if="edicao" ng-submit="salvarDiag(formDeDiagnosticos)" name="formDeDiagnosticos">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="inputDataDoDiagnostico" class="control-label col-md-4 col-sm-5">Realizado em</label>
+            <div class="col-md-5 col-sm-6">
+              <input type="date" class="form-control" id="inputDataDoDiagnostico" ng-model="diagAtual.data" required>
             </div>
-            <div class="modal-body" ng-if="edicao">
-                <ul class="nav nav-pills">
-                    <li role="presentation" ng-class="{active: primeiro}" ng-click="primeiroExame()" ng-disabled="edicao"><a href>1°<span class="hidden-xs"> Exame</span> <span class="badge" ng-if="!coberturaAtual.diagnostico[0]._id">Novo</span></a></li>
-                    <li role="presentation" ng-class="{active: segundo}" ng-if="coberturaAtual.diagnostico[0]._id && !coberturaAtual.diagnostico[0].estado" ng-disabled="edicao" ng-click="segundoExame()"><a href>2°<span class="hidden-xs"> Exame</span> <span class="badge" ng-if="!coberturaAtual.diagnostico[1]._id">Novo</span></a></li>
-                    <li role="presentation" ng-class="{active: terceiro}" ng-if="coberturaAtual.diagnostico[1]._id && !coberturaAtual.diagnostico[1].estado" ng-disabled="edicao" ng-click="terceiroExame()"><a href>3°<span class="hidden-xs"> Exame</span> <span class="badge" ng-if="!coberturaAtual.diagnostico[2]._id">Novo</span></a></li>
-                </ul>
-            </div>
-            <form class="form form-horizontal" ng-if="edicao" ng-submit="salvarDiag(formDeDiagnosticos)" name="formDeDiagnosticos">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="inputDataDoDiagnostico" class="control-label col-md-4 col-sm-5">Realizado em</label>
-                        <div class="col-md-5 col-sm-6">
-                            <input type="date" class="form-control" id="inputDataDoDiagnostico" ng-model="diagAtual.data" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputTipoDoDiagnostico" class="control-label col-md-4 col-sm-5">Método</label>
-                        <div class="col-md-5 col-sm-6">
-                            <select class="form-control" ng-model="diagAtual.tipo" required>
+          </div>
+          <div class="form-group">
+            <label for="inputTipoDoDiagnostico" class="control-label col-md-4 col-sm-5">Método</label>
+            <div class="col-md-5 col-sm-6">
+              <select class="form-control" ng-model="diagAtual.tipo" required>
                   <option value="">Selecione um método</option>
                   <option value="Ultrassom">Ultrassonografia</option>
                   <option value="toque">Palpação retal</option>
                 </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
-                            <div class="checkbox">
-                                <label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-4">
+              <div class="checkbox">
+                <label>
                     <input type="checkbox" ng-model="diagAtual.estado"> Prenha
                   </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" ng-disabled="formDeDiagnosticos.$invalid || formDeDiagnosticos.$pristine">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" ng-disabled="formDeDiagnosticos.$invalid || formDeDiagnosticos.$pristine">
               Salvar
             </button>
-                    <button type="button" class="btn btn-warning" ng-if="diagAtual.estado && !edicao">
+          <button type="button" class="btn btn-warning" ng-if="diagAtual.estado && !edicao">
               Registrar parto
             </button>
-                    <button type="button" class="btn btn-danger" ng-click="removerDiag()" ng-if="diagAtual._id != null">
+          <button type="button" class="btn btn-danger" ng-click="removerDiag()" ng-if="diagAtual._id != null">
               Excluir
             </button>
-                    <button type="button" class="btn btn-default" ng-click="cancelar()">
+          <button type="button" class="btn btn-default" ng-click="cancelar()">
               Cancelar
             </button>
-                </div>
-            </form>
         </div>
+      </form>
     </div>
+  </div>
+</div>
+
+<!-- Modal de Sanidade-->
+<div class="modal fade" id="sanidadeDoAnimal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Informações de sanidade</h4>
+      </div>
+      <form class="form form-horizontal" ng-submit="salvarAplicacao()" name="formDeAplicacoes">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="inputProdutosNaSanidade" class="control-label col-md-4 col-sm-5">Produtos aplicados</label>
+            <div class="col-md-5 col-sm-6">
+              <select multiple class="form-control" id="inputProdutosNaSanidade" ng-model="produtosAplicados" required>
+                <option ng-value="prod._id" ng-repeat="prod in produtos | orderBy: '+empresa'">{{prod.empresa}} - {{prod.nome}}</option>
+              </select>
+              <p class="help-block">{{produtosAplicados.length}} produto(s) selecionado(s).</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="formDeAplicacoes.$invalid || formDeAplicacoes.$pristine">Salvar alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

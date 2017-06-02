@@ -32,7 +32,7 @@
                                 <select class="form-control" ng-model="lote.acao" id="inputIdentificador"  ng-change="buscarDeterminadoGrupoDeAnimais(lote.acao)" required>
                                     <option value="">Selecione uma ação</option>
                                     <option value="cobertura">Cobertura</option>
-                                    <option value="vacinacao">Aplicação</option>
+                                    <option value="sanidade">Sanidade animal</option>
                                 </select>
                             </div>
                         </div>
@@ -84,60 +84,60 @@
                         </div>
                     </div>
                     <!-- fim grupo para registro de corbertura no lote -->
-                    <!-- inicio grupo para registro de vacinacao no lote -->
-                    <div class="panel panel-default"  ng-if="lote.acao == 'vacinacao'">
+                    <!-- inicio grupo para registro de sanidade no lote -->
+                    <div class="panel panel-default"  ng-if="lote.acao == 'sanidade'">
                         <div class="panel-body">
                             <div class="container">
                                 <div class="row">
-                                    <h4>Informações <small>de vacinação</small></h4>
+                                    <h4>Informações <small>de sanidade</small></h4>
                                 </div>
                                 <br>
                             </div>
                             <div class="form-group">
-                                <label for="inputIdentificador" class="col-sm-4 control-label">Tipo</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" ng-model="cobertura.tipo" required>
-                                        <option value="">Selecione um tipo</option>
-                                        <option value="iatf">IATF</option>
-                                        <option value="resync">RESYNC</option>
-                                        <option value="natural">Natural</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group" ng-if="cobertura.tipo == 'natural'">
-                                <label for="inputDataFinalMontaNatural" class="col-sm-4 control-label">Finaliza em</label>
-                                <div class="col-sm-6">
-                                    <input type="date" class="form-control" id="inputDataFinalMontaNatural" ng-model="cobertura.data_final" required>
-                                </div>
-                            </div>
-                            <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
                                 <label for="inputFuncionario" class="col-sm-4 control-label">Responsável</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="inputFuncionario" ng-model="cobertura.funcionario" required>
+                                    <select class="form-control" id="inputFuncionario" ng-model="sanidade.funcionario" required>
                                         <option value="">Selecione um responsável</option>
                                         <option value="{{func._id}}" ng-repeat="func in funcionarios | orderBy : 'nome'">{{func.nome}} {{func.sobrenome}}</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group" ng-if="cobertura.tipo == 'iatf' || cobertura.tipo == 'resync'">
-                                <label for="inputSemenDaCobertura" class="col-sm-4 control-label">Sémen</label>
+                            <div class="col-sm-6 col-sm-offset-4 col-xs-12" ng-if="produtos_selecionados.length > 0">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <thead>
+                                        <th class="col-xs-9"><i class="fa fa-id-card-o"></i></th>
+                                        <th class="col-xs-3 text-center"><i class="fa fa-trash-o"></i></th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="valor in produtos_selecionados track by $index">
+                                            <td class="col-xs-9">{{valor.empresa}} - {{valor.nome}}</td>
+                                            <td class="col-xs-3 text-center"><button type="button" class="btn btn-danger btn-xs" ng-click="removerProdutoSelecionado($index)">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group" ng-if="produtosParaSanidade.length > 0">
+                                <br>
+                                <label for="inputProdutosParaSanidade" class="col-sm-4 control-label">Produtos</label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="inputSemenDaCobertura" ng-model="cobertura.semen" required>
-                                        <option value="">Selecione uma raça</option>
-                                        <option value="{{semen._id}}" ng-repeat="semen in semens | orderBy : 'raca'">{{semen.raca}} - {{semen.nome_touro}}</option>
-                                    </select>
+                                    <input type="text" class="form-control" id="inputProdutosParaSanidade" ng-model="buscaProduto" placeholder="digite o nome do produto" autocomplete="off">
+                                    <div class="list-group" ng-if="buscaProduto">
+                                        <button type="button" class="list-group-item" ng-click="selecionarProduto(aux)" ng-disabled="aux.disabled" ng-repeat="aux in produtosParaSanidade | filter: buscaProduto | limitTo: 5">{{aux.empresa}} - {{aux.nome}}</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- fim grupo para registro de vacinacao no lote -->
+                    <!-- fim grupo para registro de sanidade no lote -->
                     <div class="panel-body" ng-if="lote.acao">
                         <div class="container">
                             <div class="row">
                                 <h4>Animais <small>relacionados ao lote atual</small></h4>
                             </div>
                         </div>
-                        <div class="col-sm-8 col-sm-offset-2 col-xs-12" ng-if="animais_selecionados.length > 0">
+                        <div class="col-sm-6 col-sm-offset-4 col-xs-12" ng-if="animais_selecionados.length > 0">
                             <table class="table table-bordered table-condensed table-hover">
                                 <thead>
                                     <th class="col-xs-9"><i class="fa fa-id-card-o"></i></th>

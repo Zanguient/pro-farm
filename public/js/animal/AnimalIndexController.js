@@ -76,8 +76,8 @@ angular.module('profarm').controller('AnimalIndexController', function($scope, $
         $('#btnBoi').addClass('active');
         Animal.getBois({
             _id: $localStorage.propriedade._id
-        }).then(function(novilhos) {
-            $scope.animais = novilhos;
+        }).then(function(bois) {
+            $scope.animais = bois;
         }).catch(function(erro) {
             console.log(erro);
             $scope.alerts.push({
@@ -87,8 +87,22 @@ angular.module('profarm').controller('AnimalIndexController', function($scope, $
         });
     };
 
+    $scope.abrirTouros = () => {
+        //acima de 36 meses
+        limparBotoesAtivos();
+        $scope.title = {
+            header: 'Touros'
+        };
+        $('#btnTouro').addClass('active');
+        Animal.getTouros({
+            _id: $localStorage.propriedade._id
+        }, (result) => {
+          $scope.animais = result;
+        });
+    };
+
     function limparBotoesAtivos() {
-        $('#btnBezerro, #btnGarrote, #btnNovilho, #btnBoi').removeClass('active');
+        $('#btnBezerro, #btnGarrote, #btnNovilho, #btnBoi, #btnTouro').removeClass('active');
     }
 
     $scope.closeAlert = function(index) {

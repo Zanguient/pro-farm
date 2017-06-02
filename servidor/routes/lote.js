@@ -3,6 +3,7 @@ module.exports = (app) => {
 
   app.route('/api/lotes/:propriedade').get(controller.all).post(controller.persist)
   app.route('/api/lotes/:propriedade/cobertura').post(controller.persistWithCobertura)
+  app.route('/api/lotes/:propriedade/sanidade').post(controller.persistWithSanidade)
   app.route('/api/lotes/:propriedade/ultimo').get(controller.ultimo)
   app.route('/api/lotes/:propriedade/id/:id').get(controller.getOne).delete(controller.remove)
 

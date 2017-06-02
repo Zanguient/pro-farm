@@ -40,6 +40,16 @@ angular.module('profarm').factory('Lote', ['$resource', '$http', function($resou
             }).finally((res) => {
                 console.log('Processo de criacao de lote com cobertura na propriedade ' + id + ' realizado.');
             });
+        },
+        salvarComSanidade: (lote, sanidade, animais, callback) => {
+            $http.post('/api/lotes/' + lote.propriedade + '/sanidade', [lote, sanidade, animais]).then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
+                console.log('Processo de criacao de lote com sanidade na propriedade ' + lote.propriedade + ' realizado.');
+            });
         }
     };
 }]);

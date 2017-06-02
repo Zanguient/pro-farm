@@ -19,7 +19,12 @@ module.exports = function() {
         codigo: {
             type: String,
             default: undefined
-        }
+        },
+        produtosRelacionados: [{
+          type: mongoose.Schema.ObjectId,
+          ref: "Produto",
+          default: null
+        }]
     });
 
     return mongoose.model('Lote', schema, 'lotes');
