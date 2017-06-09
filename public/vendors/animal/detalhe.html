@@ -45,11 +45,11 @@
                             </select>
             </div>
           </div>
-          <div ng-class="{'form-group':true, 'has-error':animal.peso.entrada.valor == null}">
+          <div ng-class="{'form-group':true, 'has-error':animal.peso_entrada == null}">
             <label for="inputPesoDeEntradaBezerro" class="control-label col-sm-5">Peso de entrada</label>
             <div class="col-sm-7">
               <div class="input-group">
-                <input type="number" step="0.01" min="1" class="form-control" ng-model="animal.peso.entrada.valor" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao || recria !== null">
+                <input type="number" step="0.01" min="1" class="form-control" ng-model="animal.peso_entrada" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao || recria !== null">
                 <span class="input-group-addon">kg</span>
               </div>
             </div>
@@ -93,13 +93,13 @@
               <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
             </td>
           </tr>
-          <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama">
+          <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama.resultado">
             <td class="col-xs-7">
               Relação desmama
             </td>
             <td class="col-xs-5 text-center">
-              {{animal.relacao_desmama}}
-              <i ng-if="animal.relacao_desmama == null" class="fa fa-exclamation-triangle"></i>
+              {{animal.relacao_desmama.resultado}}
+              <i ng-if="animal.relacao_desmama.resultado == null" class="fa fa-exclamation-triangle"></i>
               <i class="fa fa-percent"></i>
             </td>
           </tr>
@@ -108,8 +108,8 @@
               Peso na desmama
             </td>
             <td class="col-xs-5 text-center">
-              {{animal.peso_desmama}}
-              <i ng-if="animal.peso_desmama == null" class="fa fa-exclamation-triangle"></i> kg
+              {{animal.relacao_desmama.peso}}
+              <i ng-if="animal.relacao_desmama.peso == null" class="fa fa-exclamation-triangle"></i> kg
             </td>
           </tr>
         </tbody>

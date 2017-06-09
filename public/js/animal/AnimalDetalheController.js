@@ -115,7 +115,7 @@
     };
 
     $scope.informarDesmama = () => {
-      ($scope.animal.peso.entrada.valor && $scope.animal.codigo) ? $location.path('/animais/' + $scope.animal._id + '/recria/novo'): $window.alert('Algumas informações importantes do animal estão em branco. Por favor, verifique e complete - os.');
+      ($scope.animal.peso_entrada && $scope.animal.codigo) ? $location.path('/animais/' + $scope.animal._id + '/recria/novo'): $window.alert('Algumas informações importantes do animal estão em branco. Por favor, verifique e complete - os.');
     };
 
     $scope.excluirRecria = () => {
@@ -143,7 +143,6 @@
 
     $scope.abrirSanidade = (id) => {
       Sanidade.buscarUmaSanidade(id, $localStorage.propriedade._id, (retorno) => {
-        console.log(retorno);
         $scope.sanidadeAtual = retorno;
       });
     };

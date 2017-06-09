@@ -255,10 +255,6 @@ module.exports = (app) => {
                 //cria o animal
                 Animal.create(req.body).then(
                     (animal) => {
-                        if (animal.peso.entrada.valor) {
-                            animal.peso.entrada.id = animal._id
-                            animal.save()
-                        }
                         res.json(animal)
                     },
                     (erro) => {

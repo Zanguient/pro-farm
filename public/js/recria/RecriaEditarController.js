@@ -11,7 +11,6 @@ angular.module('profarm').controller('RecriaEditarController', function($routePa
             animal: $routeParams.idAnimal
         }).then(function(recria) {
             $scope.recria = recria;
-            console.log(recria);
         }).catch(function(err) {
             console.log(err);
         });

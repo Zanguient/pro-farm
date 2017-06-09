@@ -109,7 +109,6 @@ module.exports = (app) => {
             _id: reprodutora
         }).exec().then(
             (reprodutora) => {
-                console.log(reprodutora)
                 switch (animal.sexo) {
                     case 'macho':
                         reprodutora.machos.push(animal._id)
