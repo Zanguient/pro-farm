@@ -1,234 +1,280 @@
 <!DOCTYPE html>
 <div data-ng-include="'vendors/navbar/default.html'"></div>
 <div class="container-fluid">
-    <section ng-if="alerts.length > 0" id="alerts">
-        <div class="col-xs-12">
-            <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
-                <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
-            </div>
-        </div>
-    </section>
-    <section>
-        <ol class="breadcrumb">
-            <li><a href="#/animais/inicio">Animais</a></li>
-            <li class="active">{{idade[2]}}</li>
-            <li class="active">{{codigo}}</li>
-        </ol>
-    </section>
-    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
+  <section ng-if="alerts.length > 0" id="alerts">
+    <div class="col-xs-12">
+      <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + alert.type" close="closeAlert($index)">
+        <i ng-class="alert.icon" aria-hidden="true"></i> {{alert.msg}}
+      </div>
+    </div>
+  </section>
+  <section>
+    <ol class="breadcrumb">
+      <li><a href="#/animais/inicio">Animais</a></li>
+      <li class="active">{{idade[2]}}</li>
+      <li class="active">{{codigo}}</li>
+    </ol>
+  </section>
+  <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
                     Dados principais
                 </h3>
+      </div>
+      <form class="form form-horizontal" ng-submit="salvar()">
+        <div class="panel-body">
+          <div ng-class="{'form-group':true}" id="codigo_reprodutora_form">
+            <label for="inputCodigoBezerro" class="control-label col-sm-5">Código</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control input-xs" ng-model="animal.codigo" id="inputCodigoBezerro" placeholder="código da bezerro" ng-disabled="!edicao" ng-change="verificarCodigoDoAnimal()">
             </div>
-            <form class="form form-horizontal" ng-submit="salvar()">
-                <div class="panel-body">
-                    <div ng-class="{'form-group':true}" id="codigo_reprodutora_form">
-                        <label for="inputCodigoBezerro" class="control-label col-sm-5">Código</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control input-xs" ng-model="animal.codigo" id="inputCodigoBezerro" placeholder="código da bezerro" ng-disabled="!edicao" ng-change="verificarCodigoDoAnimal()">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputNascimentoBezerro" class="control-label col-sm-5">Nascimento</label>
-                        <div class="col-sm-7">
-                            <input type="date" class="form-control" ng-model="animal.nascimento" id="inputNascimentoBezerro" max="{{max_date | date:'yyyy-MM-dd'}}" ng-disabled="!edicao">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputSexoAnimal" class="control-label col-sm-5">Sexo</label>
-                        <div class="col-sm-7">
-                            <select class="form-control" ng-disabled="!edicao" id="inputSexoAnimal" ng-model="animal.sexo">
+          </div>
+          <div class="form-group">
+            <label for="inputNascimentoBezerro" class="control-label col-sm-5">Nascimento</label>
+            <div class="col-sm-7">
+              <input type="date" class="form-control" ng-model="animal.nascimento" id="inputNascimentoBezerro" max="{{max_date | date:'yyyy-MM-dd'}}" ng-disabled="!edicao">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputSexoAnimal" class="control-label col-sm-5">Sexo</label>
+            <div class="col-sm-7">
+              <select class="form-control" ng-disabled="!edicao" id="inputSexoAnimal" ng-model="animal.sexo">
                               <option value="macho">Macho</option>
                               <option value="femea">Fêmea</option>
                             </select>
-                        </div>
-                    </div>
-                    <div ng-class="{'form-group':true, 'has-error':animal.peso.entrada.valor == null}">
-                        <label for="inputPesoDeEntradaBezerro" class="control-label col-sm-5">Peso de entrada</label>
-                        <div class="col-sm-7">
-                            <div class="input-group">
-                                <input type="number" step="0.01" min="1" class="form-control" ng-model="animal.peso.entrada.valor" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao || recria !== null">
-                                <span class="input-group-addon">kg</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer" ng-if="animal.venda.id == null && animal.morte == null">
-                    <button type="button" name="button" class="btn btn-warning" ng-disabled="buttonBlock" ng-if="!edicao" ng-click="habilitarEdicao()">Editar</button>
-                    <button type="submit" name="button" class="btn btn-primary" ng-disabled="buttonBlock" ng-if="edicao">Salvar</button>
-                    <button type="button" name="button" class="btn btn-default" ng-if="edicao" ng-click="cancelar()">Cancelar</button>
-                </div>
-            </form>
+            </div>
+          </div>
+          <div ng-class="{'form-group':true, 'has-error':animal.peso.entrada.valor == null}">
+            <label for="inputPesoDeEntradaBezerro" class="control-label col-sm-5">Peso de entrada</label>
+            <div class="col-sm-7">
+              <div class="input-group">
+                <input type="number" step="0.01" min="1" class="form-control" ng-model="animal.peso.entrada.valor" id="inputPesoDeEntradaBezerro" ng-disabled="!edicao || recria !== null">
+                <span class="input-group-addon">kg</span>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
-    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
+        <div class="panel-footer" ng-if="animal.venda.id == null && animal.morte == null">
+          <button type="button" name="button" class="btn btn-warning" ng-disabled="buttonBlock" ng-if="!edicao" ng-click="habilitarEdicao()">Editar</button>
+          <button type="submit" name="button" class="btn btn-primary" ng-disabled="buttonBlock" ng-if="edicao">Salvar</button>
+          <button type="button" name="button" class="btn btn-default" ng-if="edicao" ng-click="cancelar()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+    <div class="panel panel-default" ng-if="sanidades.length > 0">
+      <div class="panel-heading">
+        <h3 class="panel-title">Sanidade animal</h3>
+      </div>
+      <div class="list-group">
+        <button type="button" class="list-group-item" ng-repeat="sanidade in sanidades" ng-click="abrirSanidade(sanidade._id)" data-toggle="modal" data-target="#sanidadeAnimal">{{sanidade.data | date:'dd/MM/yyyy'}}</button>
+      </div>
+    </div>
+  </section>
+  <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
                     Índices do animal
                 </h3>
-            </div>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td class="col-xs-7">
-                            Idade
-                        </td>
-                        <td class="col-xs-5 text-center" ng-if="idade[4] == true">
-                            <a href ng-click="toggleIdade()" tooltip-placement="top" uib-tooltip="Mudar medida de idade.">{{idade[0] | limitTo:4}} meses</a>
-                            <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
-                        </td>
-                        <td class="col-xs-5 text-center" ng-if="idade[4] == false">
-                            <a href ng-click="toggleIdade()" tooltip-placement="top" uib-tooltip="Mudar medida de idade.">{{idade[1] | limitTo:4}} anos</a>
-                            <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
-                        </td>
-                    </tr>
-                    <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama">
-                        <td class="col-xs-7">
-                            Relação desmama
-                        </td>
-                        <td class="col-xs-5 text-center">
-                            {{animal.relacao_desmama}}
-                            <i ng-if="animal.relacao_desmama == null" class="fa fa-exclamation-triangle"></i>
-                            <i class="fa fa-percent"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-7">
-                            Peso na desmama
-                        </td>
-                        <td class="col-xs-5 text-center">
-                            {{animal.peso_desmama}}
-                            <i ng-if="animal.peso_desmama == null" class="fa fa-exclamation-triangle"></i> kg
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="panel panel-info" ng-if="animal.sexo == 'femea' && idade[1] >= 1">
-            <div class="panel-heading">
-                <h3 class="panel-title">Coberturas</h3>
-            </div>
-            <div class="panel-body text-center" ng-if="coberturas.length == 0">
-                <h4><small>Nenhuma cobertura registrada.</small></h4>
-            </div>
-            <table class="table table-bordered table-hover" ng-if="coberturas.length > 0">
-                <thead>
-                    <th class="col-xs-4">Data</th>
-                    <th class="col-xs-4 text-center">Final</th>
-                    <th class="col-xs-4 text-center">Tipo</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="cobertura in coberturas" ng-click="abrirCobertura(cobertura._id)">
-                        <td class="col-xs-4">{{cobertura.data | date:'dd/MM/yyyy'}}</td>
-                        <td class="col-xs-4 text-center">{{cobertura.data_final | date:'dd/MM/yyyy'}}<i class="fa fa-calendar-times-o" aria-hidden="true" ng-if="cobertura.data_final == null"></i></td>
-                        <td class="col-xs-4 text-center">{{cobertura.tipo | uppercase}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="panel panel-info" ng-if="animal.sexo == 'femea' && idade[1] >= 1">
-            <div class="panel-heading">
-                <h3 class="panel-title">Filhos</h3>
-            </div>
-            <div class="panel-body text-center" ng-if="filhos.length == 0">
-                <h4><small>Nenhum animal foi vinculado.</small></h4>
-            </div>
-            <div class="list-group"  ng-if="filhos.length > 0">
-                <a href="#/animais/{{filho._id}}/detalhes" class="list-group-item" ng-repeat="filho in filhos | orderBy:'+codigo'">{{filho.codigo | uppercase}}</a>
-            </div>
-        </div>
-    </section>
-    <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <div class="panel panel-primary">
-            <div class="panel-heading clearfix">
-                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
+      </div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="col-xs-7">
+              Idade
+            </td>
+            <td class="col-xs-5 text-center" ng-if="idade[4] == true">
+              <a href ng-click="toggleIdade()" tooltip-placement="top" uib-tooltip="Mudar medida de idade.">{{idade[0] | limitTo:4}} meses</a>
+              <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
+            </td>
+            <td class="col-xs-5 text-center" ng-if="idade[4] == false">
+              <a href ng-click="toggleIdade()" tooltip-placement="top" uib-tooltip="Mudar medida de idade.">{{idade[1] | limitTo:4}} anos</a>
+              <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
+            </td>
+          </tr>
+          <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama">
+            <td class="col-xs-7">
+              Relação desmama
+            </td>
+            <td class="col-xs-5 text-center">
+              {{animal.relacao_desmama}}
+              <i ng-if="animal.relacao_desmama == null" class="fa fa-exclamation-triangle"></i>
+              <i class="fa fa-percent"></i>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-7">
+              Peso na desmama
+            </td>
+            <td class="col-xs-5 text-center">
+              {{animal.peso_desmama}}
+              <i ng-if="animal.peso_desmama == null" class="fa fa-exclamation-triangle"></i> kg
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel panel-info" ng-if="animal.sexo == 'femea' && idade[1] >= 1">
+      <div class="panel-heading">
+        <h3 class="panel-title">Coberturas</h3>
+      </div>
+      <div class="panel-body text-center" ng-if="coberturas.length == 0">
+        <h4><small>Nenhuma cobertura registrada.</small></h4>
+      </div>
+      <table class="table table-bordered table-hover" ng-if="coberturas.length > 0">
+        <thead>
+          <th class="col-xs-4">Data</th>
+          <th class="col-xs-4 text-center">Final</th>
+          <th class="col-xs-4 text-center">Tipo</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="cobertura in coberturas" ng-click="abrirCobertura(cobertura._id)">
+            <td class="col-xs-4">{{cobertura.data | date:'dd/MM/yyyy'}}</td>
+            <td class="col-xs-4 text-center">{{cobertura.data_final | date:'dd/MM/yyyy'}}<i class="fa fa-calendar-times-o" aria-hidden="true" ng-if="cobertura.data_final == null"></i></td>
+            <td class="col-xs-4 text-center">{{cobertura.tipo | uppercase}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel panel-info" ng-if="animal.sexo == 'femea' && idade[1] >= 1">
+      <div class="panel-heading">
+        <h3 class="panel-title">Filhos</h3>
+      </div>
+      <div class="panel-body text-center" ng-if="filhos.length == 0">
+        <h4><small>Nenhum animal foi vinculado.</small></h4>
+      </div>
+      <div class="list-group" ng-if="filhos.length > 0">
+        <a href="#/animais/{{filho._id}}/detalhes" class="list-group-item" ng-repeat="filho in filhos | orderBy:'+codigo'">{{filho.codigo | uppercase}}</a>
+      </div>
+    </div>
+  </section>
+  <section class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
                     Recria
                 </h3>
-                <span ng-if="recria === null"><button type="button" class="btn btn-default btn-sm pull-right" ng-click="informarDesmama()">
+        <span ng-if="recria === null"><button type="button" class="btn btn-default btn-sm pull-right" ng-click="informarDesmama()">
                   <i class="fa fa-plus-circle"></i>
                 </button></span>
-                <div class="btn-group pull-right" ng-if="recria != null">
-                    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="btn-group pull-right" ng-if="recria != null">
+          <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fa fa-cog"></i> <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-header">Opções para recria</li>
-                        <li><a href ng-click="editarRecria()">Editar</a></li>
-                        <li><a href ng-click="excluirRecria()">Excluir</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Destinos após recria</li>
-                        <li><a href="#/animais/{{animal._id}}/recria/{{recria._id}}/engorda/novo" ng-if="engorda === null"><i class="fa fa-plus-circle"></i> Engorda</a></li>
-                        <li ng-if="animal.sexo == 'femea'"><a href><i class="fa fa-plus-circle"></i> Reprodução</a></li>
-                        <!--acima de 12 meses de idade-->
-                        <li><a href><i class="fa fa-plus-circle"></i> Venda</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="panel-body text-center" ng-if="recria === null">
-                <h4>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">Opções para recria</li>
+            <li><a href ng-click="editarRecria()">Editar</a></li>
+            <li><a href ng-click="excluirRecria()">Excluir</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">Destinos após recria</li>
+            <li><a href="#/animais/{{animal._id}}/recria/{{recria._id}}/engorda/novo" ng-if="engorda === null"><i class="fa fa-plus-circle"></i> Engorda</a></li>
+            <li ng-if="animal.sexo == 'femea'"><a href><i class="fa fa-plus-circle"></i> Reprodução</a></li>
+            <!--acima de 12 meses de idade-->
+            <li><a href><i class="fa fa-plus-circle"></i> Venda</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel-body text-center" ng-if="recria === null">
+        <h4>
                     <small>Este animal não foi destinado a recria.</small>
                 </h4>
+      </div>
+      <table class="table" ng-if="recria != null">
+        <tbody>
+          <tr>
+            <td class="col-xs-8">
+              Registrado em
+            </td>
+            <td class="col-xs-4 text-center">
+              {{recria.data | date : 'dd/MM/yyyy'}}
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-8">
+              Peso de entrada
+            </td>
+            <td class="col-xs-4 text-center">
+              {{recria.peso_entrada}}
+              <i ng-if="recria.peso_entrada == null" class="fa fa-exclamation-triangle"></i> kg
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-8">
+              Saída da recria em
+            </td>
+            <td class="col-xs-4 text-center">
+              {{recria.data_saida | date : 'dd/MM/yyyy'}}
+              <i ng-if="recria.data_saida == null" class="fa fa-exclamation-triangle"></i>
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-8">
+              Peso de saída
+            </td>
+            <td class="col-xs-4 text-center">
+              {{recria.peso_saida}}
+              <i ng-if="recria.peso_saida == null" class="fa fa-exclamation-triangle"></i> kg
+            </td>
+          </tr>
+          <tr>
+            <td class="col-xs-8">
+              Ganho de peso médio
+            </td>
+            <td class="col-xs-4 text-center">
+              {{recria.ganho_peso_medio | limitTo:5}}
+              <i ng-if="recria.ganho_peso_medio == null" class="fa fa-exclamation-triangle"></i> kg/dia
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel panel-primary" ng-if="engorda !== null">
+      <!-- ENGORDA -->
+      <div class="panel-heading">
+        <h3 class="panel-title">Engorda <small>registrado em {{engorda.data | date:'dd/MM/yy'}}</small></h3>
+      </div>
+      <div class="list-group">
+        <button type="button" class="list-group-item" ng-click="abrirEngorda()"><i class="fa fa-external-link" aria-hidden="true"></i> Abrir</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="sanidadeAnimal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Informações de sanidade</strong></h4>
+        <h5>Produtos aplicados em {{sanidadeAtual.data | date: 'dd/MM/yyyy'}}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div class="panel panel-default" ng-repeat="prod in sanidadeAtual.produtosAplicados">
+            <div class="panel-heading" role="tab" id="headingOne">
+              <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#{{prod._id}}" aria-expanded="true" aria-controls="{{prod._id}}">
+                  <strong>{{prod.nome}}</strong>, da {{prod.empresa}}
+                </a>
+              </h4>
             </div>
-            <table class="table" ng-if="recria != null">
-                <tbody>
-                    <tr>
-                        <td class="col-xs-8">
-                            Registrado em
-                        </td>
-                        <td class="col-xs-4 text-center">
-                            {{recria.data | date : 'dd/MM/yyyy'}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-8">
-                            Peso de entrada
-                        </td>
-                        <td class="col-xs-4 text-center">
-                            {{recria.peso_entrada}}
-                            <i ng-if="recria.peso_entrada == null" class="fa fa-exclamation-triangle"></i> kg
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-8">
-                            Saída da recria em
-                        </td>
-                        <td class="col-xs-4 text-center">
-                            {{recria.data_saida | date : 'dd/MM/yyyy'}}
-                            <i ng-if="recria.data_saida == null" class="fa fa-exclamation-triangle"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-8">
-                            Peso de saída
-                        </td>
-                        <td class="col-xs-4 text-center">
-                            {{recria.peso_saida}}
-                            <i ng-if="recria.peso_saida == null" class="fa fa-exclamation-triangle"></i> kg
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-xs-8">
-                            Ganho de peso médio
-                        </td>
-                        <td class="col-xs-4 text-center">
-                            {{recria.ganho_peso_medio | limitTo:5}}
-                            <i ng-if="recria.ganho_peso_medio == null" class="fa fa-exclamation-triangle"></i> kg/dia
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="{{prod._id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+              <div class="panel-body">
+                <p><strong>Fórmula:</strong> {{prod.formula}}</p>
+                <p><strong>Indicação:</strong> {{prod.indicacao}}</p>
+                <p><strong>Dosagem:</strong> {{prod.dosagem}}</p>
+                <p><strong>Período de aplicação:</strong> {{prod.periodo_aplicacao}}</p>
+                <p><a class="btn btn-default" href="{{prod.bula}}" title="Bula" target="_blank"><i class="fa fa-file-pdf-o"></i></a> <a class="btn btn-default" href="{{prod.foto}}" title="Foto do produto" target="_blank"><i class="fa fa-file-image-o"></i></a></p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="panel panel-primary" ng-if="engorda !== null">
-            <!-- ENGORDA -->
-            <div class="panel-heading">
-                <h3 class="panel-title">Engorda <small>registrado em {{engorda.data | date:'dd/MM/yy'}}</small></h3>
-            </div>
-            <div class="list-group">
-                <button type="button" class="list-group-item" ng-click="abrirEngorda()"><i class="fa fa-external-link" aria-hidden="true"></i> Abrir</button>
-            </div>
-        </div>
-    </section>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
 </div>

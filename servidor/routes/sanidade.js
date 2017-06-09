@@ -4,6 +4,7 @@ module.exports = (app) => {
   app.route('/api/sanidades/:propriedade').get(controller.all).post(controller.persist)
   app.route('/api/sanidades/lote/id/:lote').get(controller.porLote)
   app.route('/api/sanidades/:propriedade/id/:id').get(controller.getOne).delete(controller.remove)
+  app.route('/api/sanidades/:propriedade/animal/:id').get(controller.porAnimal)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken;

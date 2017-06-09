@@ -139,6 +139,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
                             'js/animal/AnimalService.js',
                             'js/recria/RecriaService.js',
                             'js/engorda/EngordaService.js',
+                            'js/propriedade/SanidadeService.js',
                             'js/cobertura/CoberturaService.js',
                             'js/animal/AnimalDetalheController.js'
                         ]

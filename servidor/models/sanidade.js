@@ -27,7 +27,8 @@ module.exports = () => {
       default: undefined
     },
     produtosAplicados: [{
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref: "Produto",
       default: null
     }]
   })

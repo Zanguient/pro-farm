@@ -50,6 +50,26 @@ angular.module('profarm').factory('Sanidade', ['$resource', '$http', function($r
                 console.log('Busca de um produto da propriedade ' + propriedade + ' realizado.');
             });
         },
+        buscarUmaSanidade: (animal, propriedade, callback) => {
+            $http.get('/api/sanidades/' + propriedade + '/id/' + animal).then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
+                console.log('Busca de um registro de sanidade da propriedade ' + propriedade + ' realizado.');
+            });
+        },
+        porAnimal: (animal, propriedade, callback) => {
+            $http.get('/api/sanidades/' + propriedade + '/animal/' + animal).then((res) => {
+                callback(res.data);
+            }).catch((res) => {
+                console.error('Houve algum problema interno!');
+                console.error(res);
+            }).finally((res) => {
+                console.log('Busca de aplicacoes de determinado animal da propriedade ' + propriedade + ' realizado.');
+            });
+        },
         buscarUmaAplicacao: (aplicacao, propriedade, callback) => {
             $http.get('/api/aplicacoes/' + propriedade + '/id/' + aplicacao).then((res) => {
                 callback(res.data);
