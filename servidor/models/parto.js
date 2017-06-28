@@ -20,10 +20,6 @@ module.exports = () => {
         primeiro: {
             type: Boolean,
             default: false
-        },
-        intervalo_parto_anterior: {
-            type: String,
-            default: undefined
         }
     })
 

@@ -18,7 +18,8 @@
         "morgan": "^1.7.0"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "sudo service mongod start; sudo nodemon app"
     },
     "keywords": [],
     "author": "Tiago Amado Durante",

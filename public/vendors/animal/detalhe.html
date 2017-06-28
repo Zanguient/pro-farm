@@ -93,7 +93,7 @@
               <i ng-if="idade == undefined" class="fa fa-exclamation-triangle"></i>
             </td>
           </tr>
-          <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel." tooltip-enable="!animal.relacao_desmama.resultado">
+          <tr tooltip-placement="top-left" uib-tooltip="Informações de nascimento do animal está indisponivel para o calculo da relação de desmama." tooltip-enable="!animal.relacao_desmama.resultado">
             <td class="col-xs-7">
               Relação desmama
             </td>
@@ -110,6 +110,24 @@
             <td class="col-xs-5 text-center">
               {{animal.relacao_desmama.peso}}
               <i ng-if="animal.relacao_desmama.peso == null" class="fa fa-exclamation-triangle"></i> kg
+            </td>
+          </tr>
+          <tr ng-if="animal.sexo == 'femea'">
+            <td class="col-xs-7">
+              Idade do primeiro parto
+            </td>
+            <td class="col-xs-5 text-center">
+              {{animal.idade_primeiro_parto}}
+              <i ng-if="animal.idade_primeiro_parto == null" class="fa fa-exclamation-triangle"></i> kg
+            </td>
+          </tr>
+          <tr ng-if="animal.sexo == 'femea'">
+            <td class="col-xs-7">
+              Intervalo entre partos
+            </td>
+            <td class="col-xs-5 text-center">
+              {{animal.intervalo_entre_partos}}
+              <i ng-if="animal.intervalo_entre_partos == null" class="fa fa-exclamation-triangle"></i> kg
             </td>
           </tr>
         </tbody>

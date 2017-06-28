@@ -36,11 +36,11 @@ module.exports = (app) => {
 
     controller.salvar = (req, res) => {
         let parto = req.body[0]
-        let animal = req.body[1]
-        buscarUltimoParto(res, parto, animal)
+        let filho = req.body[1]
+        buscarUltimoParto(res, parto, filho)
     }
 
-    function buscarUltimoParto(res, parto, animal) {
+    function buscarUltimoParto(res, parto, filho) {
         Parto.findOne({
             animal: parto.animal,
             data: {
@@ -53,25 +53,47 @@ module.exports = (app) => {
         }).exec().then(
             (partoAnterior) => {
                 if (partoAnterior) {
-                    parto.intervalo_parto_anterior = moment(partoAnterior.data).to(moment(parto.data), true);
+                    parto.intervalo_parto_anterior = moment(parto.data).diff(moment(partoAnterior.data), 'days')
+                    Animal.findByIdAndUpdate(parto.animal, {
+                        $set: {
+                            ultimo_intervalo_entre_partos: parto.intervalo_entre_partos
+                        }
+                    }).exec().then(
+                        (animal) => {
+                            persistirParto(res, parto, filho)
+                        }, (err) => {
+                            res.sendStatus(500).json(err)
+                            console.log(err)
+                        }
+                    )
                 } else {
                     parto.primeiro = true
+                    Animal.findOne(parto.animal).exec().then(
+                        (animal) => {
+                            animal.idade_primeiro_parto = moment(parto.data).diff(moment(animal.nascimento), 'days')
+                            animal.save()
+                            persistirParto(res, parto, filho)
+                        }, (err) => {
+                            res.sendStatus(500).json(err)
+                            console.log(err)
+                        }
+                    )
                 }
-                persistirParto(res, parto, animal)
+
             },
             (err) => {
                 res.sendStatus(500).json(err)
                 console.log(err)
             }
-        );
+        )
     }
 
-    function persistirParto(res, parto, animal) {
+    function persistirParto(res, parto, filho) {
         if (parto._id) {
             //atualiza o parto
-            Parto.findByIdAndUpdate(_id, req.body).exec().then(
+            Parto.findByIdAndUpdate(parto._id, parto).exec().then(
                 (parto) => {
-                    res.json(parto)
+                    calcularIntervaloEntrePartos(res, novoParto.animal, filho)
                 },
                 (erro) => {
                     res.sendStatus(500)
@@ -81,8 +103,8 @@ module.exports = (app) => {
         } else {
             Parto.create(parto).then(
                 (novoParto) => {
-                    animal.parto = novoParto._id
-                    persistirAnimal(res, animal, novoParto.animal)
+                    filho.parto = novoParto._id
+                    persistirAnimal(res, filho, novoParto.animal)
                 },
                 (err) => {
                     res.sendStatus(500).json(err)
@@ -92,10 +114,10 @@ module.exports = (app) => {
         }
     }
 
-    function persistirAnimal(res, animal, reprodutora) {
-        Animal.create(animal).then(
+    function persistirAnimal(res, filho, reprodutora) {
+        Animal.create(filho).then(
             (novoAnimal) => {
-                modificarGeneroNaReprodutora(res, reprodutora, novoAnimal)
+                incluirNovoGeneroNaReprodutora(res, reprodutora, novoAnimal)
             },
             (err) => {
                 res.sendStatus(500).json(err)
@@ -104,18 +126,18 @@ module.exports = (app) => {
         )
     }
 
-    function modificarGeneroNaReprodutora(res, reprodutora, animal) {
+    function incluirNovoGeneroNaReprodutora(res, reprodutora, filho) {
         Animal.findOne({
             _id: reprodutora
         }).exec().then(
             (reprodutora) => {
-                switch (animal.sexo) {
+                switch (filho.sexo) {
                     case 'macho':
-                        reprodutora.machos.push(animal._id)
-                        break;
+                        reprodutora.machos.push(filho._id)
+                        break
                     case 'femea':
-                        reprodutora.femeas.push(animal._id)
-                        break;
+                        reprodutora.femeas.push(filho._id)
+                        break
                     default:
                         (err) => {
                             res.sendStatus(500).json(err)
@@ -123,9 +145,41 @@ module.exports = (app) => {
                         }
                 }
                 reprodutora.save()
-                res.json(animal)
+                calcularIntervaloEntrePartos(res, reprodutora, filho)
             },
             (err) => {
+                res.sendStatus(500).json(err)
+                console.log(err)
+            }
+        )
+    }
+
+    function calcularIntervaloEntrePartos(res, reprodutora, filho) {
+        Parto.find({
+            animal: reprodutora
+        }).select('data').exec().then(
+            (partos) => {
+                if (partos.length > 1) {
+                    // persistir intervalo entre partos
+                    let primeiro_parto = moment(partos[0].data)
+                    let ultimo_parto = moment(partos[partos.length - 1].data)
+                    let intervalo_entre_partos_atual = (ultimo_parto.diff(primeiro_parto, 'days') / partos.length)
+                    Animal.findByIdAndUpdate(reprodutora, {
+                        $set: {
+                            intervalo_entre_partos: intervalo_entre_partos_atual
+                        }
+                    }).exec().then(
+                        (animal) => {
+                            res.json(filho)
+                        }, (err) => {
+                            res.sendStatus(500).json(err)
+                            console.log(err)
+                        }
+                    )
+                } else {
+                    res.json(filho)
+                }
+            }, (err) => {
                 res.sendStatus(500).json(err)
                 console.log(err)
             }
