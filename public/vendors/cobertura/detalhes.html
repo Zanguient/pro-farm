@@ -141,7 +141,7 @@
             <div class="form-group">
               <label for="inputPesoNovoAnimal" class="control-label col-md-5 col-sm-6">Peso</label>
               <div class="col-md-5 col-sm-5">
-                <input type="number" step="0.01" class="form-control" id="inputPesoNovoAnimal" ng-model="animal.peso.entrada.valor" placeholder="peso do novo animal" required>
+                <input type="number" step="0.01" class="form-control" id="inputPesoNovoAnimal" ng-model="animal.peso_entrada" placeholder="peso do novo animal" required>
               </div>
             </div>
           </div>
@@ -177,7 +177,7 @@
             <div class="form-group">
               <label class="col-md-5 col-sm-6 control-label">Intevalo de partos</label>
               <div class="col-md-5 col-sm-5">
-                <p class="form-control-static">{{parto.intervalo_parto_anterior}}<span ng-if="parto.primeiro"><i class="fa fa-flag" aria-hidden="true"></i> Primeiro parto</span></p>
+                <p class="form-control-static"><span ng-if="!parto.primeiro">{{parto.intervalo_parto_anterior}} dias</span><span ng-if="parto.primeiro"><i class="fa fa-flag" aria-hidden="true"></i> Primeiro parto</span></p>
               </div>
             </div>
           </div>

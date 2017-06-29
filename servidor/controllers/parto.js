@@ -52,11 +52,12 @@ module.exports = (app) => {
             }
         }).exec().then(
             (partoAnterior) => {
+                parto.animal = parto.animal._id
                 if (partoAnterior) {
                     parto.intervalo_parto_anterior = moment(parto.data).diff(moment(partoAnterior.data), 'days')
                     Animal.findByIdAndUpdate(parto.animal, {
                         $set: {
-                            ultimo_intervalo_entre_partos: parto.intervalo_entre_partos
+                            ultimo_intervalo_entre_partos: parto.intervalo_parto_anterior
                         }
                     }).exec().then(
                         (animal) => {
@@ -68,7 +69,7 @@ module.exports = (app) => {
                     )
                 } else {
                     parto.primeiro = true
-                    Animal.findOne(parto.animal).exec().then(
+                    Animal.findById(parto.animal).exec().then(
                         (animal) => {
                             animal.idade_primeiro_parto = moment(parto.data).diff(moment(animal.nascimento), 'days')
                             animal.save()
@@ -104,6 +105,7 @@ module.exports = (app) => {
             Parto.create(parto).then(
                 (novoParto) => {
                     filho.parto = novoParto._id
+                    filho.nascimento = novoParto.data
                     persistirAnimal(res, filho, novoParto.animal)
                 },
                 (err) => {

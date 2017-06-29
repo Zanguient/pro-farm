@@ -1,8 +1,8 @@
-module.exports = function(app) {
-    var Morte = app.models.morte;
-    var controller = {};
+module.exports = (app) => {
+    let Morte = app.models.morte
+    let controller = {}
 
+    
 
-
-    return controller;
-};
+    return controller
+}

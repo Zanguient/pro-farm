@@ -1,31 +1,22 @@
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+let mongoose = require('mongoose')
+mongoose.Promise = require('bluebird')
 
-module.exports = function() {
-    var schema = mongoose.Schema({
+module.exports = () => {
+    let schema = mongoose.Schema({
         data: {
             type: Date,
             default: Date.now
         },
         motivo: {
-            acidente: {
-              type: Boolean,
-              default: false
-            },
-            curso: {
-              type: Boolean,
-              default: false
-            },
-            outros: {
-              type: Boolean,
-              default: false
-            }
+          type: mongoose.Schema.ObjectId,
+          ref: "Doenca",
+          required: true
         },
         obs: {
             type: String,
             default: null
         }
-    });
+    })
 
-    return mongoose.model('Morte', schema, 'mortes');
-};
+    return mongoose.model('Morte', schema, 'mortes')
+}

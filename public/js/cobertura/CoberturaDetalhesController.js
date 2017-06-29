@@ -27,11 +27,7 @@ angular.module('profarm').controller('CoberturaDetalhesController', function($sc
         $scope.edicao = true;
         $scope.animal = {
             propriedade: $localStorage.propriedade._id,
-            peso: {
-                entrada: {
-                    valor: null
-                }
-            }
+            peso: []
         };
         $scope.parto = {
             cobertura: $scope.cobertura._id,
@@ -45,6 +41,9 @@ angular.module('profarm').controller('CoberturaDetalhesController', function($sc
 
     $scope.salvar = () => {
         $scope.parto.animal = $scope.cobertura.animal;
+        $scope.animal.peso.push({
+            valor: $scope.animal.peso_entrada
+        });
         Parto.salvar($scope.parto, $scope.animal, (resultado) => {
             $location.path('/animais/' + resultado._id + '/detalhes');
         });
