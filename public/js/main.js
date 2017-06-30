@@ -440,7 +440,7 @@ angular.module('profarm', ['oc.lazyLoad', 'ngRoute', 'ngResource', 'ngStorage', 
         })
 
         // SANIDADE ANIMAL
-        $routeProvider.when('/sanidade', {
+        $routeProvider.when('/sanidade/:destino', {
             controller: 'PropriedadeSanidadeController',
             templateUrl: 'vendors/propriedade/sanidade.html',
             resolve: {

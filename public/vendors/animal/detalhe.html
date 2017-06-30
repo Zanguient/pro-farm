@@ -25,7 +25,7 @@
       </div>
       <form class="form form-horizontal" ng-submit="salvar()">
         <div class="panel-body">
-          <div ng-class="{'form-group':true}" id="codigo_reprodutora_form">
+          <div class="form-group" id="codigo_reprodutora_form">
             <label for="inputCodigoBezerro" class="control-label col-sm-5">Código</label>
             <div class="col-sm-7">
               <input type="text" class="form-control input-xs" ng-model="animal.codigo" id="inputCodigoBezerro" placeholder="código da bezerro" ng-disabled="!edicao" ng-change="verificarCodigoDoAnimal()">

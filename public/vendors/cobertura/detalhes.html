@@ -122,10 +122,10 @@
               </div>
             </div>
             <hr>
-            <div class="form-group">
+            <div class="form-group" id="codigo_filho_form">
               <label for="inputCodigoNovoAnimal" class="control-label col-md-5 col-sm-6">Código do animal</label>
               <div class="col-md-5 col-sm-5">
-                <input type="text" class="form-control" id="inputCodigoNovoAnimal" ng-model="animal.codigo" placeholder="codigo do novo animal" required>
+                <input type="text" name="inputCodigo" class="form-control" id="inputCodigoNovoAnimal" ng-model="animal.codigo" placeholder="codigo do novo animal" ng-change="verificarCodigoDoAnimal()" ng-pristine="false" required>
               </div>
             </div>
             <div class="form-group">
@@ -149,7 +149,7 @@
             <button type="button" class="btn btn-primary" ng-if="animal == null && !edicao" ng-click="registrarParto()" ng-disabled="validarDiagnosticos">
                     Registrar parto
                   </button>
-            <button type="submit" class="btn btn-primary" ng-if="animal && edicao" ng-disabled="formDeParto.$invalid || formDeParto.$pristine">
+            <button type="submit" class="btn btn-primary" ng-if="animal && edicao" ng-disabled="formDeParto.$invalid || formDeParto.$pristine || buttonBlock">
                     Salvar
                   </button>
             <button type="button" class="btn btn-default" ng-if="animal && edicao" ng-click="cancelar()">

@@ -91,7 +91,7 @@ angular.module('profarm').factory('Sanidade', ['$resource', '$http', function($r
             });
         },
         salvarAplicacao: (aplicacao, callback) => {
-            $http.post('/api/sanidades/' + aplicacao.propriedade, aplicacao).then((res) => {
+            $http.post('/api/aplicacoes/' + aplicacao.propriedade, aplicacao).then((res) => {
                 callback(res.data);
             }).catch((res) => {
                 console.error('Houve algum problema interno!');
@@ -108,6 +108,16 @@ angular.module('profarm').factory('Sanidade', ['$resource', '$http', function($r
               console.error(res);
           }).finally((res) => {
               console.log('Busca de produtos para sanidade da propriedade ' + propriedade + ' realizado.');
+          });
+        },
+        todasAsDoencas: (callback) => {
+          $http.get('/api/doencas').then((res) => {
+              callback(res.data);
+          }).catch((res) => {
+              console.error('Houve algum problema interno!');
+              console.error(res);
+          }).finally((res) => {
+              console.log('Busca de doencas para sanidade realizado.');
           });
         }
     };

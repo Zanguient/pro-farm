@@ -39,6 +39,16 @@ angular.module('profarm').controller('CoberturaDetalhesController', function($sc
         $route.reload();
     };
 
+    $scope.verificarCodigoDoAnimal = () => {
+        Animal.verificarCodigo({
+            propriedade: $localStorage.propriedade._id,
+            codigo: $scope.animal.codigo
+        }, (result) => {
+            $scope.buttonBlock = result;
+            (result) ? $("#codigo_filho_form").addClass('has-warning') : $("#codigo_filho_form").removeClass('has-warning')
+        });
+    };
+
     $scope.salvar = () => {
         $scope.parto.animal = $scope.cobertura.animal;
         $scope.animal.peso.push({

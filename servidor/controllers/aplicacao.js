@@ -12,7 +12,7 @@ module.exports = (app) => {
             }, {
                 propriedade: null
             }]
-        }).select('nome inicio fim').exec().then(
+        }).populate('nome').select('nome inicio fim').exec().then(
             (aplicacoes) => {
                 res.json(aplicacoes)
             },
@@ -83,7 +83,7 @@ module.exports = (app) => {
         let id = req.params.id
         Aplicacao.findOne({
             _id: id
-        }).exec().then(
+        }).populate('nome').exec().then(
             (aplicacao) => {
                 res.json(aplicacao)
             },

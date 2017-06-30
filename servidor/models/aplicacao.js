@@ -30,7 +30,8 @@ module.exports = () => {
             default: null
         },
         nome: {
-            type: String,
+            type: mongoose.Schema.ObjectId,
+            ref: "Doenca",
             required: true
         },
         admin: {
