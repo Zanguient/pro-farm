@@ -1,12 +1,17 @@
 module.exports = (app) => {
     let Aviso = app.models.aviso
+    let moment = require('moment')
+    let async = require('async')
     let controller = {}
 
     controller.getAll = (req, res) => {
         let prop = req.params.propriedade;
         Aviso.find({
             ignorar: null,
-            propriedade: prop
+            propriedade: prop,
+            $gte:{
+              inicia_em: 
+            }
         }).exec().then(
             (avisos) => {
                 res.json(avisos)
@@ -67,7 +72,7 @@ module.exports = (app) => {
     controller.remove = (req, res) => {
         //remover
         let id = req.params.id
-        let id = req.body.data
+        let data = req.body.data
         Aviso.findByIdAndUpdate(id, {
             $set: {
                 ignorar: data
