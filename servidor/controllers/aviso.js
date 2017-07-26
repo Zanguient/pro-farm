@@ -4,25 +4,25 @@ module.exports = (app) => {
     let async = require('async')
     let controller = {}
 
-    controller.getAll = (req, res) => {
-        let prop = req.params.propriedade;
-        Aviso.find({
-            ignorar: null,
-            propriedade: prop,
-            $gte:{
-              inicia_em: 
-            }
-        }).exec().then(
-            (avisos) => {
-                res.json(avisos)
-                //revisar avisos antes de enviar ao front
-            },
-            (err) => {
-                res.sendStatus(500).json(err)
-                console.log(err)
-            }
-        )
-    }
+    // controller.getAll = (req, res) => {
+    //     let prop = req.params.propriedade;
+    //     Aviso.find({
+    //         ignorar: null,
+    //         propriedade: prop,
+    //         $gte:{
+    //           inicia_em:
+    //         }
+    //     }).exec().then(
+    //         (avisos) => {
+    //             res.json(avisos)
+    //             //revisar avisos antes de enviar ao front
+    //         },
+    //         (err) => {
+    //             res.sendStatus(500).json(err)
+    //             console.log(err)
+    //         }
+    //     )
+    // }
 
     controller.persist = (req, res) => {
         //salva ou atualiza

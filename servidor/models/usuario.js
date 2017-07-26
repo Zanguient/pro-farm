@@ -45,6 +45,6 @@ module.exports = () => {
             }
         }
     })
-
+    
     return mongoose.model('Usuario', schema, 'usuarios')
 }

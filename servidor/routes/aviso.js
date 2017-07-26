@@ -1,7 +1,7 @@
 module.exports = (app) => {
   var controller = app.controllers.aviso;
 
-  app.route('/api/avisos/:propriedade').get(controller.getAll).post(controller.persist)
+  // app.route('/api/avisos/:propriedade').get(controller.getAll).post(controller.persist)
 
   // function ensureAuthorized(req, res, next) {
   //   var bearerToken;

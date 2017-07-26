@@ -60,6 +60,7 @@
           <button type="button" name="button" class="btn btn-warning" ng-disabled="buttonBlock" ng-if="!edicao" ng-click="habilitarEdicao()">Editar</button>
           <button type="submit" name="button" class="btn btn-primary" ng-disabled="buttonBlock" ng-if="edicao">Salvar</button>
           <button type="button" name="button" class="btn btn-default" ng-if="edicao" ng-click="cancelar()">Cancelar</button>
+          <button type="button" name="button" class="btn btn-default" ng-if="!edicao || animal.peso.length > 1" data-toggle="modal" data-target="#historicoDePesos" ng-click="abrirGraficoDePeso()">Histórico de peso</button>
         </div>
       </form>
     </div>
@@ -290,6 +291,23 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal do histórico de pesos -->
+<div class="modal fade" id="historicoDePesos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Histórico de peso</h4>
+      </div>
+      <div class="modal-body">
+        <canvas id="pesos" width="400" height="400"></canvas>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>

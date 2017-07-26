@@ -31,6 +31,7 @@
     "angular-route": "^1.6.2",
     "moment": "^2.17.1",
     "bc-qr-reader": "blockchain/bc-qr-reader#^0.3.0",
-    "angular-qrcode": "^7.2.0"
+    "angular-qrcode": "^7.2.0",
+    "chart.js": "^2.6.0"
   }
 }

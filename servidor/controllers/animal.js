@@ -270,10 +270,7 @@ module.exports = (app) => {
 
     function verificarMudancaDePeso(res, atual, antigo) {
         if (atual.peso.entrada.valor != antigo.peso.entrada.valor) {
-            atual.peso.antepenultimo = atual.peso.penultimo
-            atual.peso.penultimo = atual.peso.ultimo
-            atual.peso.ultimo = atual.peso.entrada
-            Animal.findByIdAndUpdate(atual._id, atual).exec().then(
+            Animal.findByIdAndUpdate(atual._id, {}).exec().then(
                 (animal) => {
                     res.json(animal)
                 },

@@ -144,6 +144,9 @@ angular.module('profarm').factory('Animal', ['$resource', '$http', function($res
                 resultado = 'Vacas e Bois';
             }
             callback(resultado, anos, meses);
+        },
+        converterData: (data, callback) => {
+          callback(moment(data).format('DD/MM/YY'))
         }
     };
 }]);
